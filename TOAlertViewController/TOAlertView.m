@@ -170,14 +170,6 @@
 
 }
 
-- (void)show
-{
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.windowLevel = UIWindowLevelAlert;
-    [self.window addSubview:self];
-    [self.window makeKeyAndVisible];
-}
-
 #pragma mark - Layout -
 
 - (void)layoutSubviews

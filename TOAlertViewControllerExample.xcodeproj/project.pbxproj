@@ -16,6 +16,8 @@
 		227AB93222970A0F009ECE33 /* TOAlertViewControllerExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93122970A0F009ECE33 /* TOAlertViewControllerExampleTests.m */; };
 		227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93D22970A51009ECE33 /* TOAlertView.m */; };
 		227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94122970A6D009ECE33 /* TORoundedButton.m */; };
+		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
+		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,11 @@
 		227AB93E22970A51009ECE33 /* TOAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOAlertView.h; sourceTree = "<group>"; };
 		227AB94122970A6D009ECE33 /* TORoundedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TORoundedButton.m; sourceTree = "<group>"; };
 		227AB94222970A6D009ECE33 /* TORoundedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORoundedButton.h; sourceTree = "<group>"; };
+		227AB94422984F93009ECE33 /* TOAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertAction.h; sourceTree = "<group>"; };
+		227AB94522984F93009ECE33 /* TOAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertAction.m; sourceTree = "<group>"; };
+		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
+		227AB9482298506A009ECE33 /* TOAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewController.m; sourceTree = "<group>"; };
+		227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +121,13 @@
 		227AB93C22970A51009ECE33 /* TOAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
+				227AB9472298506A009ECE33 /* TOAlertViewController.h */,
+				227AB9482298506A009ECE33 /* TOAlertViewController.m */,
 				227AB93E22970A51009ECE33 /* TOAlertView.h */,
 				227AB93D22970A51009ECE33 /* TOAlertView.m */,
+				227AB94422984F93009ECE33 /* TOAlertAction.h */,
+				227AB94522984F93009ECE33 /* TOAlertAction.m */,
+				227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */,
 			);
 			path = TOAlertViewController;
 			sourceTree = "<group>";
@@ -234,6 +246,8 @@
 				227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */,
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
+				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,
+				227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
