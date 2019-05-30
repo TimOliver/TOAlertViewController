@@ -234,28 +234,28 @@
     [self setNeedsLayout];
 }
 
-- (void)setReturnActionButtonColor:(UIColor *)returnActionButtonColor
+- (void)setActionButtonColor:(UIColor *)actionButtonColor
 {
-    if (!returnActionButtonColor) {
-        _returnActionButtonColor = self.tintColor;
+    if (!actionButtonColor) {
+        _actionButtonColor = self.tintColor;
         return;
     }
 
-    if (returnActionButtonColor == _returnActionButtonColor) { return; }
-    _returnActionButtonColor = returnActionButtonColor;
+    if (actionButtonColor == _actionButtonColor) { return; }
+    _actionButtonColor = actionButtonColor;
     _isDirty = YES;
     [self setNeedsLayout];
 }
 
-- (void)setReturnActionTextColor:(UIColor *)returnActionTextColor
+- (void)setActionTextColor:(UIColor *)actionTextColor
 {
-    if (!returnActionTextColor) {
-        _returnActionTextColor = [UIColor whiteColor];
+    if (!actionTextColor) {
+        _actionTextColor = [UIColor whiteColor];
         return;
     }
 
-    if (returnActionTextColor == _defaultActionTextColor) { return; }
-    _returnActionTextColor = returnActionTextColor;
+    if (actionTextColor == _actionTextColor) { return; }
+    _actionTextColor = actionTextColor;
     _isDirty = YES;
     [self setNeedsLayout];
 }

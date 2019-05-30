@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, null_resettable) UIColor *titleColor;
 @property (nonatomic, strong, null_resettable) UIColor *messageColor;
 
+@property (nonatomic, strong, null_resettable) UIColor *actionButtonColor;
+@property (nonatomic, strong, null_resettable) UIColor *actionTextColor;
+
 @property (nonatomic, strong, null_resettable) UIColor *defaultActionButtonColor;
 @property (nonatomic, strong, null_resettable) UIColor *defaultActionTextColor;
-
-@property (nonatomic, strong, null_resettable) UIColor *returnActionButtonColor;
-@property (nonatomic, strong, null_resettable) UIColor *returnActionTextColor;
 
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionButtonColor;
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionTextColor;

@@ -72,26 +72,20 @@
 }
 
 #pragma mark - Accessors -
-- (void)setTitleColor:(UIColor *)titleColor {  }
+- (void)setTitleColor:(UIColor *)titleColor { self.alertView. }
 
 - (void)setMessageColor:(UIColor *)messageColor { }
 
-/** The background color of the default action button */
-@property (nonatomic, strong, null_resettable) UIColor *defaultActionButtonColor UI_APPEARANCE_SELECTOR;
+- (void)setActionButtonColor:(UIColor *)actionButtonColor { }
 
-/** The color of the default action button text */
-@property (nonatomic, strong, null_resettable) UIColor *defaultActionTextColor UI_APPEARANCE_SELECTOR;
+- (void)setActionTextColor:(UIColor *)actionTextColor { }
 
-/** The background color of the return action button */
-@property (nonatomic, strong, null_resettable) UIColor *returnActionButtonColor UI_APPEARANCE_SELECTOR;
+- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor { }
 
-/** The color of the default return button text */
-@property (nonatomic, strong, null_resettable) UIColor *returnActionTextColor UI_APPEARANCE_SELECTOR;
+- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor { }
 
-/** The background color of the destructive action button */
-@property (nonatomic, strong, null_resettable) UIColor *destructiveActionButtonColor UI_APPEARANCE_SELECTOR;
+- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor { }
 
-/** The color of the default destructive button text */
-@property (nonatomic, strong, null_resettable) UIColor *destructiveActionTextColor
+- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor { }
 
 @end
