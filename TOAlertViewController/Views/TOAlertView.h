@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionButtonColor;
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionTextColor;
 
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -18,6 +18,7 @@
 		227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94122970A6D009ECE33 /* TORoundedButton.m */; };
 		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
+		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
 		227AB9482298506A009ECE33 /* TOAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewController.m; sourceTree = "<group>"; };
 		227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewConstants.h; sourceTree = "<group>"; };
+		22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertDimmingView.h; sourceTree = "<group>"; };
+		22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertDimmingView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,11 +126,9 @@
 			children = (
 				227AB9472298506A009ECE33 /* TOAlertViewController.h */,
 				227AB9482298506A009ECE33 /* TOAlertViewController.m */,
-				227AB93E22970A51009ECE33 /* TOAlertView.h */,
-				227AB93D22970A51009ECE33 /* TOAlertView.m */,
-				227AB94422984F93009ECE33 /* TOAlertAction.h */,
-				227AB94522984F93009ECE33 /* TOAlertAction.m */,
-				227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */,
+				22F09B6422A02919001DFB9A /* Models */,
+				22F09B6522A0292B001DFB9A /* Views */,
+				22F09B6622A02939001DFB9A /* Supporting */,
 			);
 			path = TOAlertViewController;
 			sourceTree = "<group>";
@@ -139,6 +140,34 @@
 				227AB94222970A6D009ECE33 /* TORoundedButton.h */,
 			);
 			path = TORoundedButton;
+			sourceTree = "<group>";
+		};
+		22F09B6422A02919001DFB9A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				227AB94422984F93009ECE33 /* TOAlertAction.h */,
+				227AB94522984F93009ECE33 /* TOAlertAction.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		22F09B6522A0292B001DFB9A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				227AB93E22970A51009ECE33 /* TOAlertView.h */,
+				227AB93D22970A51009ECE33 /* TOAlertView.m */,
+				22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */,
+				22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		22F09B6622A02939001DFB9A /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */,
+			);
+			path = Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +272,7 @@
 			files = (
 				227AB91D22970A0D009ECE33 /* ViewController.m in Sources */,
 				227AB92822970A0F009ECE33 /* main.m in Sources */,
+				22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */,
 				227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */,
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,

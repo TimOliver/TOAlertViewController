@@ -9,11 +9,6 @@
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
 
-@interface TOAlertViewAction ()
-// For convenience, let action objects reference the button views they represent
-@property (nonatomic, weak) TORoundedButton *button;
-@end
-
 // -------------------------------------------
 
 @interface TOAlertView ()
@@ -143,31 +138,6 @@
     _defaultActionTextColor = defaultColor;
     _returnActionTextColor = [UIColor whiteColor];
     _destructiveActionTextColor = [UIColor whiteColor];
-}
-
-- (void)addDefaultAction:(TOAlertViewAction *)action
-{
-    
-}
-
-- (void)removeDefaultAction:(TOAlertViewAction *)action
-{
-
-}
-
-- (void)removeDefaultActionAtIndex:(NSUInteger)index
-{
-
-}
-
-- (void)setReturnAction:(nullable TOAlertViewAction *)action
-{
-
-}
-
-- (void)setDestructiveAction:(nullable TOAlertViewAction *)action
-{
-
 }
 
 #pragma mark - Layout -
