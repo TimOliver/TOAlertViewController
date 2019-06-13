@@ -92,13 +92,12 @@
 
     // Create the outer container view in charge of clipping the view
     _containerView = [[UIView alloc] initWithFrame:CGRectZero];
-    _containerView.layer.masksToBounds = YES;
-    _containerView.layer.cornerRadius = 35.0f;
     _containerView.backgroundColor = [UIColor clearColor];
     [_dimmingView addSubview:_containerView];
 
     // Create the actual background view placed in the container view
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    _backgroundView.layer.cornerRadius = 35.0f;
     _backgroundView.backgroundColor = [UIColor whiteColor];
     _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [_containerView addSubview:_backgroundView];
