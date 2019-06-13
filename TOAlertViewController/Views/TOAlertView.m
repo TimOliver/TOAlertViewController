@@ -131,11 +131,11 @@
 
     CGFloat white = self.isDarkMode ? 0.3f : 0.7f;
     _defaultActionButtonColor = [UIColor colorWithWhite:white alpha:1.0f];
-    _returnActionButtonColor = self.tintColor;
+    //_returnActionButtonColor = self.tintColor;
     _destructiveActionButtonColor = [UIColor redColor];
 
     _defaultActionTextColor = defaultColor;
-    _returnActionTextColor = [UIColor whiteColor];
+    //_returnActionTextColor = [UIColor whiteColor];
     _destructiveActionTextColor = [UIColor whiteColor];
 }
 

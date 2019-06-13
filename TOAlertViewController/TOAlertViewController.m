@@ -56,6 +56,11 @@
     [self.view addSubview:self.alertView];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 #pragma mark - Lazy View Accessors -
 
 - (TOAlertDimmingView *)dimmingView
