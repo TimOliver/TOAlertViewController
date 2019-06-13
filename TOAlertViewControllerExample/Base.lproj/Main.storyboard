@@ -18,25 +18,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tEs-WY-OdQ">
-                                <rect key="frame" x="158" y="428.5" width="98" height="49"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
-                                <state key="normal" title="Button"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f9n-2j-Ija" customClass="TORoundedButton">
+                                <rect key="frame" x="57.5" y="424" width="299" height="58"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="299" id="fbh-Pv-MwO"/>
+                                    <constraint firstAttribute="height" constant="58" id="vZY-6D-qMR"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="Show Alert"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="didTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mu3-GS-9Go"/>
+                                    <action selector="didTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gWn-Wx-NLZ"/>
                                 </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tEs-WY-OdQ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="1m9-cI-x0m"/>
-                            <constraint firstItem="tEs-WY-OdQ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="IlU-Ez-oWa"/>
+                            <constraint firstItem="f9n-2j-Ija" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4K9-Q9-a5a"/>
+                            <constraint firstItem="f9n-2j-Ija" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="w6e-rP-ppy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="47.826086956521742" y="20.758928571428569"/>
         </scene>
     </scenes>
 </document>
