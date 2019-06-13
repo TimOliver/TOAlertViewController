@@ -105,7 +105,7 @@
     // Create the title label, shown at the top of the container
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.backgroundColor = _backgroundView.backgroundColor;
-    _titleLabel.font = [UIFont systemFontOfSize:26.0f weight:UIFontWeightBold];
+    _titleLabel.font = [UIFont systemFontOfSize:27.0f weight:UIFontWeightBold];
     _titleLabel.textColor = [UIColor blackColor];
     _titleLabel.text = _title;
     [_containerView addSubview:_titleLabel];
@@ -155,7 +155,8 @@
     [self.titleLabel sizeToFit];
     CGRect frame = self.titleLabel.frame;
     frame.origin.x = 30.0f;
-    frame.origin.y = 30.0f;
+    frame.origin.y = 25.0f;
+    frame.size.width = 240.0f;
     self.titleLabel.frame = frame;
 
     // Lay out the message label

@@ -78,7 +78,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
 
-
 /** Adds a new regular action to the new alert view controller */
 - (void)addAction:(TOAlertAction *)action;
 
