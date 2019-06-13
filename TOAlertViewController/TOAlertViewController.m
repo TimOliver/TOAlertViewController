@@ -57,6 +57,7 @@
 }
 
 #pragma mark - Lazy View Accessors -
+
 - (TOAlertDimmingView *)dimmingView
 {
     if (_dimmingView) { return _dimmingView; }
@@ -72,20 +73,55 @@
 }
 
 #pragma mark - Accessors -
-- (void)setTitleColor:(UIColor *)titleColor { self.alertView. }
 
-- (void)setMessageColor:(UIColor *)messageColor { }
+// Title label color
+- (void)setTitleColor:(UIColor *)titleColor { self.alertView.titleColor = titleColor; }
+- (UIColor *)titleColor { return self.alertView.titleColor; }
 
-- (void)setActionButtonColor:(UIColor *)actionButtonColor { }
+// Message label color
+- (void)setMessageColor:(UIColor *)messageColor {self.alertView.messageColor = messageColor; }
+- (UIColor *)messageColor { return self.alertView.messageColor; }
 
-- (void)setActionTextColor:(UIColor *)actionTextColor { }
+// Color of default action button background
+- (void)setActionButtonColor:(UIColor *)actionButtonColor
+{
+    self.alertView.actionButtonColor = actionButtonColor;
+}
+- (UIColor *)actionButtonColor { return self.alertView.actionButtonColor; }
 
-- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor { }
+// Color of default action button text
+- (void)setActionTextColor:(UIColor *)actionTextColor
+{
+    self.alertView.actionTextColor = actionTextColor;
+}
+- (UIColor *)actionTextColor { return self.alertView.actionTextColor; }
 
-- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor { }
+// Color of the default action button background
+- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor
+{
+    self.alertView.defaultActionButtonColor = defaultActionButtonColor;
+}
+- (UIColor *)defaultActionButtonColor { return self.alertView.defaultActionButtonColor; }
 
-- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor { }
+// Color of the default action button text
+- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor
+{
+    self.alertView.defaultActionTextColor = defaultActionTextColor;
+}
+- (UIColor *)defaultActionTextColor { return self.alertView.defaultActionTextColor; }
 
-- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor { }
+// Color of the destruction action button background
+- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor
+{
+    self.alertView.destructiveActionButtonColor = destructiveActionButtonColor;
+}
+- (UIColor *)destructiveActionButtonColor { return self.alertView.destructiveActionButtonColor; }
+
+// Color of the destructive action button text
+- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor
+{
+    self.alertView.destructiveActionTextColor = destructiveActionTextColor;
+}
+- (UIColor *)destructiveActionTextColor { return self.alertView.destructiveActionTextColor; }
 
 @end
