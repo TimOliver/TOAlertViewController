@@ -129,4 +129,25 @@
 }
 - (UIColor *)destructiveActionTextColor { return self.alertView.destructiveActionTextColor; }
 
+// The default button action
+- (void)setDefaultAction:(TOAlertAction *)action
+{
+    self.alertView.defaultAction = action;
+}
+- (TOAlertAction *)defaultAction { return self.alertView.defaultAction; }
+
+// The cancel button action
+- (void)setCancelAction:(TOAlertAction *)action
+{
+    self.alertView.cancelAction = action;
+}
+- (TOAlertAction *)cancelAction { return self.alertView.cancelAction; }
+
+// The destructive button action
+- (void)setDestructionAction:(TOAlertAction *)action
+{
+    self.alertView.destructiveAction = action;
+}
+- (TOAlertAction *)destructiveAction { return self.alertView.destructiveAction; }
+
 @end

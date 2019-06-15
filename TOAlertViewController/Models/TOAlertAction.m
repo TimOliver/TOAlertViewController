@@ -10,4 +10,12 @@
 
 @implementation TOAlertAction
 
++ (instancetype)actionWithTitle:(NSString *)title action:(void (^)(void))action
+{
+    TOAlertAction *alertAction = [[TOAlertAction alloc] init];
+    alertAction.title = title;
+    alertAction.action = action;
+    return alertAction;
+}
+
 @end

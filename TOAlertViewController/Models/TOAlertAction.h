@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** The action that will be executed if the user taps this button */
 @property (nonatomic, copy, nullable) void (^action)(void);
 
++ (instancetype)actionWithTitle:(NSString *)title action:(nullable void (^)(void))action;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 
 /** The list of regular actions added to this controller */
-@property (nonatomic, readonly) NSArray *actions;
+@property (nonatomic, readonly) NSArray<TOAlertAction *> *actions;
 
 /** A default action, which will use the same tint color as the app. Pressing 'Return' on a keyboard will trigger this action. */
 @property (nonatomic, strong) TOAlertAction *defaultAction;
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDefaultAction:(nullable TOAlertAction *)action;
 
 /** Sets a cancel action that by default will close the dialog.
- Pressing Command-. on an attacked keyboard will also trigger it.
+ Pressing Command-. on an attached keyboard will also trigger it.
  */
 - (void)setCancelButton:(nullable TOAlertAction *)action;
 

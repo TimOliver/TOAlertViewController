@@ -8,17 +8,15 @@
 
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
+#import "TOAlertViewConstants.h"
 
 // -------------------------------------------
 
 @interface TOAlertView ()
 
-// A dimming view placed behind the alert view
-@property (nonatomic, strong) UIView *dimmingView;
-
 // All of the components of the alert view
-@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 
@@ -85,57 +83,62 @@
 
 - (void)setUpSubviews
 {
-    // Create the dimming view that covers the whole screen
-    _dimmingView = [[UIView alloc] initWithFrame:CGRectZero];
-    _dimmingView.backgroundColor = [UIColor blackColor];
-    _dimmingView.alpha = 0.5f;
-
-    // Create the outer container view in charge of clipping the view
-    _containerView = [[UIView alloc] initWithFrame:CGRectZero];
-    _containerView.backgroundColor = [UIColor clearColor];
-    [_dimmingView addSubview:_containerView];
+    // Make sure the container itself is clear
+    [super setBackgroundColor:[UIColor clearColor]];
 
     // Create the actual background view placed in the container view
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    if (@available(iOS 13.0, *)) {
+        _backgroundView.layer.cornerCurve = kCACornerCurveContinuous;
+    }
     _backgroundView.layer.cornerRadius = 35.0f;
     _backgroundView.backgroundColor = [UIColor whiteColor];
     _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    [_containerView addSubview:_backgroundView];
+    [self addSubview:_backgroundView];
 
     // Create the title label, shown at the top of the container
+    UIFontMetrics *titleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle1];
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.backgroundColor = _backgroundView.backgroundColor;
-    _titleLabel.font = [UIFont systemFontOfSize:27.0f weight:UIFontWeightBold];
+    _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:27.0f weight:UIFontWeightBold]];
     _titleLabel.textColor = [UIColor blackColor];
+    _titleLabel.adjustsFontForContentSizeCategory = YES;
     _titleLabel.text = _title;
-    [_containerView addSubview:_titleLabel];
+    [self addSubview:_titleLabel];
 
     // Create the message label show below the title
     _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _messageLabel.textColor = [UIColor blackColor];
-    _messageLabel.font = [UIFont systemFontOfSize:17.0f];
+    _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    _messageLabel.adjustsFontForContentSizeCategory = YES;
     _messageLabel.numberOfLines = 0;
     _messageLabel.text = _message;
     _messageLabel.backgroundColor = _backgroundView.backgroundColor;
-    [_containerView addSubview:_messageLabel];
-
-    [self addSubview:_dimmingView];
-    [self addSubview:_containerView];
+    [self addSubview:_messageLabel];
 }
+
 - (void)configureColorsForTheme:(TOAlertViewStyle)style
 {
-    UIColor *defaultColor = self.isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
+    BOOL isDarkMode = (style == TOAlertViewStyleDark);
 
+    // Set text colors
+    UIColor *defaultColor = isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
     _titleColor   = defaultColor;
     _messageColor = defaultColor;
 
-    CGFloat white = self.isDarkMode ? 0.3f : 0.7f;
-    _defaultActionButtonColor = [UIColor colorWithWhite:white alpha:1.0f];
-    //_returnActionButtonColor = self.tintColor;
+    // Set background color of alert view
+    UIColor *backgroundColor = isDarkMode ? [UIColor colorWithWhite:0.116 alpha:1.0f] : [UIColor whiteColor];
+    self.backgroundColor = backgroundColor;
+
+    // Set background colors of all button types
+    CGFloat white = isDarkMode ? 0.3f : 0.7f;
+    _actionButtonColor = [UIColor colorWithWhite:white alpha:1.0f];
+    _defaultActionButtonColor = self.tintColor;
     _destructiveActionButtonColor = [UIColor redColor];
 
-    _defaultActionTextColor = defaultColor;
-    //_returnActionTextColor = [UIColor whiteColor];
+    // Set text colors for all button types
+    _actionTextColor = defaultColor;
+    _defaultActionTextColor = [UIColor whiteColor];
     _destructiveActionTextColor = [UIColor whiteColor];
 }
 
@@ -143,13 +146,10 @@
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+
     // Make sure we fill the entire window
     self.frame = self.superview.bounds;
-
-    // Make the dimming view fill the window
-    self.dimmingView.frame = self.window.frame;
-
-    self.containerView.frame = (CGRect){50,70,300,200};
 
     // Lay out the title view
     [self.titleLabel sizeToFit];
@@ -167,6 +167,12 @@
     self.messageLabel.frame = frame;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setNeedsLayout];
+}
+
 #pragma mark - Private Accessors -
 
 - (BOOL)isDarkMode
@@ -175,6 +181,12 @@
 }
 
 #pragma mark - Public Accessors -
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    self.backgroundView.backgroundColor = backgroundColor;
+}
+- (UIColor *)backgroundColor { return self.backgroundView.backgroundColor; }
 
 - (void)setStyle:(TOAlertViewStyle)style
 {

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "TOAlertViewConstants.h"
 
+@class TOAlertAction;
+
 NS_ASSUME_NONNULL_BEGIN
 
+/// :nodoc:
 @interface TOAlertView : UIView
 
 @property (nonatomic, copy) NSString *title;
@@ -35,7 +38,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionButtonColor;
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionTextColor;
 
+@property (nonatomic, readonly) NSArray<TOAlertAction *> *actions;
+@property (nonatomic, strong, nullable) TOAlertAction *defaultAction;
+@property (nonatomic, strong, nullable) TOAlertAction *destructiveAction;
+@property (nonatomic, strong, nullable) TOAlertAction *cancelAction;
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
+
+- (void)sizeToFitInBoundSize:(CGSize)size;
+
+- (void)addAction:(TOAlertAction *)action;
+- (void)removeAction:(TOAlertAction *)action;
+- (void)removeActionAtIndex:(NSUInteger)index;
 
 @end
 
