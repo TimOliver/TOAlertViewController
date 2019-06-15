@@ -56,9 +56,14 @@
     [self.view addSubview:self.alertView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+#pragma mark - View Layout -
+
+- (void)viewDidLayoutSubviews
 {
-    [super viewDidAppear:animated];
+    [super viewDidLayoutSubviews];
+
+    [self.alertView sizeToFitInBoundSize:CGSizeZero];
+    self.alertView.center = self.view.center;
 }
 
 #pragma mark - Lazy View Accessors -
@@ -77,7 +82,24 @@
     return _alertView;
 }
 
-#pragma mark - Accessors -
+#pragma mark - Regular Accessor Management -
+
+- (void)addAction:(TOAlertAction *)action
+{
+    [self.alertView addAction:action];
+}
+
+- (void)removeAction:(TOAlertAction *)action
+{
+    [self.alertView removeAction:action];
+}
+
+- (void)removeActionAtIndex:(NSUInteger)index
+{
+    [self.alertView removeActionAtIndex:index];
+}
+
+#pragma mark - Theme Accessors -
 
 // Title label color
 - (void)setTitleColor:(UIColor *)titleColor { self.alertView.titleColor = titleColor; }
@@ -129,6 +151,8 @@
 }
 - (UIColor *)destructiveActionTextColor { return self.alertView.destructiveActionTextColor; }
 
+#pragma mark - Action Accessors -
+
 // The default button action
 - (void)setDefaultAction:(TOAlertAction *)action
 {
@@ -143,7 +167,7 @@
 }
 - (TOAlertAction *)cancelAction { return self.alertView.cancelAction; }
 
-// The destructive button action
+// The destructive button 
 - (void)setDestructionAction:(TOAlertAction *)action
 {
     self.alertView.destructiveAction = action;

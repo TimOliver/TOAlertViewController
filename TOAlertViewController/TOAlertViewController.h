@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** A message displayed under the title, typically to advise the user on what choices they have. */
 @property (nonatomic, copy) NSString *message;
 
-/** The corner radius amount for the corners of the alert view (Default is 35) */
+/** The corner radius amount for the corners of the alert view (Default is 30) */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
 /** The spacing between horizontally aligned buttons (Default is 4) */
