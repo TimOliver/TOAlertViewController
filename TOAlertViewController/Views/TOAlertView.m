@@ -70,7 +70,7 @@
 - (void)alertViewCommonInit
 {
     _buttons = [NSMutableArray array];
-    _cornerRadius = 35.0f;
+    _cornerRadius = 30.0f;
     _buttonSpacing = 4.0f;
     _buttonHeight = 50.0f;
     _contentInsets = (UIEdgeInsets){30.0f, 30.0f, 30.0f, 30.0f};
@@ -142,14 +142,17 @@
     _destructiveActionTextColor = [UIColor whiteColor];
 }
 
+#pragma mark - Presentation Configuration -
+- (void)sizeToFitInBoundSize:(CGSize)size
+{
+    self.frame = (CGRect){0,0,300,300};
+}
+
 #pragma mark - Layout -
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
-    // Make sure we fill the entire window
-    self.frame = self.superview.bounds;
 
     // Lay out the title view
     [self.titleLabel sizeToFit];
