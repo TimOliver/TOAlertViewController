@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *message;
 
 @property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat buttonCornerRadius;
 @property (nonatomic, assign) CGFloat buttonSpacing;
 @property (nonatomic, assign) CGFloat buttonHeight;
 @property (nonatomic, assign) UIEdgeInsets contentInsets;

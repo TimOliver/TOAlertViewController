@@ -8,6 +8,7 @@
 
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
+#import "TOAlertAction.h"
 #import "TOAlertViewConstants.h"
 
 // -------------------------------------------
@@ -20,17 +21,17 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 
+// All of te
+
 // All of the button views we can display
 @property (nonatomic, strong) NSMutableArray<TORoundedButton *> *buttons;
-@property (nonatomic, strong) TORoundedButton *returnButton;
+@property (nonatomic, strong) TORoundedButton *defaultButton;
+@property (nonatomic, strong) TORoundedButton *cancelButton;
 @property (nonatomic, strong) TORoundedButton *destructiveButton;
 
 // State Tracking
 @property (nonatomic, assign) BOOL isDirty;
 @property (nonatomic, readonly) BOOL isDarkMode;
-
-// The window in charge of presenting this alert
-@property (nonatomic, strong) UIWindow *window;
 
 @end
 
@@ -71,6 +72,7 @@
 {
     _buttons = [NSMutableArray array];
     _cornerRadius = 30.0f;
+    _buttonCornerRadius = 20.0f;
     _buttonSpacing = 4.0f;
     _buttonHeight = 50.0f;
     _contentInsets = (UIEdgeInsets){30.0f, 30.0f, 30.0f, 30.0f};
@@ -91,7 +93,7 @@
     if (@available(iOS 13.0, *)) {
         _backgroundView.layer.cornerCurve = kCACornerCurveContinuous;
     }
-    _backgroundView.layer.cornerRadius = 35.0f;
+    _backgroundView.layer.cornerRadius = _cornerRadius;
     _backgroundView.backgroundColor = [UIColor whiteColor];
     _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:_backgroundView];
@@ -115,6 +117,14 @@
     _messageLabel.text = _message;
     _messageLabel.backgroundColor = _backgroundView.backgroundColor;
     [self addSubview:_messageLabel];
+}
+
+- (TORoundedButton *)makeButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)backgroundColor
+{
+    TORoundedButton *button = [[TORoundedButton alloc] initWithText:title];
+    button.tintColor = backgroundColor;
+    button.cornerRadius = _buttonCornerRadius;
+    return button;
 }
 
 - (void)configureColorsForTheme:(TOAlertViewStyle)style
@@ -183,7 +193,66 @@
     return (self.style == TOAlertViewStyleDark);
 }
 
-#pragma mark - Public Accessors -
+#pragma mark - Action Creation/Deletion -
+
+- (void)setDefaultAction:(TOAlertAction *)defaultAction
+{
+    if (defaultAction == _defaultAction) { return; }
+    _defaultAction = defaultAction;
+
+    self.isDirty = YES;
+    [self setNeedsLayout];
+
+    // If we set it to null, remove the button
+    if (_defaultAction == nil) {
+        [_defaultButton removeFromSuperview];
+        _defaultButton = nil;
+        return;
+    }
+
+    _defaultButton = [self makeButtonWithTitle:defaultAction.title backgroundColor:_actionButtonColor];
+    [self addSubview:_defaultButton];
+}
+
+- (void)setDestructiveAction:(TOAlertAction *)destructiveAction
+{
+    if (destructiveAction == _destructiveAction) { return; }
+    _destructiveAction = destructiveAction;
+
+    self.isDirty = YES;
+    [self setNeedsLayout];
+
+    // If we set it to null, remove the button
+    if (_destructiveAction == nil) {
+        [_destructiveButton removeFromSuperview];
+        _destructiveButton = nil;
+        return;
+    }
+
+    _destructiveButton = [self makeButtonWithTitle:destructiveAction.title backgroundColor:_destructiveActionButtonColor];
+    [self addSubview:_destructiveButton];
+}
+
+- (void)setCancelAction:(TOAlertAction *)cancelAction
+{
+    if (cancelAction == _cancelAction) { return; }
+    _cancelAction = cancelAction;
+
+    self.isDirty = YES;
+    [self setNeedsLayout];
+
+    // If we set it to null, remove the button
+    if (_cancelAction == nil) {
+        [_cancelButton removeFromSuperview];
+        _cancelButton = nil;
+        return;
+    }
+
+    _cancelButton = [self makeButtonWithTitle:cancelAction.title backgroundColor:_actionButtonColor];
+    [self addSubview:_cancelButton];
+}
+
+#pragma mark - Color/Theme Accessors -
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
