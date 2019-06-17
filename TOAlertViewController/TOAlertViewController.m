@@ -45,8 +45,6 @@
 - (void)commonInit
 {
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    
-    self.alertView = [[TOAlertView alloc] initWithTitle:self.title message:self.message];
 }
 
 - (void)viewDidLoad {
@@ -99,6 +97,13 @@
     [self.alertView removeActionAtIndex:index];
 }
 
+#pragma mark - Layout Accessors -
+
+- (void)setCornerRadius:(CGFloat)cornerRadius { self.alertView.cornerRadius = cornerRadius; }
+- (CGFloat)cornerRadius { return self.alertView.cornerRadius; }
+
+
+
 #pragma mark - Theme Accessors -
 
 // Title label color
@@ -110,68 +115,41 @@
 - (UIColor *)messageColor { return self.alertView.messageColor; }
 
 // Color of default action button background
-- (void)setActionButtonColor:(UIColor *)actionButtonColor
-{
-    self.alertView.actionButtonColor = actionButtonColor;
-}
+- (void)setActionButtonColor:(UIColor *)actionButtonColor { self.alertView.actionButtonColor = actionButtonColor; }
 - (UIColor *)actionButtonColor { return self.alertView.actionButtonColor; }
 
 // Color of default action button text
-- (void)setActionTextColor:(UIColor *)actionTextColor
-{
-    self.alertView.actionTextColor = actionTextColor;
-}
+- (void)setActionTextColor:(UIColor *)actionTextColor { self.alertView.actionTextColor = actionTextColor; }
 - (UIColor *)actionTextColor { return self.alertView.actionTextColor; }
 
 // Color of the default action button background
-- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor
-{
-    self.alertView.defaultActionButtonColor = defaultActionButtonColor;
-}
+- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor { self.alertView.defaultActionButtonColor = defaultActionButtonColor; }
 - (UIColor *)defaultActionButtonColor { return self.alertView.defaultActionButtonColor; }
 
 // Color of the default action button text
-- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor
-{
-    self.alertView.defaultActionTextColor = defaultActionTextColor;
-}
+- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor { self.alertView.defaultActionTextColor = defaultActionTextColor; }
 - (UIColor *)defaultActionTextColor { return self.alertView.defaultActionTextColor; }
 
 // Color of the destruction action button background
-- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor
-{
-    self.alertView.destructiveActionButtonColor = destructiveActionButtonColor;
-}
+- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor { self.alertView.destructiveActionButtonColor = destructiveActionButtonColor; }
 - (UIColor *)destructiveActionButtonColor { return self.alertView.destructiveActionButtonColor; }
 
 // Color of the destructive action button text
-- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor
-{
-    self.alertView.destructiveActionTextColor = destructiveActionTextColor;
-}
+- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor { self.alertView.destructiveActionTextColor = destructiveActionTextColor; }
 - (UIColor *)destructiveActionTextColor { return self.alertView.destructiveActionTextColor; }
 
 #pragma mark - Action Accessors -
 
 // The default button action
-- (void)setDefaultAction:(TOAlertAction *)action
-{
-    self.alertView.defaultAction = action;
-}
+- (void)setDefaultAction:(TOAlertAction *)action { self.alertView.defaultAction = action; }
 - (TOAlertAction *)defaultAction { return self.alertView.defaultAction; }
 
 // The cancel button action
-- (void)setCancelAction:(TOAlertAction *)action
-{
-    self.alertView.cancelAction = action;
-}
+- (void)setCancelAction:(TOAlertAction *)action {self.alertView.cancelAction = action; }
 - (TOAlertAction *)cancelAction { return self.alertView.cancelAction; }
 
 // The destructive button 
-- (void)setDestructionAction:(TOAlertAction *)action
-{
-    self.alertView.destructiveAction = action;
-}
+- (void)setDestructionAction:(TOAlertAction *)action { self.alertView.destructiveAction = action; }
 - (TOAlertAction *)destructiveAction { return self.alertView.destructiveAction; }
 
 @end
