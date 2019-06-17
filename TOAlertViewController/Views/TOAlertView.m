@@ -76,6 +76,7 @@
     _buttonSpacing = 4.0f;
     _buttonHeight = 50.0f;
     _contentInsets = (UIEdgeInsets){30.0f, 30.0f, 30.0f, 30.0f};
+    _maximumWidth = 375.0f;
 
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
@@ -124,6 +125,7 @@
     TORoundedButton *button = [[TORoundedButton alloc] initWithText:title];
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
+    button.backgroundColor = [UIColor clearColor];
     return button;
 }
 
@@ -155,7 +157,7 @@
 #pragma mark - Presentation Configuration -
 - (void)sizeToFitInBoundSize:(CGSize)size
 {
-    self.frame = (CGRect){0,0,300,300};
+    self.frame = (CGRect){0,0,375,200};
 }
 
 #pragma mark - Layout -
@@ -210,7 +212,7 @@
         return;
     }
 
-    _defaultButton = [self makeButtonWithTitle:defaultAction.title backgroundColor:_actionButtonColor];
+    _defaultButton = [self makeButtonWithTitle:defaultAction.title backgroundColor:self.tintColor];
     [self addSubview:_defaultButton];
 }
 

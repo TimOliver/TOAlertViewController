@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat buttonCornerRadius;
 @property (nonatomic, assign) CGFloat buttonSpacing;
 @property (nonatomic, assign) CGFloat buttonHeight;
+@property (nonatomic, assign) CGFloat maximumWidth;
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 
 @property (nonatomic, assign) TOAlertViewStyle style;
