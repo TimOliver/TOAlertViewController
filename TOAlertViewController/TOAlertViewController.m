@@ -60,7 +60,11 @@
 {
     [super viewDidLayoutSubviews];
 
-    [self.alertView sizeToFitInBoundSize:CGSizeZero];
+    UIEdgeInsets layoutMargins = self.view.layoutMargins;
+    CGSize contentSize = self.view.bounds.size;
+    contentSize.width -= (layoutMargins.left + layoutMargins.right);
+    contentSize.height -= (layoutMargins.top + layoutMargins.bottom);
+    [self.alertView sizeToFitInBoundSize:contentSize];
     self.alertView.center = self.view.center;
 }
 
@@ -102,7 +106,14 @@
 - (void)setCornerRadius:(CGFloat)cornerRadius { self.alertView.cornerRadius = cornerRadius; }
 - (CGFloat)cornerRadius { return self.alertView.cornerRadius; }
 
+- (void)setButtonSpacing:(CGSize)buttonSpacing { self.alertView.buttonSpacing = buttonSpacing; }
+- (CGSize)buttonSpacing { return self.alertView.buttonSpacing; }
 
+- (void)setButtonHeight:(CGFloat)buttonHeight { self.alertView.buttonHeight = buttonHeight; }
+- (CGFloat)buttonHeight { return self.alertView.buttonHeight; }
+
+- (void)setContentInsets:(UIEdgeInsets)contentInsets { self.alertView.contentInsets = contentInsets; }
+- (UIEdgeInsets)contentInsets { return self.alertView.contentInsets; }
 
 #pragma mark - Theme Accessors -
 
