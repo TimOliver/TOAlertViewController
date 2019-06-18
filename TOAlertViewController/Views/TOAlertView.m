@@ -73,10 +73,11 @@
     _buttons = [NSMutableArray array];
     _cornerRadius = 30.0f;
     _buttonCornerRadius = 20.0f;
-    _buttonSpacing = 4.0f;
+    _buttonSpacing = (CGSize){4.0f, 4.0f};
     _buttonHeight = 50.0f;
     _contentInsets = (UIEdgeInsets){30.0f, 30.0f, 30.0f, 30.0f};
     _maximumWidth = 375.0f;
+    _verticalTextSpacing = 25.0f;
 
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
@@ -155,9 +156,33 @@
 }
 
 #pragma mark - Presentation Configuration -
+
 - (void)sizeToFitInBoundSize:(CGSize)size
 {
-    self.frame = (CGRect){0,0,375,200};
+    CGRect frame = CGRectZero;
+
+    // Width is either the maximum width, or the available size we have
+    frame.size.width = MIN(_maximumWidth, size.width);
+
+    // For sizing text, work out the usable width we have
+    CGFloat contentWidth = frame.size.width - (_contentInsets.left + _contentInsets.right);
+    CGSize contentSize = (CGSize){contentWidth, CGFLOAT_MAX};
+
+    // Work out the height we need to fit every element
+
+    // Top and bottom insets
+    frame.size.height += _contentInsets.top + _contentInsets.bottom;
+
+    // Title label size
+    frame.size.height += [self.titleLabel sizeThatFits:contentSize].height + _verticalTextSpacing;
+    
+    // Message label size
+    frame.size.height += [self.messageLabel sizeThatFits:contentSize].height + _verticalTextSpacing;
+
+    // One row of buttons
+    frame.size.height += _buttonHeight;
+
+    self.frame = frame;
 }
 
 #pragma mark - Layout -
@@ -165,6 +190,9 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+
+    // Layout the background
+    self.backgroundView.frame = self.bounds;
 
     // Lay out the title view
     [self.titleLabel sizeToFit];
