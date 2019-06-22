@@ -34,18 +34,18 @@ IB_DESIGNABLE @interface TORoundedButton : UIControl
 @property (nonatomic, copy) IBInspectable NSString *text;
 
 /** The attributed string used in the label of this button. See `UILabel.attributedText` documentation for full details (Default is nil) */
-@property (nonatomic, copy, nullable) NSAttributedString  *attributedText;
+@property (nonatomic, copy, nullable) NSAttributedString *attributedText;
 
-/** The radius of the corners of this button (Default is 10.0f) */
+/** The radius of the corners of this button (Default is 12.0f) */
 @property (nonatomic, assign) IBInspectable CGFloat cornerRadius;
 
 /** The color of the text in this button (Default is white) */
 @property (nonatomic, strong) IBInspectable UIColor *textColor;
 
-/** When tapped, the level of transparency that the text label animates to. (Defaults to 0.5f) */
+/** When tapped, the level of transparency that the text label animates to. (Defaults to off with 1.0f) */
 @property (nonatomic, assign) IBInspectable CGFloat tappedTextAlpha;
 
-/** The font of the text in the button (Default is size 19 Bold) */
+/** The font of the text in the button (Default is size UIFontTextStyleBody with bold) */
 @property (nonatomic, strong) UIFont *textFont;
 
 /** Because IB cannot handle fonts, this can alternatively be used to set the font size. (Default is off with 0.0) */
@@ -57,11 +57,14 @@ IB_DESIGNABLE @interface TORoundedButton : UIControl
 /** If desired, explicity set the background color of the button when tapped (Default is nil). */
 @property (nonatomic, strong, nullable) IBInspectable UIColor *tappedTintColor;
 
-/** When tapped, the scale by which the button shrinks during the animation (Default is off with 0.97f) */
+/** When tapped, the scale by which the button shrinks during the animation (Default is 0.97f) */
 @property (nonatomic, assign) IBInspectable CGFloat tappedButtonScale;
 
 /** The duration of the tapping cross-fade animation (Default is 0.4f) */
 @property (nonatomic, assign) CGFloat tapAnimationDuration;
+
+/** Given the current size of the text label, the smallest horizontal width in which this button can scale. */
+@property (nonatomic, readonly) CGFloat minimumWidth;
 
 /** A callback handler triggered each time the button is tapped. */
 @property (nonatomic, copy) void (^tappedHandler)(void);
