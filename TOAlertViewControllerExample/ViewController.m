@@ -28,6 +28,8 @@
     alertController.defaultAction = [TOAlertAction alertActionWithTitle:@"Yes" action:nil];
     alertController.cancelAction = [TOAlertAction alertActionWithTitle:@"Cancel" action:nil];
 
+    //alertController.style = TOAlertViewStyleDark;
+
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
