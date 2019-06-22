@@ -54,6 +54,13 @@
     [self.view addSubview:self.alertView];
 }
 
+#pragma mark - View Controller Configuration -
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - View Layout -
 
 - (void)viewDidLayoutSubviews
@@ -116,6 +123,10 @@
 - (UIEdgeInsets)contentInsets { return self.alertView.contentInsets; }
 
 #pragma mark - Theme Accessors -
+
+// Global dialog style
+- (void)setStyle:(TOAlertViewStyle)style { self.alertView.style = style; }
+- (TOAlertViewStyle)style { return self.alertView.style; }
 
 // Title label color
 - (void)setTitleColor:(UIColor *)titleColor { self.alertView.titleColor = titleColor; }

@@ -21,7 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** The corner radius amount for the corners of the alert view (Default is 30) */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
-/** The spacing between horizontally and vertically aligned buttons (Default is 4) */
+/** The corner radius of the buttons (default is 15.0f) */
+@property (nonatomic, assign) CGFloat buttonCornerRadius;
+
+/** The spacing between horizontally and vertically aligned buttons (Default is 8 both ways) */
 @property (nonatomic, assign) CGSize buttonSpacing;
 
 /** The height of the buttons (Default is 50) */
