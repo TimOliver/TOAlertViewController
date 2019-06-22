@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14810.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,9 +16,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="catalina-wallpaper" translatesAutoresizingMaskIntoConstraints="NO" id="S4d-WL-wTO">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f9n-2j-Ija" customClass="TORoundedButton">
                                 <rect key="frame" x="57.5" y="424" width="299" height="58"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="299" id="fbh-Pv-MwO"/>
                                     <constraint firstAttribute="height" constant="58" id="vZY-6D-qMR"/>
@@ -35,7 +36,11 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="top" secondItem="S4d-WL-wTO" secondAttribute="top" id="2UN-uU-wNO"/>
                             <constraint firstItem="f9n-2j-Ija" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4K9-Q9-a5a"/>
+                            <constraint firstItem="S4d-WL-wTO" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="dv3-sp-k50"/>
+                            <constraint firstItem="S4d-WL-wTO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hWo-hW-5TS"/>
+                            <constraint firstItem="S4d-WL-wTO" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="moD-L4-lAi"/>
                             <constraint firstItem="f9n-2j-Ija" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="w6e-rP-ppy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -46,4 +51,7 @@
             <point key="canvasLocation" x="47.826086956521742" y="20.758928571428569"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="catalina-wallpaper" width="5000" height="3124"/>
+    </resources>
 </document>

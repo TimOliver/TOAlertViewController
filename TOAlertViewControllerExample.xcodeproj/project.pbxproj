@@ -138,8 +138,8 @@
 		227AB94022970A6D009ECE33 /* TORoundedButton */ = {
 			isa = PBXGroup;
 			children = (
-				227AB94122970A6D009ECE33 /* TORoundedButton.m */,
 				227AB94222970A6D009ECE33 /* TORoundedButton.h */,
+				227AB94122970A6D009ECE33 /* TORoundedButton.m */,
 			);
 			path = TORoundedButton;
 			sourceTree = "<group>";
