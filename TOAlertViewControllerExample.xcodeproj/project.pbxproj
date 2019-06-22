@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
 		227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91922970A0D009ECE33 /* AppDelegate.m */; };
 		227AB91D22970A0D009ECE33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91C22970A0D009ECE33 /* ViewController.m */; };
 		227AB92022970A0D009ECE33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB91E22970A0D009ECE33 /* Main.storyboard */; };
@@ -32,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
+		223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewTransitioning.m; sourceTree = "<group>"; };
 		225DA4AF22B1DD3200958F84 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
 		227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOAlertViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227AB91822970A0D009ECE33 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 			children = (
 				227AB94422984F93009ECE33 /* TOAlertAction.h */,
 				227AB94522984F93009ECE33 /* TOAlertAction.m */,
+				223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */,
+				223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 				227AB92822970A0F009ECE33 /* main.m in Sources */,
 				22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */,
 				227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */,
+				223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */,
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
 				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,

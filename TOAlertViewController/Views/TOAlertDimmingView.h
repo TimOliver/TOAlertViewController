@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TOAlertDimmingView : UIView
 
+- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration;
+- (void)playFadeOutAnimation;
+
 @end
 
 NS_ASSUME_NONNULL_END

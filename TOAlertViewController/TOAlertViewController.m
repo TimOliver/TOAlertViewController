@@ -9,9 +9,11 @@
 #import "TOAlertViewController.h"
 #import "TOAlertView.h"
 #import "TOAlertDimmingView.h"
+#import "TOAlertViewTransitioning.h"
 
-@interface TOAlertViewController ()
+@interface TOAlertViewController () <UIViewControllerTransitioningDelegate>
 
+// Managed views
 @property (nonatomic, strong) TOAlertDimmingView *dimmingView;
 @property (nonatomic, strong) TOAlertView *alertView;
 
@@ -49,7 +51,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    // Set us as the manager for our own presentation controller
+    self.transitioningDelegate = self;
+
+    // Add the subiews
     [self.view addSubview:self.dimmingView];
     [self.view addSubview:self.alertView];
 }
@@ -73,6 +79,20 @@
     contentSize.height -= (layoutMargins.top + layoutMargins.bottom);
     [self.alertView sizeToFitInBoundSize:contentSize];
     self.alertView.center = self.view.center;
+}
+
+#pragma mark - Presentation Handling -
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                            presentingController:(UIViewController *)presenting
+                                                                                sourceController:(UIViewController *)source
+{
+    return [[TOAlertViewTransitioning alloc] initWithAlertView:self.alertView dimmingView:self.dimmingView reverse:NO];
+}
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [[TOAlertViewTransitioning alloc] initWithAlertView:self.alertView dimmingView:self.dimmingView reverse:YES];
 }
 
 #pragma mark - Lazy View Accessors -
