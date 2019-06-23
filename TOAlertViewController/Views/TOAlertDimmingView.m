@@ -46,20 +46,43 @@
 
     // Reset if need be
     if (self.animator) {
+        [self.animator stopAnimation:YES];
         self.animator = nil;
         self.blurView.effect = nil;
     }
 
     // Animate the blur view
-    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:(duration/0.3f) curve:UIViewAnimationCurveLinear animations:^{
+    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:(duration/0.3f)*0.5f curve:UIViewAnimationCurveEaseOut animations:^{
         self.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     }];
     [self.animator startAnimation];
 
     // Pause the animation after the duration
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration*0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.animator pauseAnimation];
     });
+}
+
+- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration
+{
+    // Animate the dimming view
+    [UIView animateWithDuration:duration animations:^{
+        self.backgroundColor = [UIColor clearColor];
+    }];
+
+    // Get the fraction of the animation, and flip it so we can reverse
+    CGFloat fraction = 1.0f - self.animator.fractionComplete;
+    [self.animator stopAnimation:YES];
+    self.animator = nil;
+
+    // Flip the animation
+    self.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:duration curve:UIViewAnimationCurveLinear animations:^{
+        self.blurView.effect = nil;
+    }];
+
+    self.animator.fractionComplete = fraction;
+    [self.animator startAnimation];
 }
 
 @end
