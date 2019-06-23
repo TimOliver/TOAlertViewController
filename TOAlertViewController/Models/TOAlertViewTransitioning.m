@@ -38,7 +38,9 @@
 
 - (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext
 {
-    return 0.5f;
+    // Play the transition twice as fast when dismissing so the user can get back to what they were doing
+    // without having to wait for this to finish
+    return self.isReverse ? 0.25f : 0.5f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
@@ -53,11 +55,22 @@
     [transitionContext.containerView addSubview:controller.view];
 
     // Play the fade in animation for the background
-    [self.dimmingView playFadeInAnimationWithDuration:duration];
+    if (!self.isReverse) {
+        [self.dimmingView playFadeInAnimationWithDuration:duration];
+    }
+    else {
+        [self.dimmingView playFadeOutAnimationWithDuration:duration];
+    }
+
+    CGFloat zeroAlpha = 0.0f, fullAlpha = 1.0f;
+    CGAffineTransform identity = CGAffineTransformIdentity;
+    CGAffineTransform scaled = CGAffineTransformScale(CGAffineTransformIdentity, 0.85f, 0.85f);
 
     // Fade in the alert view
-    self.alertView.alpha = 0.0f;
-    self.alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.85f, 0.85f);
+    if (!self.isReverse) {
+        self.alertView.alpha = zeroAlpha;
+        self.alertView.transform = scaled;
+    }
 
     // Animate the alert view zooming in
     [UIView animateWithDuration:duration
@@ -66,8 +79,8 @@
           initialSpringVelocity:2.0f
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         self.alertView.alpha = 1.0f;
-                         self.alertView.transform = CGAffineTransformIdentity;
+                         self.alertView.alpha = self.isReverse ? zeroAlpha : fullAlpha;
+                         self.alertView.transform = self.isReverse ? scaled : identity;
                      } completion:^(BOOL finished) {
                          [transitionContext completeTransition:finished];
                      }];
