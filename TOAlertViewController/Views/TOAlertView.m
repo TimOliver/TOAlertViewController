@@ -132,14 +132,15 @@
     [self addSubview:_messageLabel];
 }
 
-- (TORoundedButton *)makeButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor
+- (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor
 {
-    TORoundedButton *button = [[TORoundedButton alloc] initWithText:title];
+    __weak typeof(self) weakSelf = self;
+    TORoundedButton *button = [[TORoundedButton alloc] initWithText:action.title];
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
     button.textColor = textColor;
     button.backgroundColor = [UIColor clearColor];
-    [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action]; };
     return button;
 }
 
@@ -392,10 +393,10 @@
 
 #pragma mark - Interaction -
 
-- (void)buttonTapped:(id)sender
+- (void)buttonTappedWithAction:(void (^)(void))action
 {
     if (self.buttonTappedHandler) {
-        self.buttonTappedHandler();
+        self.buttonTappedHandler(action);
     }
 }
 
@@ -423,7 +424,7 @@
         return;
     }
 
-    _defaultButton = [self makeButtonWithTitle:defaultAction.title
+    _defaultButton = [self makeButtonWithAction:defaultAction
                                      textColor:self.defaultActionTextColor
                                backgroundColor:self.tintColor];
     [self addSubview:_defaultButton];
@@ -444,9 +445,9 @@
         return;
     }
 
-    _destructiveButton = [self makeButtonWithTitle:destructiveAction.title
-                                         textColor:self.destructiveActionTextColor
-                                   backgroundColor:_destructiveActionButtonColor];
+    _destructiveButton = [self makeButtonWithAction:destructiveAction
+                                          textColor:self.destructiveActionTextColor
+                                    backgroundColor:_destructiveActionButtonColor];
     [self addSubview:_destructiveButton];
 }
 
@@ -465,9 +466,9 @@
         return;
     }
 
-    _cancelButton = [self makeButtonWithTitle:cancelAction.title
-                                    textColor:self.actionTextColor
-                              backgroundColor:_actionButtonColor];
+    _cancelButton = [self makeButtonWithAction:cancelAction
+                                     textColor:self.actionTextColor
+                               backgroundColor:_actionButtonColor];
     [self addSubview:_cancelButton];
 }
 
@@ -483,9 +484,9 @@
     [actions addObject:action];
 
     // Create button for it
-    TORoundedButton *button = [self makeButtonWithTitle:action.title
-                                              textColor:self.actionTextColor
-                                        backgroundColor:self.actionButtonColor];
+    TORoundedButton *button = [self makeButtonWithAction:action
+                                               textColor:self.actionTextColor
+                                         backgroundColor:self.actionButtonColor];
     [self.buttons addObject:button];
     [self addSubview:button];
 }

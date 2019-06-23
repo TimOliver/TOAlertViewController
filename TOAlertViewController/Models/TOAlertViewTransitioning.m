@@ -38,8 +38,7 @@
 
 - (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext
 {
-    // Play the transition twice as fast when dismissing so the user can get back to what they were doing
-    // without having to wait for this to finish
+    // Play the transition twice as fast when dismissing so we can give control back to the user ASAP
     return self.isReverse ? 0.25f : 0.5f;
 }
 

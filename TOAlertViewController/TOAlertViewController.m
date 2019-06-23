@@ -24,6 +24,10 @@
 
 @implementation TOAlertViewController
 
+// Defining title in the header is only for documentation convenience.
+// The internal implementation will actually be used.
+@dynamic title;
+
 #pragma mark - View Controller Creation -
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
@@ -64,8 +68,8 @@
 
     // Set the block handler for all buttons to dismiss
     __weak typeof(self) weakSelf = self;
-    self.alertView.buttonTappedHandler = ^{
-        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    self.alertView.buttonTappedHandler = ^(void (^buttonAction)(void)) {
+        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:buttonAction];
     };
 }
 

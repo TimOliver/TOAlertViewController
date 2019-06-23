@@ -15,8 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TOAlertViewController : UIViewController
 
+/** The title text displayed along the top of the alert. */
+@property(nullable, nonatomic, copy) NSString *title;
+
 /** A message displayed under the title, typically to advise the user on what choices they have. */
-@property (nonatomic, copy) NSString *message;
+@property (nullable, nonatomic, copy) NSString *message;
+
+/** The maximum width this controller may expand to on larger screens. Default is 375.0f; */
+//@property (nonatomic, )
 
 /** The corner radius amount for the corners of the alert view (Default is 30) */
 @property (nonatomic, assign) CGFloat cornerRadius;
@@ -30,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** The height of the buttons (Default is 50) */
 @property (nonatomic, assign) CGFloat buttonHeight;
 
-/** The insets of the content from the edge of the alert view. (Default is 30.0f, all directions) */
+/** The insets of the content from the edge of the alert view. (Default is {23, 25, 17, 25}) */
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 
 /** The list of regular actions added to this controller */

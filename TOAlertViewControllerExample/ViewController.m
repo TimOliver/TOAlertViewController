@@ -20,13 +20,15 @@
     // Do any additional setup after loading the view.
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle { return UIStatusBarStyleLightContent; }
+
 - (IBAction)didTap:(id)sender
 {
     TOAlertViewController *alertController = [[TOAlertViewController alloc]
                                               initWithTitle:@"Are you sure?" message:@"This action may take some time to complete. Are you sure you wish to perform this action?"];
 
-    alertController.defaultAction = [TOAlertAction alertActionWithTitle:@"Yes" action:nil];
-    alertController.cancelAction = [TOAlertAction alertActionWithTitle:@"Cancel" action:nil];
+    alertController.defaultAction = [TOAlertAction alertActionWithTitle:@"Yes" action:^{ NSLog(@"Default Button Tapped!"); }];
+    alertController.cancelAction = [TOAlertAction alertActionWithTitle:@"Cancel" action:^{ NSLog(@"Cancel Button Tapped!"); }];
 
     //alertController.style = TOAlertViewStyleDark;
 

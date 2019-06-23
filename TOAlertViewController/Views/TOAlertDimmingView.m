@@ -52,7 +52,7 @@
     }
 
     // Animate the blur view
-    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:(duration/0.3f)*0.5f curve:UIViewAnimationCurveEaseOut animations:^{
+    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:(duration/0.15f)*0.5f curve:UIViewAnimationCurveEaseOut animations:^{
         self.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     }];
     [self.animator startAnimation];
