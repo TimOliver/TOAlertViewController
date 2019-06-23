@@ -13,6 +13,9 @@
 
 @interface TOAlertViewController () <UIViewControllerTransitioningDelegate>
 
+// State to track when we're dismissing so to disable any implicit layout
+@property (nonatomic, assign) BOOL isDismissing;
+
 // Managed views
 @property (nonatomic, strong) TOAlertDimmingView *dimmingView;
 @property (nonatomic, strong) TOAlertView *alertView;
@@ -58,6 +61,12 @@
     // Add the subiews
     [self.view addSubview:self.dimmingView];
     [self.view addSubview:self.alertView];
+
+    // Set the block handler for all buttons to dismiss
+    __weak typeof(self) weakSelf = self;
+    self.alertView.buttonTappedHandler = ^{
+        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    };
 }
 
 #pragma mark - View Controller Configuration -
@@ -72,6 +81,8 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+
+    if (self.isDismissing) { return; }
 
     UIEdgeInsets layoutMargins = self.view.layoutMargins;
     CGSize contentSize = self.view.bounds.size;
@@ -92,6 +103,7 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
+    self.isDismissing = YES;
     return [[TOAlertViewTransitioning alloc] initWithAlertView:self.alertView dimmingView:self.dimmingView reverse:YES];
 }
 
