@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Sets a cancel action that by default will close the dialog.
  Pressing Command-. on an attached keyboard will also trigger it.
  */
-- (void)setCancelButton:(nullable TOAlertAction *)action;
+- (void)setCancelAction:(nullable TOAlertAction *)action;
 
 /** Sets a red colored button denoting an irreversible operation will occur.
  */
