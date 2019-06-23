@@ -82,9 +82,7 @@
     _maximumWidth = 375.0f;
     _verticalTextSpacing = 7.0f;
     _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
-
-    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
+    
     [self configureColorsForTheme:_style];
     [self setUpSubviews];
 }
@@ -507,6 +505,8 @@
 
     [(NSMutableArray *)self.actions removeObjectAtIndex:index];
 }
+
+
 
 #pragma mark - Color/Theme Accessors -
 

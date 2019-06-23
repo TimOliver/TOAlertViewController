@@ -21,14 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** A message displayed under the title, typically to advise the user on what choices they have. */
 @property (nullable, nonatomic, copy) NSString *message;
 
-/** The maximum width this controller may expand to on larger screens. Default is 375.0f; */
-//@property (nonatomic, )
+/** The maximum width this controller may expand to on larger screens. (Default is 375.0f) */
+@property (nonatomic, assign) CGFloat maximumWidth;
 
 /** The corner radius amount for the corners of the alert view (Default is 30) */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
 /** The corner radius of the buttons (default is 15.0f) */
 @property (nonatomic, assign) CGFloat buttonCornerRadius;
+
+/** The vertical spacing between the title and message labels (Default is 7) */
+@property (nonatomic, assign) CGFloat verticalTextSpacing;
 
 /** The spacing between horizontally and vertically aligned buttons (Default is 8 both ways) */
 @property (nonatomic, assign) CGSize buttonSpacing;
@@ -38,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The insets of the content from the edge of the alert view. (Default is {23, 25, 17, 25}) */
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
+
+/** The insets of the region containing the buttons (Default is {18, 17, 0, 17.}) */
+@property (nonatomic, assign) UIEdgeInsets buttonInsets;
 
 /** The list of regular actions added to this controller */
 @property (nonatomic, readonly) NSArray<TOAlertAction *> *actions;

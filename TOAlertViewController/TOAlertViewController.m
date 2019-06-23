@@ -146,8 +146,14 @@
 
 #pragma mark - Layout Accessors -
 
+- (void)setMaximumWidth:(CGFloat)maximumWidth { self.alertView.maximumWidth = maximumWidth; }
+- (CGFloat)maximumWidth { return self.alertView.maximumWidth; }
+
 - (void)setCornerRadius:(CGFloat)cornerRadius { self.alertView.cornerRadius = cornerRadius; }
 - (CGFloat)cornerRadius { return self.alertView.cornerRadius; }
+
+- (void)setButtonCornerRadius:(CGFloat)buttonCornerRadius { self.alertView.buttonCornerRadius = buttonCornerRadius; }
+- (CGFloat)buttonCornerRadius { return self.alertView.buttonCornerRadius; }
 
 - (void)setButtonSpacing:(CGSize)buttonSpacing { self.alertView.buttonSpacing = buttonSpacing; }
 - (CGSize)buttonSpacing { return self.alertView.buttonSpacing; }
@@ -157,6 +163,12 @@
 
 - (void)setContentInsets:(UIEdgeInsets)contentInsets { self.alertView.contentInsets = contentInsets; }
 - (UIEdgeInsets)contentInsets { return self.alertView.contentInsets; }
+
+- (void)setButtonInsets:(UIEdgeInsets)buttonInsets { self.alertView.buttonInsets = buttonInsets; }
+- (UIEdgeInsets)buttonInsets { return self.alertView.buttonInsets; }
+
+- (void)setVerticalTextSpacing:(CGFloat)verticalTextSpacing { self.alertView.verticalTextSpacing = verticalTextSpacing; }
+- (CGFloat)verticalTextSpacing { return self.alertView.verticalTextSpacing; }
 
 #pragma mark - Theme Accessors -
 

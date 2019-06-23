@@ -35,7 +35,6 @@
 /* Begin PBXFileReference section */
 		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
 		223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewTransitioning.m; sourceTree = "<group>"; };
-		225DA4AF22B1DD3200958F84 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
 		227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOAlertViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227AB91822970A0D009ECE33 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		227AB91922970A0D009ECE33 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -102,7 +101,6 @@
 		227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */ = {
 			isa = PBXGroup;
 			children = (
-				225DA4AF22B1DD3200958F84 /* RevealServer.framework */,
 				227AB94022970A6D009ECE33 /* TORoundedButton */,
 				227AB91822970A0D009ECE33 /* AppDelegate.h */,
 				227AB91922970A0D009ECE33 /* AppDelegate.m */,
@@ -478,11 +476,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-weak_framework",
-					RevealServer,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -505,11 +498,6 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-weak_framework",
-					RevealServer,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
