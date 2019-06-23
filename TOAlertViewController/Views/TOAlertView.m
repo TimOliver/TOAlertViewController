@@ -15,6 +15,8 @@
 
 @interface TOAlertView ()
 
+@property (nonatomic, strong, readwrite) NSMutableArray *actions;
+
 // All of the components of the alert view
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -78,8 +80,8 @@
     _buttonHeight = 50.0f;
     _contentInsets = (UIEdgeInsets){23.0f, 25.0f, 17.0f, 25.0f};
     _maximumWidth = 375.0f;
-    _verticalTextSpacing = 9.0f;
-    _buttonInsets = (UIEdgeInsets){20.0f, 17.0f, 0.0f, 17.0f};
+    _verticalTextSpacing = 7.0f;
+    _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
 
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
@@ -137,6 +139,7 @@
     button.cornerRadius = _buttonCornerRadius;
     button.textColor = textColor;
     button.backgroundColor = [UIColor clearColor];
+    [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
 
@@ -351,7 +354,7 @@
     NSArray<TORoundedButton *> *displayButtons = self.displayButtons;
     for (TORoundedButton *button in displayButtons) {
         frame = CGRectZero;
-        frame.size.width = contentWidth;
+        frame.size.width = buttonWidth;
         frame.size.height = _buttonHeight;
         frame.origin.x = _buttonInsets.left;
         frame.origin.y = y;
@@ -385,6 +388,15 @@
 {
     [super traitCollectionDidChange:previousTraitCollection];
     [self setNeedsLayout];
+}
+
+#pragma mark - Interaction -
+
+- (void)buttonTapped:(id)sender
+{
+    if (self.buttonTappedHandler) {
+        self.buttonTappedHandler();
+    }
 }
 
 #pragma mark - Private Accessors -
@@ -457,6 +469,42 @@
                                     textColor:self.actionTextColor
                               backgroundColor:_actionButtonColor];
     [self addSubview:_cancelButton];
+}
+
+- (void)addAction:(TOAlertAction *)action
+{
+    // Create data stores if needed
+    if (!self.actions) { self.actions = [NSMutableArray array]; }
+    if (!self.buttons) { self.buttons = [NSMutableArray array]; }
+
+    NSMutableArray *actions = (NSMutableArray *)self.actions;
+
+    // Add action to array
+    [actions addObject:action];
+
+    // Create button for it
+    TORoundedButton *button = [self makeButtonWithTitle:action.title
+                                              textColor:self.actionTextColor
+                                        backgroundColor:self.actionButtonColor];
+    [self.buttons addObject:button];
+    [self addSubview:button];
+}
+
+- (void)removeAction:(TOAlertAction *)action
+{
+    NSUInteger index = [self.actions indexOfObject:action];
+    [self removeActionAtIndex:index];
+}
+
+- (void)removeActionAtIndex:(NSUInteger)index
+{
+    if (index == NSNotFound || index >= self.actions.count) { return; }
+
+    TORoundedButton *button = self.buttons[index];
+    [button removeFromSuperview];
+    [self.buttons removeObjectAtIndex:index];
+
+    [(NSMutableArray *)self.actions removeObjectAtIndex:index];
 }
 
 #pragma mark - Color/Theme Accessors -

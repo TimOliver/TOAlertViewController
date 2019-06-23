@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) TOAlertAction *destructiveAction;
 @property (nonatomic, strong, nullable) TOAlertAction *cancelAction;
 
+@property (nonatomic, copy) void (^buttonTappedHandler)(void);
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
 
 - (void)sizeToFitInBoundSize:(CGSize)size;
