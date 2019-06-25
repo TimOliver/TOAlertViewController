@@ -119,3 +119,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+//! Project version number for TOAlertViewControllerFramework.
+FOUNDATION_EXPORT double TOAlertViewControllerVersionNumber;
+
+//! Project version string for TOAlertViewControllerFramework.
+FOUNDATION_EXPORT const unsigned char TOAlertViewControllerVersionString[];
