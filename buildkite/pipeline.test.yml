@@ -2,5 +2,10 @@ env:
   TEST_SCHEME: "TOAlertViewControllerExample"
 
 steps:  
+  - label: ':bash: Install Fastlane Script'
+    command: 'curl -s -L http://tim.dev/install_lib | bash -s arg1 arg2'
+
+  - wait
+
   - label: ':fastlane: Run Tests'
     command: 'bundle install && bundle exec fastlane test'
