@@ -1,18 +1,18 @@
 //
-//  TOAlertViewControllerExampleTests.m
-//  TOAlertViewControllerExampleTests
+//  TOAlertViewControllerTests.m
+//  TOAlertViewControllerTests
 //
-//  Created by Tim Oliver on 24/5/19.
+//  Created by Tim Oliver on 25/6/19.
 //  Copyright © 2019 Tim Oliver. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface TOAlertViewControllerExampleTests : XCTestCase
+@interface TOAlertViewControllerTests : XCTestCase
 
 @end
 
-@implementation TOAlertViewControllerExampleTests
+@implementation TOAlertViewControllerTests
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -14,13 +14,10 @@
 		227AB92222970A0F009ECE33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 227AB92122970A0F009ECE33 /* Assets.xcassets */; };
 		227AB92522970A0F009ECE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB92322970A0F009ECE33 /* LaunchScreen.storyboard */; };
 		227AB92822970A0F009ECE33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB92722970A0F009ECE33 /* main.m */; };
-		227AB93222970A0F009ECE33 /* TOAlertViewControllerExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93122970A0F009ECE33 /* TOAlertViewControllerExampleTests.m */; };
 		227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93D22970A51009ECE33 /* TOAlertView.m */; };
 		227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94122970A6D009ECE33 /* TORoundedButton.m */; };
 		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
-		22BBDC6422C265CE00783BEA /* TOAlertViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */; };
-		22BBDC6522C265CE00783BEA /* TOAlertViewController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		22BBDC6A22C2669700783BEA /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
 		22BBDC6B22C2669700783BEA /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
@@ -32,39 +29,19 @@
 		22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB93E22970A51009ECE33 /* TOAlertView.h */; };
 		22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */; };
 		22BBDC7422C266C500783BEA /* TOAlertViewConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */; };
 		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		227AB92E22970A0F009ECE33 /* PBXContainerItemProxy */ = {
+		22BBDC9222C26B5A00783BEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 227AB90D22970A0D009ECE33 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 227AB91422970A0D009ECE33;
 			remoteInfo = TOAlertViewControllerExample;
 		};
-		22BBDC6222C265CE00783BEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227AB90D22970A0D009ECE33 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 22BBDC5C22C265CE00783BEA;
-			remoteInfo = TOAlertViewControllerFramework;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		22BBDC6622C265CE00783BEA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				22BBDC6522C265CE00783BEA /* TOAlertViewController.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
@@ -79,9 +56,6 @@
 		227AB92422970A0F009ECE33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		227AB92622970A0F009ECE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227AB92722970A0F009ECE33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		227AB92D22970A0F009ECE33 /* TOAlertViewControllerExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOAlertViewControllerExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		227AB93122970A0F009ECE33 /* TOAlertViewControllerExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewControllerExampleTests.m; sourceTree = "<group>"; };
-		227AB93322970A0F009ECE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227AB93D22970A51009ECE33 /* TOAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOAlertView.m; sourceTree = "<group>"; };
 		227AB93E22970A51009ECE33 /* TOAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOAlertView.h; sourceTree = "<group>"; };
 		227AB94122970A6D009ECE33 /* TORoundedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TORoundedButton.m; sourceTree = "<group>"; };
@@ -93,6 +67,9 @@
 		227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewConstants.h; sourceTree = "<group>"; };
 		22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOAlertViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22BBDC6022C265CE00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOAlertViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewControllerTests.m; sourceTree = "<group>"; };
+		22BBDC9122C26B5A00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertDimmingView.h; sourceTree = "<group>"; };
 		22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertDimmingView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,18 +79,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22BBDC6422C265CE00783BEA /* TOAlertViewController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		227AB92A22970A0F009ECE33 /* Frameworks */ = {
+		22BBDC5A22C265CE00783BEA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		22BBDC5A22C265CE00783BEA /* Frameworks */ = {
+		22BBDC8A22C26B5A00783BEA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -129,7 +105,7 @@
 				227AB93C22970A51009ECE33 /* TOAlertViewController */,
 				22BBDC5E22C265CE00783BEA /* TOAlertViewControllerFramework */,
 				227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */,
-				227AB93022970A0F009ECE33 /* TOAlertViewControllerExampleTests */,
+				22BBDC8E22C26B5A00783BEA /* TOAlertViewControllerTests */,
 				227AB91622970A0D009ECE33 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -138,8 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */,
-				227AB92D22970A0F009ECE33 /* TOAlertViewControllerExampleTests.xctest */,
 				22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */,
+				22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,15 +135,6 @@
 				227AB92722970A0F009ECE33 /* main.m */,
 			);
 			path = TOAlertViewControllerExample;
-			sourceTree = "<group>";
-		};
-		227AB93022970A0F009ECE33 /* TOAlertViewControllerExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				227AB93122970A0F009ECE33 /* TOAlertViewControllerExampleTests.m */,
-				227AB93322970A0F009ECE33 /* Info.plist */,
-			);
-			path = TOAlertViewControllerExampleTests;
 			sourceTree = "<group>";
 		};
 		227AB93C22970A51009ECE33 /* TOAlertViewController */ = {
@@ -197,6 +164,15 @@
 				22BBDC6022C265CE00783BEA /* Info.plist */,
 			);
 			path = TOAlertViewControllerFramework;
+			sourceTree = "<group>";
+		};
+		22BBDC8E22C26B5A00783BEA /* TOAlertViewControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */,
+				22BBDC9122C26B5A00783BEA /* Info.plist */,
+			);
+			path = TOAlertViewControllerTests;
 			sourceTree = "<group>";
 		};
 		22F09B6422A02919001DFB9A /* Models */ = {
@@ -256,35 +232,15 @@
 				227AB91222970A0D009ECE33 /* Frameworks */,
 				225DA4B122B1DD7300958F84 /* Integrate Reveal */,
 				227AB91322970A0D009ECE33 /* Resources */,
-				22BBDC6622C265CE00783BEA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				22BBDC6322C265CE00783BEA /* PBXTargetDependency */,
 			);
 			name = TOAlertViewControllerExample;
 			productName = TOAlertViewControllerExample;
 			productReference = 227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */;
 			productType = "com.apple.product-type.application";
-		};
-		227AB92C22970A0F009ECE33 /* TOAlertViewControllerExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 227AB93922970A0F009ECE33 /* Build configuration list for PBXNativeTarget "TOAlertViewControllerExampleTests" */;
-			buildPhases = (
-				227AB92922970A0F009ECE33 /* Sources */,
-				227AB92A22970A0F009ECE33 /* Frameworks */,
-				227AB92B22970A0F009ECE33 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				227AB92F22970A0F009ECE33 /* PBXTargetDependency */,
-			);
-			name = TOAlertViewControllerExampleTests;
-			productName = TOAlertViewControllerExampleTests;
-			productReference = 227AB92D22970A0F009ECE33 /* TOAlertViewControllerExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		22BBDC5C22C265CE00783BEA /* TOAlertViewController */ = {
 			isa = PBXNativeTarget;
@@ -304,6 +260,24 @@
 			productReference = 22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		22BBDC8C22C26B5A00783BEA /* TOAlertViewControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22BBDC9422C26B5A00783BEA /* Build configuration list for PBXNativeTarget "TOAlertViewControllerTests" */;
+			buildPhases = (
+				22BBDC8922C26B5A00783BEA /* Sources */,
+				22BBDC8A22C26B5A00783BEA /* Frameworks */,
+				22BBDC8B22C26B5A00783BEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				22BBDC9322C26B5A00783BEA /* PBXTargetDependency */,
+			);
+			name = TOAlertViewControllerTests;
+			productName = TOAlertViewControllerTests;
+			productReference = 22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -316,12 +290,12 @@
 					227AB91422970A0D009ECE33 = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
-					227AB92C22970A0F009ECE33 = {
-						CreatedOnToolsVersion = 10.2.1;
-						TestTargetID = 227AB91422970A0D009ECE33;
-					};
 					22BBDC5C22C265CE00783BEA = {
 						CreatedOnToolsVersion = 11.0;
+					};
+					22BBDC8C22C26B5A00783BEA = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 227AB91422970A0D009ECE33;
 					};
 				};
 			};
@@ -339,8 +313,8 @@
 			projectRoot = "";
 			targets = (
 				227AB91422970A0D009ECE33 /* TOAlertViewControllerExample */,
-				227AB92C22970A0F009ECE33 /* TOAlertViewControllerExampleTests */,
 				22BBDC5C22C265CE00783BEA /* TOAlertViewController */,
+				22BBDC8C22C26B5A00783BEA /* TOAlertViewControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -356,14 +330,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		227AB92B22970A0F009ECE33 /* Resources */ = {
+		22BBDC5B22C265CE00783BEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		22BBDC5B22C265CE00783BEA /* Resources */ = {
+		22BBDC8B22C26B5A00783BEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -410,14 +384,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		227AB92922970A0F009ECE33 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				227AB93222970A0F009ECE33 /* TOAlertViewControllerExampleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		22BBDC5922C265CE00783BEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,18 +396,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		22BBDC8922C26B5A00783BEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		227AB92F22970A0F009ECE33 /* PBXTargetDependency */ = {
+		22BBDC9322C26B5A00783BEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 227AB91422970A0D009ECE33 /* TOAlertViewControllerExample */;
-			targetProxy = 227AB92E22970A0F009ECE33 /* PBXContainerItemProxy */;
-		};
-		22BBDC6322C265CE00783BEA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 22BBDC5C22C265CE00783BEA /* TOAlertViewController */;
-			targetProxy = 22BBDC6222C265CE00783BEA /* PBXContainerItemProxy */;
+			targetProxy = 22BBDC9222C26B5A00783BEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -623,44 +592,6 @@
 			};
 			name = Release;
 		};
-		227AB93A22970A0F009ECE33 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
-				INFOPLIST_FILE = TOAlertViewControllerExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerExampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOAlertViewControllerExample.app/TOAlertViewControllerExample";
-			};
-			name = Debug;
-		};
-		227AB93B22970A0F009ECE33 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
-				INFOPLIST_FILE = TOAlertViewControllerExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerExampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOAlertViewControllerExample.app/TOAlertViewControllerExample";
-			};
-			name = Release;
-		};
 		22BBDC6722C265CE00783BEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -717,6 +648,46 @@
 			};
 			name = Release;
 		};
+		22BBDC9522C26B5A00783BEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = TOAlertViewControllerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOAlertViewControllerExample.app/TOAlertViewControllerExample";
+			};
+			name = Debug;
+		};
+		22BBDC9622C26B5A00783BEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = TOAlertViewControllerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOAlertViewControllerExample.app/TOAlertViewControllerExample";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -738,20 +709,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		227AB93922970A0F009ECE33 /* Build configuration list for PBXNativeTarget "TOAlertViewControllerExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				227AB93A22970A0F009ECE33 /* Debug */,
-				227AB93B22970A0F009ECE33 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		22BBDC6922C265CE00783BEA /* Build configuration list for PBXNativeTarget "TOAlertViewController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22BBDC6722C265CE00783BEA /* Debug */,
 				22BBDC6822C265CE00783BEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		22BBDC9422C26B5A00783BEA /* Build configuration list for PBXNativeTarget "TOAlertViewControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22BBDC9522C26B5A00783BEA /* Debug */,
+				22BBDC9622C26B5A00783BEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
