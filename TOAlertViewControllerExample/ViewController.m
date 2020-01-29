@@ -29,8 +29,10 @@
 
     alertController.defaultAction = [TOAlertAction alertActionWithTitle:@"Yes" action:^{ NSLog(@"Default Button Tapped!"); }];
     alertController.cancelAction = [TOAlertAction alertActionWithTitle:@"Cancel" action:^{ NSLog(@"Cancel Button Tapped!"); }];
-
-    //alertController.style = TOAlertViewStyleDark;
+//    alertController.destructiveAction = [TOAlertAction alertActionWithTitle:@"Delete" action:^{ NSLog(@"Delete Button Tapped!"); }];
+//    [alertController addAction:[TOAlertAction alertActionWithTitle:@"More Info" action:^{ NSLog(@"More info Button Tapped!"); }]];
+    
+    alertController.style = TOAlertViewStyleDark;
 
     [self presentViewController:alertController animated:YES completion:nil];
 }
