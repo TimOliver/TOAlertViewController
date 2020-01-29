@@ -64,6 +64,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "227AB91422970A0D009ECE33"
+            BuildableName = "TOAlertViewControllerExample.app"
+            BlueprintName = "TOAlertViewControllerExample"
+            ReferencedContainer = "container:TOAlertViewControllerExample.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
