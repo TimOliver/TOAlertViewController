@@ -233,7 +233,7 @@
 - (TOAlertAction *)cancelAction { return self.alertView.cancelAction; }
 
 // The destructive button 
-- (void)setDestructionAction:(TOAlertAction *)action { self.alertView.destructiveAction = action; }
+- (void)setDestructiveAction:(TOAlertAction *)action { self.alertView.destructiveAction = action; }
 - (TOAlertAction *)destructiveAction { return self.alertView.destructiveAction; }
 
 @end

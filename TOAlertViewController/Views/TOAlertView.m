@@ -90,8 +90,8 @@
     _buttons = [NSMutableArray array];
     _cornerRadius = 30.0f;
     _buttonCornerRadius = 15.0f;
-    _buttonSpacing = (CGSize){8.0f, 8.0f};
-    _buttonHeight = 50.0f;
+    _buttonSpacing = (CGSize){12.0f, 15.0f};
+    _buttonHeight = 54.0f;
     _contentInsets = (UIEdgeInsets){23.0f, 25.0f, 17.0f, 25.0f};
     _maximumWidth = 375.0f;
     _verticalTextSpacing = 7.0f;
@@ -144,13 +144,21 @@
     [self addSubview:_messageLabel];
 }
 
-- (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor
+- (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action
+                                textColor:(UIColor *)textColor
+                          backgroundColor:(UIColor *)backgroundColor
+                                 boldText:(BOOL)boldText
 {
+    UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
+    UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
+    UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
+    
     __weak typeof(self) weakSelf = self;
     TORoundedButton *button = [[TORoundedButton alloc] initWithText:action.title];
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
     button.textColor = textColor;
+    button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
     button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action]; };
     return button;
@@ -265,50 +273,40 @@
         !self.destructiveAction &&
         self.actions.count == 0) { return 0; }
 
-    // Work out the maximum number of rows
-    NSInteger numberOfRows = self.actions.count;
-    if (self.defaultAction) { numberOfRows++; }
-    if (self.destructiveAction) { numberOfRows++; }
-    if (self.cancelAction) { numberOfRows++; }
-
     // With padding, the maximum size a button may be
     CGFloat maxWidth = floorf(width - (self.buttonSpacing.width * 0.5f));
 
-    // Until we need it, only the default, cancel and destructive buttons may be placed on the same row
-    // Normal actions are always full width
-
-    // Default and cancel exist, and they are both small enough
-    if (self.defaultAction && self.cancelAction &&
-        self.defaultButton.minimumWidth < maxWidth &&
-        self.cancelButton.minimumWidth < maxWidth)
+    // As long as the labels are small enough, line up the two bottom
+    // ones side by side
+    NSArray *buttons = self.displayButtons;
+    NSInteger numberOfRows = self.displayButtons.count;
+    
+    // If only one button is there, it cannot be split
+    if (numberOfRows <= 1) { return 1; }
+    
+    // Check if the final two buttons can be split and displayed side by side
+    TORoundedButton *lastButton = buttons.lastObject;
+    TORoundedButton *secondLastButton = [buttons objectAtIndex:numberOfRows-2];
+    if (lastButton.minimumWidth < maxWidth &&
+        secondLastButton.minimumWidth < maxWidth)
     {
         numberOfRows--;
     }
-    else if (self.destructiveAction && self.cancelAction &&
-             self.destructiveButton.minimumWidth < maxWidth &&
-             self.cancelButton.minimumWidth < maxWidth)
-    {
-        numberOfRows--;
-    }
-    else if (self.destructiveAction && self.defaultAction &&
-             self.destructiveButton.minimumWidth < maxWidth &&
-             self.defaultButton.minimumWidth < maxWidth)
-    {
-        numberOfRows--;
-    }
-
+    
     return numberOfRows;
 }
 
 - (NSArray<TORoundedButton *> *)displayButtons
 {
     NSMutableArray *buttons = [NSMutableArray array];
+    
+    // Destructive button always comes first, either on the left, or top
+    if (self.destructiveButton) { [buttons addObject:self.destructiveButton]; }
+    
+    // Add all regular buttons
     [buttons addObjectsFromArray:self.buttons];
 
-    // Destructive button, in split is always on the left side
-    if (self.destructiveButton) { [buttons addObject:self.destructiveButton]; }
-
-    // Cancel is on the right for destructive, left for default
+    // Cancel comes after destructive, but before default
     if (self.cancelButton) { [buttons addObject:self.cancelButton]; }
 
     // Add default button (Should be right by default)
@@ -438,7 +436,8 @@
 
     _defaultButton = [self makeButtonWithAction:defaultAction
                                      textColor:self.defaultActionTextColor
-                               backgroundColor:self.tintColor];
+                               backgroundColor:self.tintColor
+                                       boldText:YES];
     [self addSubview:_defaultButton];
 }
 
@@ -459,7 +458,8 @@
 
     _destructiveButton = [self makeButtonWithAction:destructiveAction
                                           textColor:self.destructiveActionTextColor
-                                    backgroundColor:_destructiveActionButtonColor];
+                                    backgroundColor:_destructiveActionButtonColor
+                                           boldText:NO];
     [self addSubview:_destructiveButton];
 }
 
@@ -480,7 +480,8 @@
 
     _cancelButton = [self makeButtonWithAction:cancelAction
                                      textColor:self.actionTextColor
-                               backgroundColor:_actionButtonColor];
+                               backgroundColor:_actionButtonColor
+                                      boldText:NO];
     [self addSubview:_cancelButton];
 }
 
@@ -498,7 +499,8 @@
     // Create button for it
     TORoundedButton *button = [self makeButtonWithAction:action
                                                textColor:self.actionTextColor
-                                         backgroundColor:self.actionButtonColor];
+                                         backgroundColor:self.actionButtonColor
+                                                boldText:NO];
     [self.buttons addObject:button];
     [self addSubview:button];
 }
