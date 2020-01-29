@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/TimOliver/TOAlertViewController/master/screenshot.jpg" width="600" align="right" alt="TORoundedButton" />
 
 
-[![Build status](https://badge.buildkite.com/e3bbc65389eeb4119fe593cfebe5c7168bdafac06fb2ed6655.svg)](https://buildkite.com/xd-ci/toalertviewcontroller-run-ci)
+[![Actions Status](https://github.com/TimOliver/TOAlertViewController/workflows/CI/badge.svg)](https://github.com/TimOliver/TOAlertViewController/actions)
 [![Version](https://img.shields.io/cocoapods/v/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/TimOliver/TOAlertViewController/master/LICENSE)
 [![Platform](https://img.shields.io/cocoapods/p/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
