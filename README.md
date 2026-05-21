@@ -4,9 +4,9 @@
 
 
 [![Actions Status](https://github.com/TimOliver/TOAlertViewController/workflows/CI/badge.svg)](https://github.com/TimOliver/TOAlertViewController/actions)
-[![Version](https://img.shields.io/cocoapods/v/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
+[![Version](https://img.shields.io/cocoapods/v/TOAlertViewController.svg?style=flat)](https://cocoapods.org/pods/TOAlertViewController)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/TimOliver/TOAlertViewController/master/LICENSE)
-[![Platform](https://img.shields.io/cocoapods/p/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
+[![Platform](https://img.shields.io/cocoapods/p/TOAlertViewController.svg?style=flat)](https://cocoapods.org/pods/TOAlertViewController)
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M4RKULAVKV7K8)
 [![Twitch](https://img.shields.io/badge/twitch-timXD-6441a5.svg)](http://twitch.tv/timXD)
 
