@@ -39,7 +39,7 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 # Requirements
 
-`TOAlertViewController` will work with iOS 11 and above. While written in Objective-C, it will easily import into Swift.
+`TOAlertViewController` will work with iOS 13 and above. While written in Objective-C, it will easily import into Swift.
 It also requires the [`TORoundedButton`](https://github.com/TimOliver/TORoundedButton) library to be installed in your app.
 
 ## Manual Installation
