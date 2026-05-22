@@ -17,7 +17,7 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 * A much more modern look and field than the native `UIAlertController` class (As of iOS 13).
 * Includes theming for default, and destructive action buttons.
-* Provides an optional dark mode appearance.
+* Automatically adapts to the system light and dark appearance.
 * Smooth presentation and dismissal animations.
 * Uses `UIVisualEffectView` to produce a subtle 'depth-of-field' effect when presented.
 

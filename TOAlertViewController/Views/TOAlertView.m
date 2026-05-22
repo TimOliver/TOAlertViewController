@@ -23,7 +23,6 @@
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
 #import "TOAlertAction.h"
-#import "TOAlertViewConstants.h"
 
 // -------------------------------------------
 
@@ -48,7 +47,6 @@
 
 // State Tracking
 @property (nonatomic, assign) BOOL isDirty;
-@property (nonatomic, readonly) BOOL isDarkMode;
 
 @end
 
@@ -96,9 +94,9 @@
     _maximumWidth = 375.0f;
     _verticalTextSpacing = 7.0f;
     _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
-    
-    [self configureColorsForTheme:_style];
+
     [self setUpSubviews];
+    [self configureDefaultColors];
 }
 
 - (void)setUpSubviews
@@ -115,7 +113,7 @@
         #endif
     }
     _backgroundView.layer.cornerRadius = _cornerRadius;
-    _backgroundView.backgroundColor = [UIColor whiteColor];
+    _backgroundView.backgroundColor = [UIColor secondarySystemBackgroundColor];
     _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _backgroundView.layer.shadowRadius = 35.0f;
     _backgroundView.layer.shadowOpacity = 0.15f;
@@ -126,7 +124,7 @@
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.backgroundColor = _backgroundView.backgroundColor;
     _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:29.0f weight:UIFontWeightBold]];
-    _titleLabel.textColor = [UIColor blackColor];
+    _titleLabel.textColor = [UIColor labelColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.adjustsFontForContentSizeCategory = YES;
     _titleLabel.text = _title;
@@ -134,7 +132,7 @@
 
     // Create the message label show below the title
     _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _messageLabel.textColor = [UIColor blackColor];
+    _messageLabel.textColor = [UIColor labelColor];
     _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _messageLabel.adjustsFontForContentSizeCategory = YES;
     _messageLabel.textAlignment = NSTextAlignmentCenter;
@@ -164,27 +162,36 @@
     return button;
 }
 
-- (void)configureColorsForTheme:(TOAlertViewStyle)style
+// A neutral fill for the regular and cancel buttons: a light gray in Light
+// mode, a mid gray in Dark mode. Resolves automatically as the system
+// appearance changes.
++ (UIColor *)neutralButtonColor
 {
-    BOOL isDarkMode = (style == TOAlertViewStyleDark);
+    return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traitCollection) {
+        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark
+            ? [UIColor systemGray3Color]
+            : [UIColor systemGray5Color];
+    }];
+}
 
-    // Set text colors
-    UIColor *defaultColor = isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
-    _titleColor   = defaultColor;
-    _messageColor = defaultColor;
+- (void)configureDefaultColors
+{
+    // Title and message text follow the system label color
+    _titleColor   = [UIColor labelColor];
+    _messageColor = [UIColor labelColor];
 
-    // Set background color of alert view
-    UIColor *backgroundColor = isDarkMode ? [UIColor colorWithWhite:0.116 alpha:1.0f] : [UIColor whiteColor];
-    self.backgroundColor = backgroundColor;
+    // The alert surface sits above the dimming view as a grouped background
+    self.backgroundColor = [UIColor secondarySystemBackgroundColor];
 
-    // Set background colors of all button types
-    CGFloat white = isDarkMode ? 0.35f : 0.9f;
-    _actionButtonColor = [UIColor colorWithWhite:white alpha:1.0f];
+    // Regular and cancel buttons use a neutral system gray, the default
+    // (return) button uses the app tint, and destructive uses the system red.
+    _actionButtonColor = [TOAlertView neutralButtonColor];
     _defaultActionButtonColor = self.tintColor;
-    _destructiveActionButtonColor = [UIColor redColor];
+    _destructiveActionButtonColor = [UIColor systemRedColor];
 
-    // Set text colors for all button types
-    _actionTextColor = defaultColor;
+    // Button text: neutral buttons follow the label color, while the filled
+    // default and destructive buttons use white for contrast against their fill.
+    _actionTextColor = [UIColor labelColor];
     _defaultActionTextColor = [UIColor whiteColor];
     _destructiveActionTextColor = [UIColor whiteColor];
 
@@ -398,6 +405,12 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
     [super traitCollectionDidChange:previousTraitCollection];
+
+    // When the system appearance (light/dark) changes, re-apply colors so the
+    // buttons resolve their dynamic colors against the new trait environment.
+    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+        self.isDirty = YES;
+    }
     [self setNeedsLayout];
 }
 
@@ -408,13 +421,6 @@
     if (self.buttonTappedHandler) {
         self.buttonTappedHandler(action);
     }
-}
-
-#pragma mark - Private Accessors -
-
-- (BOOL)isDarkMode
-{
-    return (self.style == TOAlertViewStyleDark);
 }
 
 #pragma mark - Action Creation/Deletion -
@@ -532,16 +538,10 @@
 }
 - (UIColor *)backgroundColor { return self.backgroundView.backgroundColor; }
 
-- (void)setStyle:(TOAlertViewStyle)style
-{
-    _style = style;
-    [self configureColorsForTheme:_style];
-}
-
 - (void)setTitleColor:(nullable UIColor *)titleColor
 {
     if (!titleColor) {
-        _titleColor = self.isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
+        _titleColor = [UIColor labelColor];
         return;
     }
 
@@ -554,7 +554,7 @@
 - (void)setMessageColor:(UIColor *)messageColor
 {
     if (!messageColor) {
-        _messageColor = self.isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
+        _messageColor = [UIColor labelColor];
         return;
     }
 
@@ -567,8 +567,7 @@
 - (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor
 {
     if (!defaultActionButtonColor) {
-        CGFloat white = self.isDarkMode ? 0.3f : 0.7f;
-        _defaultActionButtonColor = [UIColor colorWithWhite:white alpha:1.0f];
+        _defaultActionButtonColor = self.tintColor;
         return;
     }
 
@@ -581,7 +580,7 @@
 - (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor
 {
     if (!defaultActionTextColor) {
-        _defaultActionTextColor = self.isDarkMode ? [UIColor whiteColor] : [UIColor blackColor];
+        _defaultActionTextColor = [UIColor whiteColor];
         return;
     }
 
@@ -594,7 +593,7 @@
 - (void)setActionButtonColor:(UIColor *)actionButtonColor
 {
     if (!actionButtonColor) {
-        _actionButtonColor = self.tintColor;
+        _actionButtonColor = [TOAlertView neutralButtonColor];
         return;
     }
 
@@ -607,7 +606,7 @@
 - (void)setActionTextColor:(UIColor *)actionTextColor
 {
     if (!actionTextColor) {
-        _actionTextColor = [UIColor whiteColor];
+        _actionTextColor = [UIColor labelColor];
         return;
     }
 
@@ -620,7 +619,7 @@
 - (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor
 {
     if (!destructiveActionButtonColor) {
-        _destructiveActionButtonColor = [UIColor redColor];
+        _destructiveActionButtonColor = [UIColor systemRedColor];
         return;
     }
 

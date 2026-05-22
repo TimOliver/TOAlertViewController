@@ -186,10 +186,6 @@
 
 #pragma mark - Theme Accessors -
 
-// Global dialog style
-- (void)setStyle:(TOAlertViewStyle)style { self.alertView.style = style; }
-- (TOAlertViewStyle)style { return self.alertView.style; }
-
 // Title label color
 - (void)setTitleColor:(UIColor *)titleColor { self.alertView.titleColor = titleColor; }
 - (UIColor *)titleColor { return self.alertView.titleColor; }

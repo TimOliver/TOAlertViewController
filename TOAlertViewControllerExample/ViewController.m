@@ -31,9 +31,8 @@
     alertController.cancelAction = [TOAlertAction alertActionWithTitle:@"Cancel" action:^{ NSLog(@"Cancel Button Tapped!"); }];
 //    alertController.destructiveAction = [TOAlertAction alertActionWithTitle:@"Delete" action:^{ NSLog(@"Delete Button Tapped!"); }];
 //    [alertController addAction:[TOAlertAction alertActionWithTitle:@"More Info" action:^{ NSLog(@"More info Button Tapped!"); }]];
-    
-    alertController.style = TOAlertViewStyleDark;
 
+    // The alert automatically follows the system light/dark appearance.
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

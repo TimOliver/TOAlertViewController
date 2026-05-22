@@ -28,7 +28,6 @@
 		22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = 223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */; };
 		22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB93E22970A51009ECE33 /* TOAlertView.h */; };
 		22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */; };
-		22BBDC7422C266C500783BEA /* TOAlertViewConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */; };
 		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
 /* End PBXBuildFile section */
@@ -64,7 +63,6 @@
 		227AB94522984F93009ECE33 /* TOAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertAction.m; sourceTree = "<group>"; };
 		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
 		227AB9482298506A009ECE33 /* TOAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewController.m; sourceTree = "<group>"; };
-		227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewConstants.h; sourceTree = "<group>"; };
 		22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOAlertViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22BBDC6022C265CE00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOAlertViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,7 +142,6 @@
 				227AB9482298506A009ECE33 /* TOAlertViewController.m */,
 				22F09B6422A02919001DFB9A /* Models */,
 				22F09B6522A0292B001DFB9A /* Views */,
-				22F09B6622A02939001DFB9A /* Supporting */,
 			);
 			path = TOAlertViewController;
 			sourceTree = "<group>";
@@ -197,14 +194,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		22F09B6622A02939001DFB9A /* Supporting */ = {
-			isa = PBXGroup;
-			children = (
-				227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */,
-			);
-			path = Supporting;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -214,7 +203,6 @@
 			files = (
 				22BBDC6F22C266A900783BEA /* TOAlertViewController.h in Headers */,
 				22BBDC7022C266A900783BEA /* TOAlertAction.h in Headers */,
-				22BBDC7422C266C500783BEA /* TOAlertViewConstants.h in Headers */,
 				22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */,
 				22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */,
 				22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */,
