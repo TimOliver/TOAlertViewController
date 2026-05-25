@@ -28,6 +28,12 @@
 // fully obscuring the content. Tune to taste.
 static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
 
+// The backdrop's sampling resolution when there is no blur to hide it.
+// 1.0 == full (native) resolution. As the radius grows, we drop toward the
+// system's resting downsample scale (captured at install) so the (now hidden)
+// downsampling stays cheap. See -backdropScaleForRadius:.
+static const CGFloat kTOAlertBackdropFullScale = 1.0f;
+
 @interface TOAlertDimmingView ()
 
 // The visual effect view whose backdrop layer hosts our gaussian blur filter.
@@ -48,6 +54,10 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
 
 // The current gaussian blur radius (in points) driving the backdrop filter.
 @property (nonatomic, assign) CGFloat blurRadius;
+
+// The system's resting backdrop downsample scale (captured once at install),
+// used as the fully-blurred end of the scale ramp. 0 until captured.
+@property (nonatomic, assign) CGFloat backdropRestingScale;
 
 @end
 
@@ -147,6 +157,13 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
         return;
     }
 
+    // Capture the system's resting downsample scale once, before we start driving
+    // it ourselves. This is the value the effect uses at full blur strength.
+    if (self.backdropRestingScale <= 0.0f) {
+        NSNumber *systemScale = [backdrop.layer valueForKey:@"scale"];
+        self.backdropRestingScale = (systemScale.doubleValue > 0.0) ? systemScale.doubleValue : 0.25f;
+    }
+
     // Name the filter so it can be targeted by the `filters.gaussianBlur.inputRadius`
     // animation key path used in -setBlurRadius:animated:duration:.
     [filter setValue:@"gaussianBlur" forKey:@"name"];
@@ -157,12 +174,49 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
     self.backdropView = backdrop;
     self.blurFilter = filter;
 
+    // Match the backdrop's resolution to the blur strength (see -backdropScaleForRadius:).
+    [self setBackdropScale:[self backdropScaleForRadius:self.blurRadius] onLayer:backdrop.layer];
+
     // Hide the effect view's tint overlay so only the pure blur shows through.
     TOAlertFindSubview(self.effectView, @"subview").hidden = YES;
 
     self.effectView.alpha = 1.0f;
     self.usesGaussianFilter = YES;
     self.blurConfigured = YES;
+}
+
+#pragma mark - Backdrop Scale -
+
+// The backdrop is downsampled (`scale` < 1) so the gaussian blur is cheap to
+// compute. That downsampling is invisible while a strong blur covers it, but as
+// the radius animates to zero it would expose a blocky, un-blurred backdrop that
+// then snaps to full resolution on removal. UIKit avoids this for its own blur
+// transitions by ramping the backdrop scale up to full resolution as the blur
+// fades; we mirror that here so the backdrop sharpens in lockstep with the blur.
+- (CGFloat)backdropScaleForRadius:(CGFloat)radius
+{
+    CGFloat resting = (self.backdropRestingScale > 0.0f) ? self.backdropRestingScale : 0.25f;
+    CGFloat t = radius / kTOAlertDimmingBlurRadius;     // 0 at no blur, 1 at the resting blur
+    t = MAX(0.0f, MIN(t, 1.0f));
+    return kTOAlertBackdropFullScale + t * (resting - kTOAlertBackdropFullScale);
+}
+
+// The backdrop layer's current (model) scale, falling back to the value implied
+// by the current radius if the private key is unavailable.
+- (CGFloat)currentBackdropScale
+{
+    NSNumber *scale = [self.backdropView.layer valueForKey:@"scale"];
+    return (scale != nil) ? scale.doubleValue : [self backdropScaleForRadius:_blurRadius];
+}
+
+// Set the backdrop's model scale without an implicit animation; -setBlurRadius:
+// animated:duration: supplies the explicit one when a transition is wanted.
+- (void)setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [layer setValue:@(scale) forKey:@"scale"];
+    [CATransaction commit];
 }
 
 #pragma mark - Blur Radius -
@@ -177,6 +231,7 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
     }
 
     // Re-create the filter so the new radius becomes the layer's model value.
+    // (ensureFilterInstalled also updates the backdrop scale to match.)
     self.backdropView = nil;
     self.blurFilter = nil;
     [self ensureFilterInstalled];
@@ -200,16 +255,33 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
         return;
     }
 
-    // Set the model value (re-creates the filter), then animate the presentation
-    // from the old radius to the new one.
-    self.blurRadius = blurRadius;
+    // Capture the presentation start points before re-creating the filter sets
+    // the new model values.
+    CGFloat currentScale = [self currentBackdropScale];
 
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"filters.gaussianBlur.inputRadius"];
-    animation.fromValue = @(currentRadius);
-    animation.toValue = @(blurRadius);
-    animation.duration = duration;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    [self.backdropView.layer addAnimation:animation forKey:@"TOAlertBlurRadius"];
+    // Set the model values (re-creates the filter and updates the backdrop scale),
+    // then animate the presentation from the old values to the new ones.
+    self.blurRadius = blurRadius;
+    CGFloat targetScale = [self backdropScaleForRadius:blurRadius];
+
+    CAMediaTimingFunction *timing = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+    CABasicAnimation *radiusAnimation = [CABasicAnimation animationWithKeyPath:@"filters.gaussianBlur.inputRadius"];
+    radiusAnimation.fromValue = @(currentRadius);
+    radiusAnimation.toValue = @(blurRadius);
+    radiusAnimation.duration = duration;
+    radiusAnimation.timingFunction = timing;
+
+    // Sharpen/soften the backdrop in lockstep with the blur so it never reveals a
+    // blocky, un-blurred frame as the radius approaches zero.
+    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"scale"];
+    scaleAnimation.fromValue = @(currentScale);
+    scaleAnimation.toValue = @(targetScale);
+    scaleAnimation.duration = duration;
+    scaleAnimation.timingFunction = timing;
+
+    [self.backdropView.layer addAnimation:radiusAnimation forKey:@"TOAlertBlurRadius"];
+    [self.backdropView.layer addAnimation:scaleAnimation forKey:@"TOAlertBlurScale"];
 }
 
 #pragma mark - Public Animations -
