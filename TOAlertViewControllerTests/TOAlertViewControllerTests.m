@@ -3,7 +3,7 @@
 //  TOAlertViewControllerTests
 //
 //  Created by Tim Oliver on 25/6/19.
-//  Copyright © 2019 Tim Oliver. All rights reserved.
+//  Copyright © 2019-2026 Tim Oliver. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
