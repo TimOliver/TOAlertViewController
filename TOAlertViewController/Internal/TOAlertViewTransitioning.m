@@ -97,8 +97,21 @@
                          self.alertView.alpha = self.isReverse ? zeroAlpha : fullAlpha;
                          self.alertView.transform = self.isReverse ? scaled : identity;
                      } completion:^(BOOL finished) {
-                         [transitionContext completeTransition:finished];
+                         // On dismissal the alert must stay in place until it has
+                         // finished animating out, so the transition can only be
+                         // reported complete here.
+                         if (self.isReverse) {
+                             [transitionContext completeTransition:finished];
+                         }
                      }];
+
+    // On presentation, report the transition complete immediately. UIKit withholds
+    // touch delivery to the presented controller until the transition finishes, so
+    // deferring this to the spring's completion left the alert's buttons unresponsive
+    // for the entire zoom-in. The animation above keeps running visually regardless.
+    if (!self.isReverse) {
+        [transitionContext completeTransition:YES];
+    }
 }
 
 @end
