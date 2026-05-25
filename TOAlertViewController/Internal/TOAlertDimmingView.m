@@ -26,7 +26,7 @@
 // The resting gaussian blur radius (in points) shown behind the alert.
 // Kept deliberately subtle to produce a 'depth-of-field' effect rather than
 // fully obscuring the content. Tune to taste.
-static const CGFloat kTOAlertDimmingBlurRadius = 14.0f;
+static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
 
 @interface TOAlertDimmingView ()
 
@@ -118,10 +118,10 @@ static const CGFloat kTOAlertDimmingBlurRadius = 14.0f;
 
 #pragma mark - Blur Filter Management -
 
-// (Re)install the blur filter if it isn't currently attached. Idempotent, so it's
-// safe to call from layout/lifecycle hooks without disturbing an in-flight animation.
-- (void)ensureFilterInstalled
-{
+// (Re)install the blur filter if it isn't currently attached.
+// Configured to be safe to call from layout/lifecycle hooks
+// without disturbing an in-flight animation.
+- (void)ensureFilterInstalled {
     // The material fallback is a stable effect that needs no re-application.
     if (self.blurConfigured && !self.usesGaussianFilter) { return; }
 

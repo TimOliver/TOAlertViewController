@@ -53,7 +53,8 @@
 
 - (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext
 {
-    // Play the transition twice as fast when dismissing so we can give control back to the user ASAP
+    // Play the transition twice as fast when dismissing
+    // so we can give control back to the user ASAP
     return self.isReverse ? 0.25f : 0.5f;
 }
 
@@ -70,10 +71,10 @@
 
     // Play the fade in animation for the background
     if (!self.isReverse) {
-        [self.dimmingView playFadeInAnimationWithDuration:duration];
+        [self.dimmingView playFadeInAnimationWithDuration:duration * 0.5];
     }
     else {
-        [self.dimmingView playFadeOutAnimationWithDuration:duration];
+        [self.dimmingView playFadeOutAnimationWithDuration:duration * 0.5];
     }
 
     CGFloat zeroAlpha = 0.0f, fullAlpha = 1.0f;
