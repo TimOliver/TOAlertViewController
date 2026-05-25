@@ -52,15 +52,16 @@
     configuration.buttonSize = UIButtonConfigurationSizeLarge;
     configuration.attributedTitle = [[NSAttributedString alloc] initWithString:@"Show Alert"
                                                                     attributes:@{
-        NSFontAttributeName : [UIFont boldSystemFontOfSize:18.0f],
-        NSForegroundColorAttributeName : [UIColor whiteColor]
+        NSFontAttributeName : [UIFont boldSystemFontOfSize:18.0f]
     }];
+    // The configuration title is kept only to size the capsule; hide it (clear),
+    // because glass blends its colour with the tint and can't render true white.
+    configuration.baseForegroundColor = [UIColor whiteColor];
 
     UIButton *showButton = [UIButton buttonWithConfiguration:configuration primaryAction:nil];
     [showButton addTarget:self action:@selector(didTap:) forControlEvents:UIControlEventTouchUpInside];
     showButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:showButton];
-    
     _showButton = showButton;
 }
 
