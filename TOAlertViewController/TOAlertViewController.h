@@ -22,7 +22,11 @@
 
 #import <UIKit/UIKit.h>
 
+#if __has_include(<TOAlertViewController/TOAlertAction.h>)
+#import <TOAlertViewController/TOAlertAction.h>
+#else
 #import "TOAlertAction.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
