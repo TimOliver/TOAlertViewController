@@ -30,6 +30,9 @@
 		22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */; };
 		22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */; };
 		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
+		6E6A898F3896C253D57A5630 /* TOAlertBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DC234C9B4638F22F132C515 /* TOAlertBlurView.h */; };
+		803ED215E36679903A400978 /* TOAlertBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5136420FD2D97EBFB772A8 /* TOAlertBlurView.m */; };
+		B854245CABA9FEBBEEE132E3 /* TOAlertBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5136420FD2D97EBFB772A8 /* TOAlertBlurView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C5136420FD2D97EBFB772A8 /* TOAlertBlurView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOAlertBlurView.m; sourceTree = "<group>"; };
+		1DC234C9B4638F22F132C515 /* TOAlertBlurView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOAlertBlurView.h; sourceTree = "<group>"; };
 		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
 		223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewTransitioning.m; sourceTree = "<group>"; };
 		227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOAlertViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +195,8 @@
 				227AB93D22970A51009ECE33 /* TOAlertView.m */,
 				22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */,
 				22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */,
+				1DC234C9B4638F22F132C515 /* TOAlertBlurView.h */,
+				1C5136420FD2D97EBFB772A8 /* TOAlertBlurView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,6 +213,21 @@
 				22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */,
 				22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */,
 				22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */,
+				6E6A898F3896C253D57A5630 /* TOAlertBlurView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66D4A2185D9B0A70DF0F34B8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4865F4BA54B1B3F5F3B8D29 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +242,7 @@
 				227AB91222970A0D009ECE33 /* Frameworks */,
 				225DA4B122B1DD7300958F84 /* Integrate Reveal */,
 				227AB91322970A0D009ECE33 /* Resources */,
+				66D4A2185D9B0A70DF0F34B8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -255,6 +278,7 @@
 				22BBDC8922C26B5A00783BEA /* Sources */,
 				22BBDC8A22C26B5A00783BEA /* Frameworks */,
 				22BBDC8B22C26B5A00783BEA /* Resources */,
+				B4865F4BA54B1B3F5F3B8D29 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -369,6 +393,7 @@
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
 				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,
 				227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */,
+				B854245CABA9FEBBEEE132E3 /* TOAlertBlurView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +406,7 @@
 				22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */,
 				22BBDC6D22C2669700783BEA /* TOAlertView.m in Sources */,
 				22BBDC6E22C2669700783BEA /* TOAlertDimmingView.m in Sources */,
+				803ED215E36679903A400978 /* TOAlertBlurView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,11 +21,17 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "TOAlertDimmingView.h"
+#import "TOAlertBlurView.h"
 
-@interface TOAlertDimmingView()
+// The resting gaussian blur radius (in points) shown behind the alert.
+// Kept deliberately subtle to produce a 'depth-of-field' effect rather than
+// fully obscuring the content. Tune to taste.
+static const CGFloat kTOAlertDimmingBlurRadius = 14.0f;
 
-@property (nonatomic, strong) UIVisualEffectView *blurView;
-@property (nonatomic, strong) UIViewPropertyAnimator *animator;
+@interface TOAlertDimmingView ()
+
+// A blur view that darkens and softens the content behind the alert.
+@property (nonatomic, strong) TOAlertBlurView *blurView;
 
 @end
 
@@ -36,7 +42,7 @@
     if (self = [super initWithFrame:frame]) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
@@ -45,58 +51,29 @@
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backgroundColor = [UIColor clearColor];
 
-    self.blurView = [[UIVisualEffectView alloc] initWithEffect:nil];
-    self.blurView.frame = self.bounds;
+    self.blurView = [[TOAlertBlurView alloc] initWithFrame:self.bounds];
     self.blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.blurView];
 }
 
+#pragma mark - Public Animations -
+
 - (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration
 {
-    // Animate the dimming view
     [UIView animateWithDuration:duration animations:^{
         self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.15f];
     }];
 
-    // Reset if need be
-    if (self.animator) {
-        [self.animator stopAnimation:YES];
-        self.animator = nil;
-        self.blurView.effect = nil;
-    }
-
-    // Animate the blur view
-    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:(duration/0.075f)*0.5f curve:UIViewAnimationCurveEaseOut animations:^{
-        self.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    }];
-    [self.animator startAnimation];
-
-    // Pause the animation after the duration
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration*0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.animator pauseAnimation];
-    });
+    [self.blurView setBlurRadius:kTOAlertDimmingBlurRadius animated:YES duration:duration];
 }
 
 - (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration
 {
-    // Animate the dimming view
     [UIView animateWithDuration:duration animations:^{
         self.backgroundColor = [UIColor clearColor];
     }];
 
-    // Get the fraction of the animation, and flip it so we can reverse
-    CGFloat fraction = 1.0f - self.animator.fractionComplete;
-    [self.animator stopAnimation:YES];
-    self.animator = nil;
-
-    // Flip the animation
-    self.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:duration curve:UIViewAnimationCurveLinear animations:^{
-        self.blurView.effect = nil;
-    }];
-
-    self.animator.fractionComplete = fraction;
-    [self.animator startAnimation];
+    [self.blurView setBlurRadius:0.0f animated:YES duration:duration];
 }
 
 @end
