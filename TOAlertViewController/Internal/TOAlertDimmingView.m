@@ -134,11 +134,12 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
 {
     [super traitCollectionDidChange:previousTraitCollection];
 
-    // A change in appearance can cause the effect view to rebuild its backdrop,
-    // discarding our filter, so force a re-install on the next pass.
+    // A color transition seems to reset the filter. Unfortunately, resetting the
+    // filter here is apparently too early in the display chain.
+    // We call `setNeedsLayout` since deferring the reset to the next layout pass fixes it.
     self.backdropView = nil;
     self.blurFilter = nil;
-    [self ensureFilterInstalled];
+    [self setNeedsLayout];
 }
 
 #pragma mark - Blur Filter Management -
