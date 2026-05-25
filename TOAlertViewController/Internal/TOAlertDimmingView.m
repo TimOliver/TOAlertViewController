@@ -34,6 +34,21 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
 // downsampling stays cheap. See -backdropScaleForRadius:.
 static const CGFloat kTOAlertBackdropFullScale = 1.0f;
 
+#if TARGET_OS_SIMULATOR
+// Private UIKit hook to opt into the iOS Simulator's 'Slow Animations' flag
+extern float UIAnimationDragCoefficient(void);
+#endif
+
+// Scale an animation duration by the Simulator's slow-animations factor.
+static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
+{
+#if TARGET_OS_SIMULATOR
+    return duration * (NSTimeInterval)UIAnimationDragCoefficient();
+#else
+    return duration;
+#endif
+}
+
 @interface TOAlertDimmingView ()
 
 // The visual effect view whose backdrop layer hosts our gaussian blur filter.
@@ -269,7 +284,7 @@ static const CGFloat kTOAlertBackdropFullScale = 1.0f;
     CABasicAnimation *radiusAnimation = [CABasicAnimation animationWithKeyPath:@"filters.gaussianBlur.inputRadius"];
     radiusAnimation.fromValue = @(currentRadius);
     radiusAnimation.toValue = @(blurRadius);
-    radiusAnimation.duration = duration;
+    radiusAnimation.duration = TOAlertSlowmoAdjustedDuration(duration);
     radiusAnimation.timingFunction = timing;
 
     // Sharpen/soften the backdrop in lockstep with the blur so it never reveals a
@@ -277,7 +292,7 @@ static const CGFloat kTOAlertBackdropFullScale = 1.0f;
     CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"scale"];
     scaleAnimation.fromValue = @(currentScale);
     scaleAnimation.toValue = @(targetScale);
-    scaleAnimation.duration = duration;
+    scaleAnimation.duration = TOAlertSlowmoAdjustedDuration(duration);
     scaleAnimation.timingFunction = timing;
 
     [self.backdropView.layer addAnimation:radiusAnimation forKey:@"TOAlertBlurRadius"];
