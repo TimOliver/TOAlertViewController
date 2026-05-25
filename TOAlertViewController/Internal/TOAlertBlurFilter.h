@@ -30,13 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// control the amount of gaussian blur shown behind the alert view
 /// without resorting to incredibly flakey UIKit animation hacking.
 
-/// Find the first subview whose class name contains `nameFragment` (case-insensitive).
+/// Loop through all subviews of the provided view and return the first
+/// subview whose name contains the provided name fragment.
+/// - Parameters:
+///   - view: The view whose subviews we'll traverse.
+///   - nameFragment: The name fragment belonging to the subview we want to match
 UIView *_Nullable TOAlertFindSubview(UIView *view, NSString *nameFragment);
 
-/// The private `CAFilter` class, extracted once from a temporary effect view's backdrop layer.
-Class _Nullable TOAlertBlurFilterClass(void);
-
-/// Vend a fresh blur filter of the given type (e.g. `gaussianBlur`), or nil if the SPI is unavailable.
+// Returns the `CALayer` instantiation selector `+ filterWithType`.
+// It sanity checks that `CAFilter` actually responds to the selector,
+// which will let us gracefully catch if Apple subsequently changes any of this behaviour.
 id _Nullable TOAlertMakeBlurFilter(NSString *type);
 
 NS_ASSUME_NONNULL_END

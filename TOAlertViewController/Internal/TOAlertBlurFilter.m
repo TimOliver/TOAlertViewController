@@ -28,50 +28,57 @@
 // 'gray-area' exploitation of private Apple APIs since we are able to access
 // it via an official public surface.
 
-UIView *TOAlertFindSubview(UIView *view, NSString *nameFragment)
-{
+UIView *TOAlertFindSubview(UIView *view, NSString *nameFragment) {
     NSString *needle = nameFragment.lowercaseString;
     for (UIView *subview in view.subviews) {
-        if ([NSStringFromClass(subview.class).lowercaseString containsString:needle]) {
-            return subview;
-        }
+        NSString *const name = NSStringFromClass(subview.class).lowercaseString;
+        if ([name containsString:needle]) { return subview; }
     }
     return nil;
 }
 
-Class TOAlertBlurFilterClass(void)
-{
+
+Class TOAlertBlurFilterClass(void) {
     static Class filterClass = Nil;
     static dispatch_once_t onceToken;
+    
+    // Use a temporary UIVisualEffectView to fetch a copy of `CAFilter`
+    // that we can re-use. Or gracefully fall-through otherwise.
     dispatch_once(&onceToken, ^{
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc]
-                                          initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
-        UIView *backdrop = TOAlertFindSubview(effectView, @"backdrop");
-        id filter = backdrop.layer.filters.firstObject;
-        if (filter) { filterClass = [filter class]; }
+        @autoreleasepool {
+            UIBlurEffect *const effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+            UIVisualEffectView *const effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+            UIView *const backdrop = TOAlertFindSubview(effectView, @"backdrop");
+            const id filter = backdrop.layer.filters.firstObject;
+            if (filter) { filterClass = [filter class]; }
+        }
     });
     return filterClass;
 }
 
-// The `+[CAFilter filterWithType:]` selector, resolved once from runtime-assembled parts.
-static SEL TOAlertBlurFilterSelector(void)
-{
+static SEL TOAlertBlurFilterSelector(void) {
     static SEL selector = NULL;
     static dispatch_once_t onceToken;
+    
+    // Sanity check that `CAFilter` responds to `filterWithType:`
+    // and keep a copy if it does.
     dispatch_once(&onceToken, ^{
-        SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
-        Class filterClass = TOAlertBlurFilterClass();
-        if (filterClass && [filterClass respondsToSelector:candidate]) { selector = candidate; }
+        @autoreleasepool {
+            SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
+            Class filterClass = TOAlertBlurFilterClass();
+            if (filterClass && [filterClass respondsToSelector:candidate]) {
+                selector = candidate;
+            }
+        }
     });
     return selector;
 }
 
 id TOAlertMakeBlurFilter(NSString *type)
 {
-    Class filterClass = TOAlertBlurFilterClass();
-    SEL selector = TOAlertBlurFilterSelector();
+    const Class filterClass = TOAlertBlurFilterClass();
+    const SEL selector = TOAlertBlurFilterSelector();
     if (!filterClass || !selector) { return nil; }
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     return [filterClass performSelector:selector withObject:type];
