@@ -1,5 +1,5 @@
 //
-//  TOAlertBlurView.h
+//  TOAlertAction.h
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
@@ -20,27 +20,34 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// :nodoc:
-/// A view that applies a uniform gaussian blur to the content behind it.
-///
-/// Unlike pausing a `UIViewPropertyAnimator` partway through a `UIVisualEffectView`
-/// transition, the blur intensity here is a stable model value on the backdrop
-/// layer, so a partial blur persists across app backgrounding and foregrounding.
-@interface TOAlertBlurView : UIView
+/// A model object that represents a single button displayed in an
+/// alert view controller. It manages the title of the button,
+/// and the logic that is performed when the user taps it.
+@interface TOAlertAction : NSObject
 
-/// The gaussian blur radius (in points) applied to the content behind this view.
-/// Defaults to 0 (no blur). Setting this updates the blur immediately.
-@property (nonatomic, assign) CGFloat blurRadius;
+/** The title text that will displayed for this action */
+@property (nonatomic, copy) NSString *title;
 
-/// Animate the blur radius to a new value.
-/// @param blurRadius The target blur radius, in points.
-/// @param animated Whether to animate the transition.
-/// @param duration The duration of the animation, if animated.
-- (void)setBlurRadius:(CGFloat)blurRadius animated:(BOOL)animated duration:(NSTimeInterval)duration;
+/** The action that will be executed if the user taps this button */
+@property (nonatomic, copy, nullable) void (^action)(void);
+
+/**
+ Initializes a new alert action object with the provided title and action block.
+ @param title The title that will be displayed in the button
+ @param action The block that will be triggered when the user taps on that button
+*/
+- (instancetype)initWithTitle:(NSString *)title action:(nullable void (^)(void))action;
+
+/**
+ Creates a new alert action object with the provided title and action block.
+ @param title The title that will be displayed in the button
+ @param action The block that will be triggered when the user taps on that button
+ */
++ (instancetype)alertActionWithTitle:(NSString *)title action:(nullable void (^)(void))action;
 
 @end
 

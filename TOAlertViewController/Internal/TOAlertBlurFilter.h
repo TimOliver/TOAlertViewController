@@ -1,5 +1,5 @@
 //
-//  TOAlertDimmingView.h
+//  TOAlertBlurFilter.h
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
@@ -25,11 +25,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// :nodoc:
-@interface TOAlertDimmingView : UIView
+/// A collection of utilities for accessing the (usually private)
+/// CAFilter class in an App Store-safe way. This lets us manually
+/// control the amount of gaussian blur shown behind the alert view
+/// without resorting to incredibly flakey UIKit animation hacking.
 
-- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration;
-- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration;
+/// Find the first subview whose class name contains `nameFragment` (case-insensitive).
+UIView *_Nullable TOAlertFindSubview(UIView *view, NSString *nameFragment);
 
-@end
+/// The private `CAFilter` class, extracted once from a temporary effect view's backdrop layer.
+Class _Nullable TOAlertBlurFilterClass(void);
+
+/// Vend a fresh blur filter of the given type (e.g. `gaussianBlur`), or nil if the SPI is unavailable.
+id _Nullable TOAlertMakeBlurFilter(NSString *type);
 
 NS_ASSUME_NONNULL_END

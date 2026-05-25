@@ -1,5 +1,5 @@
 //
-//  TOAlertBlurView.m
+//  TOAlertDimmingView.m
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
@@ -20,72 +20,15 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TOAlertBlurView.h"
+#import "TOAlertDimmingView.h"
+#import "TOAlertBlurFilter.h"
 
-#pragma mark - SPI-Safe Blur Filter Provider -
+// The resting gaussian blur radius (in points) shown behind the alert.
+// Kept deliberately subtle to produce a 'depth-of-field' effect rather than
+// fully obscuring the content. Tune to taste.
+static const CGFloat kTOAlertDimmingBlurRadius = 14.0f;
 
-// `CAFilter` is a private class, so we never reference it by name. Instead we
-// discover its class once by inspecting the backdrop of a throwaway effect view,
-// and assemble the `+filterWithType:` selector at runtime. This keeps the symbol
-// out of the binary for App Store static analysis, and fails gracefully (falling
-// back to a system material) if Apple ever changes the internals.
-
-// Find the first subview whose class name contains `nameFragment` (case-insensitive).
-static UIView *TOAlertFindSubview(UIView *view, NSString *nameFragment)
-{
-    NSString *needle = nameFragment.lowercaseString;
-    for (UIView *subview in view.subviews) {
-        if ([NSStringFromClass(subview.class).lowercaseString containsString:needle]) {
-            return subview;
-        }
-    }
-    return nil;
-}
-
-// The `CAFilter` class, extracted once from a temporary effect view's backdrop layer.
-static Class TOAlertBlurFilterClass(void)
-{
-    static Class filterClass = Nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc]
-                                          initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
-        UIView *backdrop = TOAlertFindSubview(effectView, @"backdrop");
-        id filter = backdrop.layer.filters.firstObject;
-        if (filter) { filterClass = [filter class]; }
-    });
-    return filterClass;
-}
-
-// The `+[CAFilter filterWithType:]` selector, resolved once from runtime-assembled parts.
-static SEL TOAlertBlurFilterSelector(void)
-{
-    static SEL selector = NULL;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
-        Class filterClass = TOAlertBlurFilterClass();
-        if (filterClass && [filterClass respondsToSelector:candidate]) { selector = candidate; }
-    });
-    return selector;
-}
-
-// Vend a fresh blur filter of the given type, or nil if the SPI is unavailable.
-static id TOAlertMakeBlurFilter(NSString *type)
-{
-    Class filterClass = TOAlertBlurFilterClass();
-    SEL selector = TOAlertBlurFilterSelector();
-    if (!filterClass || !selector) { return nil; }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    return [filterClass performSelector:selector withObject:type];
-#pragma clang diagnostic pop
-}
-
-// -------------------------------------------
-
-@interface TOAlertBlurView ()
+@interface TOAlertDimmingView ()
 
 // The visual effect view whose backdrop layer hosts our gaussian blur filter.
 @property (nonatomic, strong) UIVisualEffectView *effectView;
@@ -103,9 +46,12 @@ static id TOAlertMakeBlurFilter(NSString *type)
 // Whether the blur has been configured at least once.
 @property (nonatomic, assign) BOOL blurConfigured;
 
+// The current gaussian blur radius (in points) driving the backdrop filter.
+@property (nonatomic, assign) CGFloat blurRadius;
+
 @end
 
-@implementation TOAlertBlurView
+@implementation TOAlertDimmingView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -118,6 +64,7 @@ static id TOAlertMakeBlurFilter(NSString *type)
 
 - (void)commonInit
 {
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backgroundColor = [UIColor clearColor];
 
     _blurRadius = 0.0f;
@@ -263,6 +210,26 @@ static id TOAlertMakeBlurFilter(NSString *type)
     animation.duration = duration;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [self.backdropView.layer addAnimation:animation forKey:@"TOAlertBlurRadius"];
+}
+
+#pragma mark - Public Animations -
+
+- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.15f];
+    }];
+
+    [self setBlurRadius:kTOAlertDimmingBlurRadius animated:YES duration:duration];
+}
+
+- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        self.backgroundColor = [UIColor clearColor];
+    }];
+
+    [self setBlurRadius:0.0f animated:YES duration:duration];
 }
 
 @end

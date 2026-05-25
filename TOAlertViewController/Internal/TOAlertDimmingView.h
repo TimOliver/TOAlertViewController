@@ -1,5 +1,5 @@
 //
-//  TOAlertAction.h
+//  TOAlertDimmingView.h
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
@@ -20,31 +20,15 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TOAlertAction : NSObject
 
-/** The title text that will displayed for this action */
-@property (nonatomic, copy) NSString *title;
+@interface TOAlertDimmingView : UIView
 
-/** The action that will be executed if the user taps this button */
-@property (nonatomic, copy, nullable) void (^action)(void);
-
-/**
- Initializes a new alert action object with the provided title and action block.
- @param title The title that will be displayed in the button
- @param action The block that will be triggered when the user taps on that button
-*/
-- (instancetype)initWithTitle:(NSString *)title action:(nullable void (^)(void))action;
-
-/**
- Creates a new alert action object with the provided title and action block.
- @param title The title that will be displayed in the button
- @param action The block that will be triggered when the user taps on that button
- */
-+ (instancetype)alertActionWithTitle:(NSString *)title action:(nullable void (^)(void))action;
+- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration;
+- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration;
 
 @end
 
