@@ -40,8 +40,7 @@ extern float UIAnimationDragCoefficient(void);
 #endif
 
 // Scale an animation duration by the Simulator's slow-animations factor.
-static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
-{
+static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
 #if TARGET_OS_SIMULATOR
     return duration * (NSTimeInterval)UIAnimationDragCoefficient();
 #else
@@ -78,23 +77,20 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
 
 @implementation TOAlertDimmingView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        [self commonInit];
-    }
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) { [self commonInit]; }
 
     return self;
 }
 
-- (void)commonInit
-{
+- (void)commonInit {
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backgroundColor = [UIColor clearColor];
 
     _blurRadius = 0.0f;
 
-    self.effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
+    self.effectView =
+        [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]];
     self.effectView.frame = self.bounds;
     self.effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.effectView];
@@ -111,27 +107,23 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
                                                object:nil];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Lifecycle -
 
-- (void)didMoveToWindow
-{
+- (void)didMoveToWindow {
     [super didMoveToWindow];
     [self ensureFilterInstalled];
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self ensureFilterInstalled];
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
-{
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
 
     // A color transition seems to reset the filter. Unfortunately, resetting the
@@ -155,8 +147,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
     if (backdrop == nil) { return; }
 
     // Already installed on the current backdrop — just keep the tint overlay hidden.
-    if (self.usesGaussianFilter && self.blurFilter != nil &&
-        backdrop == self.backdropView &&
+    if (self.usesGaussianFilter && self.blurFilter != nil && backdrop == self.backdropView &&
         [backdrop.layer.filters containsObject:self.blurFilter]) {
         TOAlertFindSubview(self.effectView, @"subview").hidden = YES;
         return;
@@ -209,26 +200,23 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
 // then snaps to full resolution on removal. UIKit avoids this for its own blur
 // transitions by ramping the backdrop scale up to full resolution as the blur
 // fades; we mirror that here so the backdrop sharpens in lockstep with the blur.
-- (CGFloat)backdropScaleForRadius:(CGFloat)radius
-{
+- (CGFloat)backdropScaleForRadius:(CGFloat)radius {
     CGFloat resting = (self.backdropRestingScale > 0.0f) ? self.backdropRestingScale : 0.25f;
-    CGFloat t = radius / kTOAlertDimmingBlurRadius;     // 0 at no blur, 1 at the resting blur
+    CGFloat t = radius / kTOAlertDimmingBlurRadius; // 0 at no blur, 1 at the resting blur
     t = MAX(0.0f, MIN(t, 1.0f));
     return kTOAlertBackdropFullScale + t * (resting - kTOAlertBackdropFullScale);
 }
 
 // The backdrop layer's current (model) scale, falling back to the value implied
 // by the current radius if the private key is unavailable.
-- (CGFloat)currentBackdropScale
-{
+- (CGFloat)currentBackdropScale {
     NSNumber *scale = [self.backdropView.layer valueForKey:@"scale"];
     return (scale != nil) ? scale.doubleValue : [self backdropScaleForRadius:_blurRadius];
 }
 
 // Set the backdrop's model scale without an implicit animation; -setBlurRadius:
 // animated:duration: supplies the explicit one when a transition is wanted.
-- (void)setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer
-{
+- (void)setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer {
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     [layer setValue:@(scale) forKey:@"scale"];
@@ -237,8 +225,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
 
 #pragma mark - Blur Radius -
 
-- (void)setBlurRadius:(CGFloat)blurRadius
-{
+- (void)setBlurRadius:(CGFloat)blurRadius {
     _blurRadius = blurRadius;
 
     if (!self.usesGaussianFilter) {
@@ -253,8 +240,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
     [self ensureFilterInstalled];
 }
 
-- (void)setBlurRadius:(CGFloat)blurRadius animated:(BOOL)animated duration:(NSTimeInterval)duration
-{
+- (void)setBlurRadius:(CGFloat)blurRadius animated:(BOOL)animated duration:(NSTimeInterval)duration {
     if (!animated) {
         self.blurRadius = blurRadius;
         return;
@@ -265,9 +251,8 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
     if (!self.usesGaussianFilter) {
         // Fallback path: cross-fade the material blur via its opacity.
         _blurRadius = blurRadius;
-        [UIView animateWithDuration:duration animations:^{
-            self.effectView.alpha = (blurRadius > 0.0f) ? 1.0f : 0.0f;
-        }];
+        [UIView animateWithDuration:duration
+                         animations:^{ self.effectView.alpha = (blurRadius > 0.0f) ? 1.0f : 0.0f; }];
         return;
     }
 
@@ -302,20 +287,15 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration)
 
 #pragma mark - Public Animations -
 
-- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration
-{
-    [UIView animateWithDuration:duration animations:^{
-        self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.15f];
-    }];
+- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration
+                     animations:^{ self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.15f]; }];
 
     [self setBlurRadius:kTOAlertDimmingBlurRadius animated:YES duration:duration];
 }
 
-- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration
-{
-    [UIView animateWithDuration:duration animations:^{
-        self.backgroundColor = [UIColor clearColor];
-    }];
+- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration animations:^{ self.backgroundColor = [UIColor clearColor]; }];
 
     [self setBlurRadius:0.0f animated:YES duration:duration];
 }

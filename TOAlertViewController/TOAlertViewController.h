@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TOAlertViewController : UIViewController
 
 /** The title text displayed along the top of the alert. */
-@property(nullable, nonatomic, copy) NSString *title;
+@property (nullable, nonatomic, copy) NSString *title;
 
 /** A message displayed under the title, typically to advise the user on what choices they have. */
 @property (nullable, nonatomic, copy) NSString *message;

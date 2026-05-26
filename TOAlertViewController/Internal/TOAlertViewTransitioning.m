@@ -20,7 +20,6 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #import "TOAlertViewTransitioning.h"
 
 #import "TOAlertView.h"
@@ -38,8 +37,9 @@
 
 #pragma mark - Class Creation -
 
-- (instancetype)initWithAlertView:(TOAlertView *)alertView dimmingView:(TOAlertDimmingView *)dimmingView reverse:(BOOL)reverse
-{
+- (instancetype)initWithAlertView:(TOAlertView *)alertView
+                      dimmingView:(TOAlertDimmingView *)dimmingView
+                          reverse:(BOOL)reverse {
     if (self = [super init]) {
         _isReverse = reverse;
         _alertView = alertView;
@@ -51,19 +51,18 @@
 
 #pragma mark - UIViewControllerAnimatedTransitioning Implementation -
 
-- (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext
-{
+- (NSTimeInterval)transitionDuration:(nullable id<UIViewControllerContextTransitioning>)transitionContext {
     // Play the transition twice as fast when dismissing
     // so we can give control back to the user ASAP
     return self.isReverse ? 0.25f : 0.5f;
 }
 
-- (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
-{
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     NSTimeInterval duration = [self transitionDuration:transitionContext];
 
     // Get the target view controller
-    UITransitionContextViewControllerKey key = _isReverse ? UITransitionContextFromViewControllerKey : UITransitionContextToViewControllerKey;
+    UITransitionContextViewControllerKey key =
+        _isReverse ? UITransitionContextFromViewControllerKey : UITransitionContextToViewControllerKey;
     UIViewController *controller = [transitionContext viewControllerForKey:key];
 
     // Add it to the container
@@ -72,8 +71,7 @@
     // Play the fade in animation for the background
     if (!self.isReverse) {
         [self.dimmingView playFadeInAnimationWithDuration:duration * 0.5];
-    }
-    else {
+    } else {
         [self.dimmingView playFadeOutAnimationWithDuration:duration * 0.5];
     }
 
@@ -89,29 +87,26 @@
 
     // Animate the alert view zooming in
     [UIView animateWithDuration:duration
-                          delay:0.0f
-         usingSpringWithDamping:1.0f
-          initialSpringVelocity:2.0f
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{
-                         self.alertView.alpha = self.isReverse ? zeroAlpha : fullAlpha;
-                         self.alertView.transform = self.isReverse ? scaled : identity;
-                     } completion:^(BOOL finished) {
-                         // On dismissal the alert must stay in place until it has
-                         // finished animating out, so the transition can only be
-                         // reported complete here.
-                         if (self.isReverse) {
-                             [transitionContext completeTransition:finished];
-                         }
-                     }];
+        delay:0.0f
+        usingSpringWithDamping:1.0f
+        initialSpringVelocity:2.0f
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{
+            self.alertView.alpha = self.isReverse ? zeroAlpha : fullAlpha;
+            self.alertView.transform = self.isReverse ? scaled : identity;
+        }
+        completion:^(BOOL finished) {
+            // On dismissal the alert must stay in place until it has
+            // finished animating out, so the transition can only be
+            // reported complete here.
+            if (self.isReverse) { [transitionContext completeTransition:finished]; }
+        }];
 
     // On presentation, report the transition complete immediately. UIKit withholds
     // touch delivery to the presented controller until the transition finishes, so
     // deferring this to the spring's completion left the alert's buttons unresponsive
     // for the entire zoom-in. The animation above keeps running visually regardless.
-    if (!self.isReverse) {
-        [transitionContext completeTransition:YES];
-    }
+    if (!self.isReverse) { [transitionContext completeTransition:YES]; }
 }
 
 @end

@@ -24,8 +24,7 @@
 
 @implementation TOAlertAction
 
-- (instancetype)initWithTitle:(NSString *)title action:(void (^)(void))action
-{
+- (instancetype)initWithTitle:(NSString *)title action:(void (^)(void))action {
     if (self = [super init]) {
         _title = title;
         _action = action;
@@ -34,8 +33,7 @@
     return self;
 }
 
-+ (instancetype)alertActionWithTitle:(NSString *)title action:(void (^)(void))action
-{
++ (instancetype)alertActionWithTitle:(NSString *)title action:(void (^)(void))action {
     return [[[self class] alloc] initWithTitle:title action:action];
 }
 

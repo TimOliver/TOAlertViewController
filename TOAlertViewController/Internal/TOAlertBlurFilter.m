@@ -37,11 +37,10 @@ UIView *TOAlertFindSubview(UIView *view, NSString *nameFragment) {
     return nil;
 }
 
-
 Class TOAlertBlurFilterClass(void) {
     static Class filterClass = Nil;
     static dispatch_once_t onceToken;
-    
+
     // Use a temporary UIVisualEffectView to fetch a copy of `CAFilter`
     // that we can re-use. Or gracefully fall-through otherwise.
     dispatch_once(&onceToken, ^{
@@ -59,23 +58,20 @@ Class TOAlertBlurFilterClass(void) {
 static SEL TOAlertBlurFilterSelector(void) {
     static SEL selector = NULL;
     static dispatch_once_t onceToken;
-    
+
     // Sanity check that `CAFilter` responds to `filterWithType:`
     // and keep a copy if it does.
     dispatch_once(&onceToken, ^{
         @autoreleasepool {
             SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
             Class filterClass = TOAlertBlurFilterClass();
-            if (filterClass && [filterClass respondsToSelector:candidate]) {
-                selector = candidate;
-            }
+            if (filterClass && [filterClass respondsToSelector:candidate]) { selector = candidate; }
         }
     });
     return selector;
 }
 
-id TOAlertMakeBlurFilter(NSString *type)
-{
+id TOAlertMakeBlurFilter(NSString *type) {
     const Class filterClass = TOAlertBlurFilterClass();
     const SEL selector = TOAlertBlurFilterSelector();
     if (!filterClass || !selector) { return nil; }

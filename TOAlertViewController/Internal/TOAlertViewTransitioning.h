@@ -28,9 +28,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-@interface TOAlertViewTransitioning : NSObject<UIViewControllerAnimatedTransitioning>
-- (instancetype)initWithAlertView:(TOAlertView *)alertView dimmingView:(TOAlertDimmingView *)dimmingView reverse:(BOOL)reverse;
+@interface TOAlertViewTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
+- (instancetype)initWithAlertView:(TOAlertView *)alertView
+                      dimmingView:(TOAlertDimmingView *)dimmingView
+                          reverse:(BOOL)reverse;
 @end
 
 NS_ASSUME_NONNULL_END

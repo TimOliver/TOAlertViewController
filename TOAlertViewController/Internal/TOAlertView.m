@@ -54,8 +54,7 @@
 
 #pragma mark - Class Creation -
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
-{
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     if (self = [super initWithFrame:CGRectZero]) {
         _title = [title copy];
         _message = [message copy];
@@ -65,26 +64,19 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:CGRectZero]) {
-        [self alertViewCommonInit];
-    }
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:CGRectZero]) { [self alertViewCommonInit]; }
 
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [super initWithCoder:aDecoder]) {
-        [self alertViewCommonInit];
-    }
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) { [self alertViewCommonInit]; }
 
     return self;
 }
 
-- (void)alertViewCommonInit
-{
+- (void)alertViewCommonInit {
     _buttons = [NSMutableArray array];
     _cornerRadius = 30.0f;
     _buttonCornerRadius = 15.0f;
@@ -99,8 +91,7 @@
     [self configureDefaultColors];
 }
 
-- (void)setUpSubviews
-{
+- (void)setUpSubviews {
     // Make sure the container itself is clear
     [super setBackgroundColor:[UIColor clearColor]];
 
@@ -108,9 +99,9 @@
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
 
     if (@available(iOS 13.0, *)) {
-        #ifdef __IPHONE_13_0
+#ifdef __IPHONE_13_0
         _backgroundView.layer.cornerCurve = kCACornerCurveContinuous;
-        #endif
+#endif
     }
     _backgroundView.layer.cornerRadius = _cornerRadius;
     _backgroundView.backgroundColor = [UIColor secondarySystemBackgroundColor];
@@ -145,12 +136,11 @@
 - (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action
                                 textColor:(UIColor *)textColor
                           backgroundColor:(UIColor *)backgroundColor
-                                 boldText:(BOOL)boldText
-{
+                                 boldText:(BOOL)boldText {
     UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
     UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
     UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
-    
+
     __weak typeof(self) weakSelf = self;
     TORoundedButton *button = [[TORoundedButton alloc] initWithText:action.title];
     button.tintColor = backgroundColor;
@@ -165,19 +155,16 @@
 // A neutral fill for the regular and cancel buttons: a light gray in Light
 // mode, a mid gray in Dark mode. Resolves automatically as the system
 // appearance changes.
-+ (UIColor *)neutralButtonColor
-{
++ (UIColor *)neutralButtonColor {
     return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traitCollection) {
-        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark
-            ? [UIColor systemGray3Color]
-            : [UIColor systemGray5Color];
+        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color]
+                                                                              : [UIColor systemGray5Color];
     }];
 }
 
-- (void)configureDefaultColors
-{
+- (void)configureDefaultColors {
     // Title and message text follow the system label color
-    _titleColor   = [UIColor labelColor];
+    _titleColor = [UIColor labelColor];
     _messageColor = [UIColor labelColor];
 
     // The alert surface sits above the dimming view as a grouped background
@@ -200,8 +187,7 @@
     [self setNeedsLayout];
 }
 
-- (void)configureViewsForCurrentTheme
-{
+- (void)configureViewsForCurrentTheme {
     // Title label
     self.titleLabel.backgroundColor = self.backgroundColor;
     self.titleLabel.textColor = self.titleColor;
@@ -237,8 +223,7 @@
 
 #pragma mark - Presentation Configuration -
 
-- (void)sizeToFitInBoundSize:(CGSize)size
-{
+- (void)sizeToFitInBoundSize:(CGSize)size {
     CGRect frame = CGRectZero;
 
     // Width is either the maximum width, or the available size we have
@@ -255,7 +240,7 @@
 
     // Title label size
     frame.size.height += [self.titleLabel sizeThatFits:contentSize].height + _verticalTextSpacing;
-    
+
     // Message label size
     frame.size.height += [self.messageLabel sizeThatFits:contentSize].height + _buttonInsets.top;
 
@@ -264,7 +249,7 @@
     NSInteger numberOfRows = [self numberOfButtonRowsForWidth:buttonWidth];
 
     // Add button height
-    frame.size.height += numberOfRows *_buttonHeight;
+    frame.size.height += numberOfRows * _buttonHeight;
 
     // Add button padding
     frame.size.height += (numberOfRows - 1) * _buttonSpacing.height;
@@ -272,13 +257,9 @@
     self.frame = frame;
 }
 
-- (NSInteger)numberOfButtonRowsForWidth:(CGFloat)width
-{
+- (NSInteger)numberOfButtonRowsForWidth:(CGFloat)width {
     // Return none if absolutely no actions are set
-    if (!self.defaultAction &&
-        !self.cancelAction &&
-        !self.destructiveAction &&
-        self.actions.count == 0) { return 0; }
+    if (!self.defaultAction && !self.cancelAction && !self.destructiveAction && self.actions.count == 0) { return 0; }
 
     // With padding, the maximum size a button may be
     CGFloat maxWidth = floorf(width - (self.buttonSpacing.width * 0.5f));
@@ -287,29 +268,24 @@
     // ones side by side
     NSArray *buttons = self.displayButtons;
     NSInteger numberOfRows = self.displayButtons.count;
-    
+
     // If only one button is there, it cannot be split
     if (numberOfRows <= 1) { return 1; }
-    
+
     // Check if the final two buttons can be split and displayed side by side
     TORoundedButton *lastButton = buttons.lastObject;
-    TORoundedButton *secondLastButton = [buttons objectAtIndex:numberOfRows-2];
-    if (lastButton.minimumWidth < maxWidth &&
-        secondLastButton.minimumWidth < maxWidth)
-    {
-        numberOfRows--;
-    }
-    
+    TORoundedButton *secondLastButton = [buttons objectAtIndex:numberOfRows - 2];
+    if (lastButton.minimumWidth < maxWidth && secondLastButton.minimumWidth < maxWidth) { numberOfRows--; }
+
     return numberOfRows;
 }
 
-- (NSArray<TORoundedButton *> *)displayButtons
-{
+- (NSArray<TORoundedButton *> *)displayButtons {
     NSMutableArray *buttons = [NSMutableArray array];
-    
+
     // Destructive button always comes first, either on the left, or top
     if (self.destructiveButton) { [buttons addObject:self.destructiveButton]; }
-    
+
     // Add all regular buttons
     [buttons addObjectsFromArray:self.buttons];
 
@@ -324,8 +300,7 @@
 
 #pragma mark - Layout -
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     // If necessary, set the new color theme
@@ -357,7 +332,7 @@
     // Lay out the message label
     frame = self.messageLabel.frame;
     frame.size = [self.messageLabel sizeThatFits:contentSize];
-    frame.origin.x =_contentInsets.left;
+    frame.origin.x = _contentInsets.left;
     frame.size.width = contentWidth;
     frame.origin.y = y;
     self.messageLabel.frame = frame;
@@ -379,13 +354,12 @@
 
         // For the second last button, change its width to half if both support it
         if (i == displayButtons.count - 2) {
-            if (button.minimumWidth < midWidth && displayButtons[i+1].minimumWidth < midWidth) {
+            if (button.minimumWidth < midWidth && displayButtons[i + 1].minimumWidth < midWidth) {
                 frame.size.width = midWidth;
             }
-        }
-        else if (i == displayButtons.count - 1) {
-            if (button.minimumWidth < midWidth && displayButtons[i-1].minimumWidth < midWidth) {
-                frame.origin.y = displayButtons[i-1].frame.origin.y;
+        } else if (i == displayButtons.count - 1) {
+            if (button.minimumWidth < midWidth && displayButtons[i - 1].minimumWidth < midWidth) {
+                frame.origin.y = displayButtons[i - 1].frame.origin.y;
                 frame.size.width = midWidth;
                 frame.origin.x = self.bounds.size.width - (_buttonInsets.left + midWidth);
             }
@@ -399,11 +373,11 @@
     }
 
     // Update the shadow path shape
-    _backgroundView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:_backgroundView.bounds cornerRadius:_cornerRadius].CGPath;
+    _backgroundView.layer.shadowPath =
+        [UIBezierPath bezierPathWithRoundedRect:_backgroundView.bounds cornerRadius:_cornerRadius].CGPath;
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
-{
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
 
     // When the system appearance (light/dark) changes, re-apply colors so the
@@ -416,17 +390,13 @@
 
 #pragma mark - Interaction -
 
-- (void)buttonTappedWithAction:(void (^)(void))action
-{
-    if (self.buttonTappedHandler) {
-        self.buttonTappedHandler(action);
-    }
+- (void)buttonTappedWithAction:(void (^)(void))action {
+    if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
 }
 
 #pragma mark - Action Creation/Deletion -
 
-- (void)setDefaultAction:(TOAlertAction *)defaultAction
-{
+- (void)setDefaultAction:(TOAlertAction *)defaultAction {
     if (defaultAction == _defaultAction) { return; }
     _defaultAction = defaultAction;
 
@@ -441,14 +411,13 @@
     }
 
     _defaultButton = [self makeButtonWithAction:defaultAction
-                                     textColor:self.defaultActionTextColor
-                               backgroundColor:self.tintColor
+                                      textColor:self.defaultActionTextColor
+                                backgroundColor:self.tintColor
                                        boldText:YES];
     [self addSubview:_defaultButton];
 }
 
-- (void)setDestructiveAction:(TOAlertAction *)destructiveAction
-{
+- (void)setDestructiveAction:(TOAlertAction *)destructiveAction {
     if (destructiveAction == _destructiveAction) { return; }
     _destructiveAction = destructiveAction;
 
@@ -469,8 +438,7 @@
     [self addSubview:_destructiveButton];
 }
 
-- (void)setCancelAction:(TOAlertAction *)cancelAction
-{
+- (void)setCancelAction:(TOAlertAction *)cancelAction {
     if (cancelAction == _cancelAction) { return; }
     _cancelAction = cancelAction;
 
@@ -491,8 +459,7 @@
     [self addSubview:_cancelButton];
 }
 
-- (void)addAction:(TOAlertAction *)action
-{
+- (void)addAction:(TOAlertAction *)action {
     // Create data stores if needed
     if (!self.actions) { self.actions = [NSMutableArray array]; }
     if (!self.buttons) { self.buttons = [NSMutableArray array]; }
@@ -511,14 +478,12 @@
     [self addSubview:button];
 }
 
-- (void)removeAction:(TOAlertAction *)action
-{
+- (void)removeAction:(TOAlertAction *)action {
     NSUInteger index = [self.actions indexOfObject:action];
     [self removeActionAtIndex:index];
 }
 
-- (void)removeActionAtIndex:(NSUInteger)index
-{
+- (void)removeActionAtIndex:(NSUInteger)index {
     if (index == NSNotFound || index >= self.actions.count) { return; }
 
     TORoundedButton *button = self.buttons[index];
@@ -528,18 +493,16 @@
     [(NSMutableArray *)self.actions removeObjectAtIndex:index];
 }
 
-
-
 #pragma mark - Color/Theme Accessors -
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor
-{
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
     self.backgroundView.backgroundColor = backgroundColor;
 }
-- (UIColor *)backgroundColor { return self.backgroundView.backgroundColor; }
+- (UIColor *)backgroundColor {
+    return self.backgroundView.backgroundColor;
+}
 
-- (void)setTitleColor:(nullable UIColor *)titleColor
-{
+- (void)setTitleColor:(nullable UIColor *)titleColor {
     if (!titleColor) {
         _titleColor = [UIColor labelColor];
         return;
@@ -551,8 +514,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setMessageColor:(UIColor *)messageColor
-{
+- (void)setMessageColor:(UIColor *)messageColor {
     if (!messageColor) {
         _messageColor = [UIColor labelColor];
         return;
@@ -564,8 +526,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor
-{
+- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor {
     if (!defaultActionButtonColor) {
         _defaultActionButtonColor = self.tintColor;
         return;
@@ -577,8 +538,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor
-{
+- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor {
     if (!defaultActionTextColor) {
         _defaultActionTextColor = [UIColor whiteColor];
         return;
@@ -590,8 +550,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setActionButtonColor:(UIColor *)actionButtonColor
-{
+- (void)setActionButtonColor:(UIColor *)actionButtonColor {
     if (!actionButtonColor) {
         _actionButtonColor = [TOAlertView neutralButtonColor];
         return;
@@ -603,8 +562,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setActionTextColor:(UIColor *)actionTextColor
-{
+- (void)setActionTextColor:(UIColor *)actionTextColor {
     if (!actionTextColor) {
         _actionTextColor = [UIColor labelColor];
         return;
@@ -616,8 +574,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor
-{
+- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor {
     if (!destructiveActionButtonColor) {
         _destructiveActionButtonColor = [UIColor systemRedColor];
         return;
@@ -629,8 +586,7 @@
     [self setNeedsLayout];
 }
 
-- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor
-{
+- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor {
     if (!destructiveActionTextColor) {
         _destructiveActionTextColor = [UIColor whiteColor];
         return;
