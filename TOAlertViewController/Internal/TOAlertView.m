@@ -143,6 +143,7 @@
 
     __weak typeof(self) weakSelf = self;
     TORoundedButton *button = [[TORoundedButton alloc] initWithText:action.title];
+    button.backgroundStyle = TORoundedButtonBackgroundStyleSolid;
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
     button.textColor = textColor;
