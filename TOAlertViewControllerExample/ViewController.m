@@ -11,15 +11,13 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong) UIButton *showButton;
-
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addShowButton];
+    self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -40,44 +38,6 @@
 
     // The alert automatically follows the system light/dark appearance.
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-#pragma mark - Configure Show Button
-
-- (void)addShowButton {
-    UIButtonConfiguration *configuration;
-    if (@available(iOS 26.0, *)) {
-        // Liquid Glass capsule on iOS 26 and above.
-        configuration = [UIButtonConfiguration prominentGlassButtonConfiguration];
-    } else {
-        // Tinted capsule fallback on iOS 15–25.
-        configuration = [UIButtonConfiguration filledButtonConfiguration];
-    }
-    configuration.cornerStyle = UIButtonConfigurationCornerStyleCapsule;
-    configuration.buttonSize = UIButtonConfigurationSizeLarge;
-    configuration.attributedTitle =
-        [[NSAttributedString alloc] initWithString:@"Show Alert"
-                                        attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f]}];
-    // The configuration title is kept only to size the capsule; hide it (clear),
-    // because glass blends its colour with the tint and can't render true white.
-    configuration.baseForegroundColor = [UIColor whiteColor];
-
-    UIButton *showButton = [UIButton buttonWithConfiguration:configuration primaryAction:nil];
-    [showButton addTarget:self action:@selector(didTap:) forControlEvents:UIControlEventTouchUpInside];
-    showButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:showButton];
-    _showButton = showButton;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    CGRect buttonFrame = CGRectZero;
-    buttonFrame.size.height = CGRectGetHeight(_showButton.frame);
-    buttonFrame.size.width = 300.0f;
-    buttonFrame.origin.y = CGRectGetMidY(self.view.bounds) - (buttonFrame.size.height * 0.5);
-    buttonFrame.origin.x = CGRectGetMidX(self.view.bounds) - 150.0f;
-    _showButton.frame = buttonFrame;
 }
 
 @end

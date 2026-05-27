@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
 		2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E62FC7354F00C41762 /* TORoundedButton */; };
+		2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E92FC742C300C41762 /* TORoundedButton */; };
 		227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91922970A0D009ECE33 /* AppDelegate.m */; };
 		227AB91D22970A0D009ECE33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91C22970A0D009ECE33 /* ViewController.m */; };
 		227AB92022970A0D009ECE33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB91E22970A0D009ECE33 /* Main.storyboard */; };
@@ -89,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +104,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2261D5E82FC742C300C41762 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		227AB90C22970A0D009ECE33 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +118,7 @@
 				22BBDC5E22C265CE00783BEA /* TOAlertViewControllerFramework */,
 				227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */,
 				22BBDC8E22C26B5A00783BEA /* TOAlertViewControllerTests */,
+				2261D5E82FC742C300C41762 /* Frameworks */,
 				227AB91622970A0D009ECE33 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -730,6 +740,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		2261D5E62FC7354F00C41762 /* TORoundedButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;
+			productName = TORoundedButton;
+		};
+		2261D5E92FC742C300C41762 /* TORoundedButton */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;
 			productName = TORoundedButton;

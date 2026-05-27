@@ -1,0 +1,15 @@
+{
+  "originHash" : "8422dccc617b28c177b68ee53ce1d29c3e88a0b20a970ce1f66faf8526c657de",
+  "pins" : [
+    {
+      "identity" : "toroundedbutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/TimOliver/TORoundedButton",
+      "state" : {
+        "branch" : "main",
+        "revision" : "03c2c07d373b6b780a89d6ec319c007996b7e5cb"
+      }
+    }
+  ],
+  "version" : 3
+}
