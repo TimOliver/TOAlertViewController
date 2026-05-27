@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
+		2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E62FC7354F00C41762 /* TORoundedButton */; };
 		227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91922970A0D009ECE33 /* AppDelegate.m */; };
 		227AB91D22970A0D009ECE33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91C22970A0D009ECE33 /* ViewController.m */; };
 		227AB92022970A0D009ECE33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB91E22970A0D009ECE33 /* Main.storyboard */; };
@@ -15,7 +16,6 @@
 		227AB92522970A0F009ECE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB92322970A0F009ECE33 /* LaunchScreen.storyboard */; };
 		227AB92822970A0F009ECE33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB92722970A0F009ECE33 /* main.m */; };
 		227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93D22970A51009ECE33 /* TOAlertView.m */; };
-		227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94122970A6D009ECE33 /* TORoundedButton.m */; };
 		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
 		22848C242FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */; };
@@ -61,8 +61,6 @@
 		227AB92722970A0F009ECE33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		227AB93D22970A51009ECE33 /* TOAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOAlertView.m; sourceTree = "<group>"; };
 		227AB93E22970A51009ECE33 /* TOAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOAlertView.h; sourceTree = "<group>"; };
-		227AB94122970A6D009ECE33 /* TORoundedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TORoundedButton.m; sourceTree = "<group>"; };
-		227AB94222970A6D009ECE33 /* TORoundedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORoundedButton.h; sourceTree = "<group>"; };
 		227AB94422984F93009ECE33 /* TOAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertAction.h; sourceTree = "<group>"; };
 		227AB94522984F93009ECE33 /* TOAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertAction.m; sourceTree = "<group>"; };
 		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
@@ -83,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +126,6 @@
 		227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */ = {
 			isa = PBXGroup;
 			children = (
-				227AB94022970A6D009ECE33 /* TORoundedButton */,
 				227AB91822970A0D009ECE33 /* AppDelegate.h */,
 				227AB91922970A0D009ECE33 /* AppDelegate.m */,
 				227AB91B22970A0D009ECE33 /* ViewController.h */,
@@ -151,15 +149,6 @@
 				22F09B6422A02919001DFB9A /* Internal */,
 			);
 			path = TOAlertViewController;
-			sourceTree = "<group>";
-		};
-		227AB94022970A6D009ECE33 /* TORoundedButton */ = {
-			isa = PBXGroup;
-			children = (
-				227AB94222970A6D009ECE33 /* TORoundedButton.h */,
-				227AB94122970A6D009ECE33 /* TORoundedButton.m */,
-			);
-			path = TORoundedButton;
 			sourceTree = "<group>";
 		};
 		22BBDC5E22C265CE00783BEA /* TOAlertViewControllerFramework */ = {
@@ -314,6 +303,9 @@
 				Base,
 			);
 			mainGroup = 227AB90C22970A0D009ECE33;
+			packageReferences = (
+				2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */,
+			);
 			productRefGroup = 227AB91622970A0D009ECE33 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -360,7 +352,6 @@
 				227AB91D22970A0D009ECE33 /* ViewController.m in Sources */,
 				227AB92822970A0F009ECE33 /* main.m in Sources */,
 				22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */,
-				227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */,
 				223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */,
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
@@ -725,6 +716,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TORoundedButton";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2261D5E62FC7354F00C41762 /* TORoundedButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;
+			productName = TORoundedButton;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 227AB90D22970A0D009ECE33 /* Project object */;
 }
