@@ -37,10 +37,18 @@ jobs:
           xcrun simctl boot "$UDID" || true
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
 
-      - name: Run unit tests
+      - name: Run unit tests (Xcode project)
         run: |
           xcodebuild \
             -project TOAlertViewControllerExample.xcodeproj \
             -scheme TOAlertViewControllerTests \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
+            clean test
+
+      - name: Run unit tests (Swift Package Manager)
+        run: |
+          xcodebuild \
+            -workspace . \
+            -scheme TOAlertViewController \
             -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
             clean test
