@@ -21,7 +21,11 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "TOAlertView.h"
+#if __has_include(<TORoundedButton/TORoundedButton.h>)
+#import <TORoundedButton/TORoundedButton.h>
+#else
 #import "TORoundedButton.h"
+#endif
 #import "TOAlertAction.h"
 
 // -------------------------------------------
