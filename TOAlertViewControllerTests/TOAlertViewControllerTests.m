@@ -8,6 +8,10 @@
 
 #import <XCTest/XCTest.h>
 
+#if __has_include(<TOAlertViewController/TOAlertViewController.h>)
+#import <TOAlertViewController/TOAlertViewController.h>
+#endif
+
 @interface TOAlertViewControllerTests : XCTestCase
 
 @end
@@ -26,5 +30,13 @@
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
+
+#if __has_include(<TOAlertViewController/TOAlertViewController.h>)
+- (void)testModuleImportsAndInstantiates {
+    TOAlertViewController *alert =
+        [[TOAlertViewController alloc] initWithTitle:@"Title" message:@"Message"];
+    XCTAssertNotNil(alert);
+}
+#endif
 
 @end
