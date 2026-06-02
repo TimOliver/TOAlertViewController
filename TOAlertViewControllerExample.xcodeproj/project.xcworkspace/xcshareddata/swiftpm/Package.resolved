@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/TimOliver/TORoundedButton",
       "state" : {
-        "branch" : "main",
-        "revision" : "03c2c07d373b6b780a89d6ec319c007996b7e5cb"
+        "revision" : "8f9b703ab121cdc15dbb47190d73d3d7cf41b1ed",
+        "version" : "2.1.0"
       }
     }
   ],
