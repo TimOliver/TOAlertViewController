@@ -134,8 +134,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
+// These symbols are emitted by the Xcode framework build only; they are
+// undefined in a static library or Swift Package Manager build.
+#if !defined(SWIFT_PACKAGE)
 //! Project version number for TOAlertViewControllerFramework.
 FOUNDATION_EXPORT double TOAlertViewControllerVersionNumber;
 
 //! Project version string for TOAlertViewControllerFramework.
 FOUNDATION_EXPORT const unsigned char TOAlertViewControllerVersionString[];
+#endif
