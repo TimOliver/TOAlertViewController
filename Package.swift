@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/TimOliver/TORoundedButton",
-            .upToNextMajor(from: "2.0.0")
+            branch: "main"
         )
     ],
     targets: [

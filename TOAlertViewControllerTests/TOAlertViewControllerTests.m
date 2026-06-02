@@ -9,7 +9,11 @@
 #import <XCTest/XCTest.h>
 
 #if __has_include(<TOAlertViewController/TOAlertViewController.h>)
-#import <TOAlertViewController/TOAlertViewController.h>
+#import <TOAlertViewController/TOAlertViewController.h>   // CocoaPods / Xcode framework
+#define TOALERT_MODULE_AVAILABLE 1
+#elif __has_include(<TOAlertViewController.h>)
+#import <TOAlertViewController.h>                          // Swift Package Manager
+#define TOALERT_MODULE_AVAILABLE 1
 #endif
 
 @interface TOAlertViewControllerTests : XCTestCase
@@ -31,7 +35,7 @@
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
 
-#if __has_include(<TOAlertViewController/TOAlertViewController.h>)
+#ifdef TOALERT_MODULE_AVAILABLE
 - (void)testModuleImportsAndInstantiates {
     TOAlertViewController *alert =
         [[TOAlertViewController alloc] initWithTitle:@"Title" message:@"Message"];
