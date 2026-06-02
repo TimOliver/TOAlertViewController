@@ -1,7 +1,7 @@
 //
 //  TOAlertViewController.m
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -44,29 +44,24 @@
 
 #pragma mark - View Controller Creation -
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
-{
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     if (self = [super init]) {
         super.title = title;
         _message = [message copy];
-        
+
         [self commonInit];
     }
-    
+
     return self;
 }
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        [self commonInit];
-    }
-    
+- (instancetype)init {
+    if (self = [super init]) { [self commonInit]; }
+
     return self;
 }
 
-- (void)commonInit
-{
+- (void)commonInit {
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
 }
 
@@ -89,15 +84,13 @@
 
 #pragma mark - View Controller Configuration -
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - View Layout -
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
     if (self.isDismissing) { return; }
@@ -112,30 +105,28 @@
 
 #pragma mark - Presentation Handling -
 
-- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                            presentingController:(UIViewController *)presenting
-                                                                                sourceController:(UIViewController *)source
-{
+- (nullable id<UIViewControllerAnimatedTransitioning>)
+    animationControllerForPresentedController:(UIViewController *)presented
+                         presentingController:(UIViewController *)presenting
+                             sourceController:(UIViewController *)source {
     return [[TOAlertViewTransitioning alloc] initWithAlertView:self.alertView dimmingView:self.dimmingView reverse:NO];
 }
 
-- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
+- (nullable id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:
+    (UIViewController *)dismissed {
     self.isDismissing = YES;
     return [[TOAlertViewTransitioning alloc] initWithAlertView:self.alertView dimmingView:self.dimmingView reverse:YES];
 }
 
 #pragma mark - Lazy View Accessors -
 
-- (TOAlertDimmingView *)dimmingView
-{
+- (TOAlertDimmingView *)dimmingView {
     if (_dimmingView) { return _dimmingView; }
     _dimmingView = [[TOAlertDimmingView alloc] initWithFrame:self.view.bounds];
     return _dimmingView;
 }
 
-- (TOAlertView *)alertView
-{
+- (TOAlertView *)alertView {
     if (_alertView) { return _alertView; }
     _alertView = [[TOAlertView alloc] initWithTitle:self.title message:self.message];
     return _alertView;
@@ -143,97 +134,166 @@
 
 #pragma mark - Regular Accessor Management -
 
-- (void)addAction:(TOAlertAction *)action
-{
+- (void)addAction:(TOAlertAction *)action {
     [self.alertView addAction:action];
 }
 
-- (void)removeAction:(TOAlertAction *)action
-{
+- (void)removeAction:(TOAlertAction *)action {
     [self.alertView removeAction:action];
 }
 
-- (void)removeActionAtIndex:(NSUInteger)index
-{
+- (void)removeActionAtIndex:(NSUInteger)index {
     [self.alertView removeActionAtIndex:index];
 }
 
 #pragma mark - Layout Accessors -
 
-- (void)setMaximumWidth:(CGFloat)maximumWidth { self.alertView.maximumWidth = maximumWidth; }
-- (CGFloat)maximumWidth { return self.alertView.maximumWidth; }
+- (void)setMaximumWidth:(CGFloat)maximumWidth {
+    self.alertView.maximumWidth = maximumWidth;
+}
+- (CGFloat)maximumWidth {
+    return self.alertView.maximumWidth;
+}
 
-- (void)setCornerRadius:(CGFloat)cornerRadius { self.alertView.cornerRadius = cornerRadius; }
-- (CGFloat)cornerRadius { return self.alertView.cornerRadius; }
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    self.alertView.cornerRadius = cornerRadius;
+}
+- (CGFloat)cornerRadius {
+    return self.alertView.cornerRadius;
+}
 
-- (void)setButtonCornerRadius:(CGFloat)buttonCornerRadius { self.alertView.buttonCornerRadius = buttonCornerRadius; }
-- (CGFloat)buttonCornerRadius { return self.alertView.buttonCornerRadius; }
+- (void)setButtonCornerRadius:(CGFloat)buttonCornerRadius {
+    self.alertView.buttonCornerRadius = buttonCornerRadius;
+}
+- (CGFloat)buttonCornerRadius {
+    return self.alertView.buttonCornerRadius;
+}
 
-- (void)setButtonSpacing:(CGSize)buttonSpacing { self.alertView.buttonSpacing = buttonSpacing; }
-- (CGSize)buttonSpacing { return self.alertView.buttonSpacing; }
+- (void)setButtonSpacing:(CGSize)buttonSpacing {
+    self.alertView.buttonSpacing = buttonSpacing;
+}
+- (CGSize)buttonSpacing {
+    return self.alertView.buttonSpacing;
+}
 
-- (void)setButtonHeight:(CGFloat)buttonHeight { self.alertView.buttonHeight = buttonHeight; }
-- (CGFloat)buttonHeight { return self.alertView.buttonHeight; }
+- (void)setButtonHeight:(CGFloat)buttonHeight {
+    self.alertView.buttonHeight = buttonHeight;
+}
+- (CGFloat)buttonHeight {
+    return self.alertView.buttonHeight;
+}
 
-- (void)setContentInsets:(UIEdgeInsets)contentInsets { self.alertView.contentInsets = contentInsets; }
-- (UIEdgeInsets)contentInsets { return self.alertView.contentInsets; }
+- (void)setContentInsets:(UIEdgeInsets)contentInsets {
+    self.alertView.contentInsets = contentInsets;
+}
+- (UIEdgeInsets)contentInsets {
+    return self.alertView.contentInsets;
+}
 
-- (void)setButtonInsets:(UIEdgeInsets)buttonInsets { self.alertView.buttonInsets = buttonInsets; }
-- (UIEdgeInsets)buttonInsets { return self.alertView.buttonInsets; }
+- (void)setButtonInsets:(UIEdgeInsets)buttonInsets {
+    self.alertView.buttonInsets = buttonInsets;
+}
+- (UIEdgeInsets)buttonInsets {
+    return self.alertView.buttonInsets;
+}
 
-- (void)setVerticalTextSpacing:(CGFloat)verticalTextSpacing { self.alertView.verticalTextSpacing = verticalTextSpacing; }
-- (CGFloat)verticalTextSpacing { return self.alertView.verticalTextSpacing; }
+- (void)setVerticalTextSpacing:(CGFloat)verticalTextSpacing {
+    self.alertView.verticalTextSpacing = verticalTextSpacing;
+}
+- (CGFloat)verticalTextSpacing {
+    return self.alertView.verticalTextSpacing;
+}
 
 #pragma mark - Theme Accessors -
 
-// Global dialog style
-- (void)setStyle:(TOAlertViewStyle)style { self.alertView.style = style; }
-- (TOAlertViewStyle)style { return self.alertView.style; }
-
 // Title label color
-- (void)setTitleColor:(UIColor *)titleColor { self.alertView.titleColor = titleColor; }
-- (UIColor *)titleColor { return self.alertView.titleColor; }
+- (void)setTitleColor:(UIColor *)titleColor {
+    self.alertView.titleColor = titleColor;
+}
+- (UIColor *)titleColor {
+    return self.alertView.titleColor;
+}
 
 // Message label color
-- (void)setMessageColor:(UIColor *)messageColor {self.alertView.messageColor = messageColor; }
-- (UIColor *)messageColor { return self.alertView.messageColor; }
+- (void)setMessageColor:(UIColor *)messageColor {
+    self.alertView.messageColor = messageColor;
+}
+- (UIColor *)messageColor {
+    return self.alertView.messageColor;
+}
 
 // Color of default action button background
-- (void)setActionButtonColor:(UIColor *)actionButtonColor { self.alertView.actionButtonColor = actionButtonColor; }
-- (UIColor *)actionButtonColor { return self.alertView.actionButtonColor; }
+- (void)setActionButtonColor:(UIColor *)actionButtonColor {
+    self.alertView.actionButtonColor = actionButtonColor;
+}
+- (UIColor *)actionButtonColor {
+    return self.alertView.actionButtonColor;
+}
 
 // Color of default action button text
-- (void)setActionTextColor:(UIColor *)actionTextColor { self.alertView.actionTextColor = actionTextColor; }
-- (UIColor *)actionTextColor { return self.alertView.actionTextColor; }
+- (void)setActionTextColor:(UIColor *)actionTextColor {
+    self.alertView.actionTextColor = actionTextColor;
+}
+- (UIColor *)actionTextColor {
+    return self.alertView.actionTextColor;
+}
 
 // Color of the default action button background
-- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor { self.alertView.defaultActionButtonColor = defaultActionButtonColor; }
-- (UIColor *)defaultActionButtonColor { return self.alertView.defaultActionButtonColor; }
+- (void)setDefaultActionButtonColor:(UIColor *)defaultActionButtonColor {
+    self.alertView.defaultActionButtonColor = defaultActionButtonColor;
+}
+- (UIColor *)defaultActionButtonColor {
+    return self.alertView.defaultActionButtonColor;
+}
 
 // Color of the default action button text
-- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor { self.alertView.defaultActionTextColor = defaultActionTextColor; }
-- (UIColor *)defaultActionTextColor { return self.alertView.defaultActionTextColor; }
+- (void)setDefaultActionTextColor:(UIColor *)defaultActionTextColor {
+    self.alertView.defaultActionTextColor = defaultActionTextColor;
+}
+- (UIColor *)defaultActionTextColor {
+    return self.alertView.defaultActionTextColor;
+}
 
 // Color of the destruction action button background
-- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor { self.alertView.destructiveActionButtonColor = destructiveActionButtonColor; }
-- (UIColor *)destructiveActionButtonColor { return self.alertView.destructiveActionButtonColor; }
+- (void)setDestructiveActionButtonColor:(UIColor *)destructiveActionButtonColor {
+    self.alertView.destructiveActionButtonColor = destructiveActionButtonColor;
+}
+- (UIColor *)destructiveActionButtonColor {
+    return self.alertView.destructiveActionButtonColor;
+}
 
 // Color of the destructive action button text
-- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor { self.alertView.destructiveActionTextColor = destructiveActionTextColor; }
-- (UIColor *)destructiveActionTextColor { return self.alertView.destructiveActionTextColor; }
+- (void)setDestructiveActionTextColor:(UIColor *)destructiveActionTextColor {
+    self.alertView.destructiveActionTextColor = destructiveActionTextColor;
+}
+- (UIColor *)destructiveActionTextColor {
+    return self.alertView.destructiveActionTextColor;
+}
 
 #pragma mark - Action Accessors -
 
 // The default button action
-- (void)setDefaultAction:(TOAlertAction *)action { self.alertView.defaultAction = action; }
-- (TOAlertAction *)defaultAction { return self.alertView.defaultAction; }
+- (void)setDefaultAction:(TOAlertAction *)action {
+    self.alertView.defaultAction = action;
+}
+- (TOAlertAction *)defaultAction {
+    return self.alertView.defaultAction;
+}
 
 // The cancel button action
-- (void)setCancelAction:(TOAlertAction *)action {self.alertView.cancelAction = action; }
-- (TOAlertAction *)cancelAction { return self.alertView.cancelAction; }
+- (void)setCancelAction:(TOAlertAction *)action {
+    self.alertView.cancelAction = action;
+}
+- (TOAlertAction *)cancelAction {
+    return self.alertView.cancelAction;
+}
 
-// The destructive button 
-- (void)setDestructiveAction:(TOAlertAction *)action { self.alertView.destructiveAction = action; }
-- (TOAlertAction *)destructiveAction { return self.alertView.destructiveAction; }
+// The destructive button
+- (void)setDestructiveAction:(TOAlertAction *)action {
+    self.alertView.destructiveAction = action;
+}
+- (TOAlertAction *)destructiveAction {
+    return self.alertView.destructiveAction;
+}
 
 @end

@@ -4,9 +4,9 @@
 
 
 [![Actions Status](https://github.com/TimOliver/TOAlertViewController/workflows/CI/badge.svg)](https://github.com/TimOliver/TOAlertViewController/actions)
-[![Version](https://img.shields.io/cocoapods/v/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
+[![Version](https://img.shields.io/cocoapods/v/TOAlertViewController.svg?style=flat)](https://cocoapods.org/pods/TOAlertViewController)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/TimOliver/TOAlertViewController/master/LICENSE)
-[![Platform](https://img.shields.io/cocoapods/p/TOAlertViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOAlertViewController)
+[![Platform](https://img.shields.io/cocoapods/p/TOAlertViewController.svg?style=flat)](https://cocoapods.org/pods/TOAlertViewController)
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M4RKULAVKV7K8)
 [![Twitch](https://img.shields.io/badge/twitch-timXD-6441a5.svg)](http://twitch.tv/timXD)
 
@@ -17,7 +17,7 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 * A much more modern look and field than the native `UIAlertController` class (As of iOS 13).
 * Includes theming for default, and destructive action buttons.
-* Provides an optional dark mode appearance.
+* Automatically adapts to the system light and dark appearance.
 * Smooth presentation and dismissal animations.
 * Uses `UIVisualEffectView` to produce a subtle 'depth-of-field' effect when presented.
 
@@ -39,7 +39,7 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 # Requirements
 
-`TOAlertViewController` will work with iOS 11 and above. While written in Objective-C, it will easily import into Swift.
+`TOAlertViewController` will work with iOS 15 and above. While written in Objective-C, it will easily import into Swift.
 It also requires the [`TORoundedButton`](https://github.com/TimOliver/TORoundedButton) library to be installed in your app.
 
 ## Manual Installation

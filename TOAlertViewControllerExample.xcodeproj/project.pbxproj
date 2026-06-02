@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
+		2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E62FC7354F00C41762 /* TORoundedButton */; };
+		2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E92FC742C300C41762 /* TORoundedButton */; };
 		227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91922970A0D009ECE33 /* AppDelegate.m */; };
 		227AB91D22970A0D009ECE33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91C22970A0D009ECE33 /* ViewController.m */; };
 		227AB92022970A0D009ECE33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB91E22970A0D009ECE33 /* Main.storyboard */; };
@@ -15,9 +17,12 @@
 		227AB92522970A0F009ECE33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227AB92322970A0F009ECE33 /* LaunchScreen.storyboard */; };
 		227AB92822970A0F009ECE33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB92722970A0F009ECE33 /* main.m */; };
 		227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93D22970A51009ECE33 /* TOAlertView.m */; };
-		227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94122970A6D009ECE33 /* TORoundedButton.m */; };
 		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
+		22848C242FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */; };
+		22848C252FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */; };
+		22848C262FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */; };
+		22848C272FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */; };
 		22BBDC6A22C2669700783BEA /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
 		22BBDC6B22C2669700783BEA /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
@@ -28,7 +33,6 @@
 		22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = 223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */; };
 		22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB93E22970A51009ECE33 /* TOAlertView.h */; };
 		22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */; };
-		22BBDC7422C266C500783BEA /* TOAlertViewConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */; };
 		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
 /* End PBXBuildFile section */
@@ -58,13 +62,12 @@
 		227AB92722970A0F009ECE33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		227AB93D22970A51009ECE33 /* TOAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOAlertView.m; sourceTree = "<group>"; };
 		227AB93E22970A51009ECE33 /* TOAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOAlertView.h; sourceTree = "<group>"; };
-		227AB94122970A6D009ECE33 /* TORoundedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TORoundedButton.m; sourceTree = "<group>"; };
-		227AB94222970A6D009ECE33 /* TORoundedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORoundedButton.h; sourceTree = "<group>"; };
 		227AB94422984F93009ECE33 /* TOAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertAction.h; sourceTree = "<group>"; };
 		227AB94522984F93009ECE33 /* TOAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertAction.m; sourceTree = "<group>"; };
 		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
 		227AB9482298506A009ECE33 /* TOAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewController.m; sourceTree = "<group>"; };
-		227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewConstants.h; sourceTree = "<group>"; };
+		22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertBlurFilter.h; sourceTree = "<group>"; };
+		22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertBlurFilter.m; sourceTree = "<group>"; };
 		22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOAlertViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22BBDC6022C265CE00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOAlertViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +104,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2261D5E82FC742C300C41762 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		227AB90C22970A0D009ECE33 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +118,7 @@
 				22BBDC5E22C265CE00783BEA /* TOAlertViewControllerFramework */,
 				227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */,
 				22BBDC8E22C26B5A00783BEA /* TOAlertViewControllerTests */,
+				2261D5E82FC742C300C41762 /* Frameworks */,
 				227AB91622970A0D009ECE33 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -123,7 +136,6 @@
 		227AB91722970A0D009ECE33 /* TOAlertViewControllerExample */ = {
 			isa = PBXGroup;
 			children = (
-				227AB94022970A6D009ECE33 /* TORoundedButton */,
 				227AB91822970A0D009ECE33 /* AppDelegate.h */,
 				227AB91922970A0D009ECE33 /* AppDelegate.m */,
 				227AB91B22970A0D009ECE33 /* ViewController.h */,
@@ -142,20 +154,11 @@
 			children = (
 				227AB9472298506A009ECE33 /* TOAlertViewController.h */,
 				227AB9482298506A009ECE33 /* TOAlertViewController.m */,
-				22F09B6422A02919001DFB9A /* Models */,
-				22F09B6522A0292B001DFB9A /* Views */,
-				22F09B6622A02939001DFB9A /* Supporting */,
+				227AB94422984F93009ECE33 /* TOAlertAction.h */,
+				227AB94522984F93009ECE33 /* TOAlertAction.m */,
+				22F09B6422A02919001DFB9A /* Internal */,
 			);
 			path = TOAlertViewController;
-			sourceTree = "<group>";
-		};
-		227AB94022970A6D009ECE33 /* TORoundedButton */ = {
-			isa = PBXGroup;
-			children = (
-				227AB94222970A6D009ECE33 /* TORoundedButton.h */,
-				227AB94122970A6D009ECE33 /* TORoundedButton.m */,
-			);
-			path = TORoundedButton;
 			sourceTree = "<group>";
 		};
 		22BBDC5E22C265CE00783BEA /* TOAlertViewControllerFramework */ = {
@@ -175,34 +178,19 @@
 			path = TOAlertViewControllerTests;
 			sourceTree = "<group>";
 		};
-		22F09B6422A02919001DFB9A /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				227AB94422984F93009ECE33 /* TOAlertAction.h */,
-				227AB94522984F93009ECE33 /* TOAlertAction.m */,
-				223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */,
-				223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		22F09B6522A0292B001DFB9A /* Views */ = {
+		22F09B6422A02919001DFB9A /* Internal */ = {
 			isa = PBXGroup;
 			children = (
 				227AB93E22970A51009ECE33 /* TOAlertView.h */,
 				227AB93D22970A51009ECE33 /* TOAlertView.m */,
 				22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */,
 				22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */,
+				223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */,
+				223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */,
+				22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */,
+				22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */,
 			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		22F09B6622A02939001DFB9A /* Supporting */ = {
-			isa = PBXGroup;
-			children = (
-				227AB94A229853F8009ECE33 /* TOAlertViewConstants.h */,
-			);
-			path = Supporting;
+			path = Internal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,10 +202,25 @@
 			files = (
 				22BBDC6F22C266A900783BEA /* TOAlertViewController.h in Headers */,
 				22BBDC7022C266A900783BEA /* TOAlertAction.h in Headers */,
-				22BBDC7422C266C500783BEA /* TOAlertViewConstants.h in Headers */,
 				22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */,
+				22848C252FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */,
 				22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */,
 				22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66D4A2185D9B0A70DF0F34B8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22848C262FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4865F4BA54B1B3F5F3B8D29 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,8 +233,8 @@
 			buildPhases = (
 				227AB91122970A0D009ECE33 /* Sources */,
 				227AB91222970A0D009ECE33 /* Frameworks */,
-				225DA4B122B1DD7300958F84 /* Integrate Reveal */,
 				227AB91322970A0D009ECE33 /* Resources */,
+				66D4A2185D9B0A70DF0F34B8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -267,6 +270,7 @@
 				22BBDC8922C26B5A00783BEA /* Sources */,
 				22BBDC8A22C26B5A00783BEA /* Frameworks */,
 				22BBDC8B22C26B5A00783BEA /* Resources */,
+				B4865F4BA54B1B3F5F3B8D29 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -284,7 +288,8 @@
 		227AB90D22970A0D009ECE33 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2640;
 				ORGANIZATIONNAME = "Tim Oliver";
 				TargetAttributes = {
 					227AB91422970A0D009ECE33 = {
@@ -308,6 +313,9 @@
 				Base,
 			);
 			mainGroup = 227AB90C22970A0D009ECE33;
+			packageReferences = (
+				2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */,
+			);
 			productRefGroup = 227AB91622970A0D009ECE33 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -346,27 +354,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		225DA4B122B1DD7300958F84 /* Integrate Reveal */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Integrate Reveal";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export REVEAL_SERVER_FILENAME=\"RevealServer.framework\"\n\n# Update this path to point to the location of RevealServer.framework in your project.\nexport REVEAL_SERVER_PATH=\"${SRCROOT}/${REVEAL_SERVER_FILENAME}\"\n\n# If configuration is not Debug, skip this script.\n[ \"${CONFIGURATION}\" != \"Debug\" ] && exit 0\n\n# If RevealServer.framework exists at the specified path, run code signing script.\nif [ -d \"${REVEAL_SERVER_PATH}\" ]; then\n\"${REVEAL_SERVER_PATH}/Scripts/copy_and_codesign_revealserver.sh\"\nelse\necho \"Reveal Server not loaded: RevealServer.framework could not be found.\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		227AB91122970A0D009ECE33 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -375,11 +362,11 @@
 				227AB91D22970A0D009ECE33 /* ViewController.m in Sources */,
 				227AB92822970A0F009ECE33 /* main.m in Sources */,
 				22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */,
-				227AB94322970A6D009ECE33 /* TORoundedButton.m in Sources */,
 				223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */,
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
 				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,
+				22848C272FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */,
 				227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22848C242FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */,
 				22BBDC6A22C2669700783BEA /* TOAlertViewController.m in Sources */,
 				22BBDC6B22C2669700783BEA /* TOAlertAction.m in Sources */,
 				22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */,
@@ -460,6 +448,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -469,8 +458,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -485,11 +476,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -519,6 +511,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -528,8 +521,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -538,10 +533,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -551,7 +547,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOAlertViewControllerExample",
@@ -559,7 +554,7 @@
 					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = TOAlertViewControllerExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -575,7 +570,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOAlertViewControllerExample",
@@ -583,7 +577,7 @@
 					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = TOAlertViewControllerExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,22 +591,24 @@
 		22BBDC6722C265CE00783BEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = TOAlertViewControllerFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewController;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -625,22 +621,24 @@
 		22BBDC6822C265CE00783BEA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = TOAlertViewControllerFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tim.TOAlertViewController;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -655,9 +653,8 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = TOAlertViewControllerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -675,9 +672,8 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = TOAlertViewControllerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -730,6 +726,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TORoundedButton";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2261D5E62FC7354F00C41762 /* TORoundedButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;
+			productName = TORoundedButton;
+		};
+		2261D5E92FC742C300C41762 /* TORoundedButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;
+			productName = TORoundedButton;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 227AB90D22970A0D009ECE33 /* Project object */;
 }

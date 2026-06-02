@@ -1,7 +1,7 @@
 //
 //  TOAlertAction.m
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -24,8 +24,7 @@
 
 @implementation TOAlertAction
 
-- (instancetype)initWithTitle:(NSString *)title action:(void (^)(void))action
-{
+- (instancetype)initWithTitle:(NSString *)title action:(void (^)(void))action {
     if (self = [super init]) {
         _title = title;
         _action = action;
@@ -34,8 +33,7 @@
     return self;
 }
 
-+ (instancetype)alertActionWithTitle:(NSString *)title action:(void (^)(void))action
-{
++ (instancetype)alertActionWithTitle:(NSString *)title action:(void (^)(void))action {
     return [[[self class] alloc] initWithTitle:title action:action];
 }
 

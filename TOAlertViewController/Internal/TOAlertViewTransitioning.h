@@ -1,7 +1,7 @@
 //
-//  TOAlertDimmingView.h
+//  TOAlertViewTransitioning.h
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -20,16 +20,18 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+@class TOAlertView;
+@class TOAlertDimmingView;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// :nodoc:
-@interface TOAlertDimmingView : UIView
-
-- (void)playFadeInAnimationWithDuration:(NSTimeInterval)duration;
-- (void)playFadeOutAnimationWithDuration:(NSTimeInterval)duration;
-
+@interface TOAlertViewTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
+- (instancetype)initWithAlertView:(TOAlertView *)alertView
+                      dimmingView:(TOAlertDimmingView *)dimmingView
+                          reverse:(BOOL)reverse;
 @end
 
 NS_ASSUME_NONNULL_END

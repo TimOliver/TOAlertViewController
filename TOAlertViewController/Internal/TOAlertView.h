@@ -1,7 +1,7 @@
 //
 //  TOAlertView.h
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -21,7 +21,6 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "TOAlertViewConstants.h"
 
 @class TOAlertAction;
 
@@ -41,8 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat maximumWidth;
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 @property (nonatomic, assign) CGFloat verticalTextSpacing;
-
-@property (nonatomic, assign) TOAlertViewStyle style;
 
 @property (nonatomic, strong, null_resettable) UIColor *titleColor;
 @property (nonatomic, strong, null_resettable) UIColor *messageColor;

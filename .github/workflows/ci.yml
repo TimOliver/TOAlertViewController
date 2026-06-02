@@ -1,0 +1,46 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select newest available iOS Simulator
+        id: sim
+        run: |
+          # Discover the runner's setup at build time instead of pinning it,
+          # so newer macOS images / Xcode / iOS runtimes are picked up
+          # automatically without editing this file. Grabs an iPhone on the
+          # newest installed iOS runtime and preheats it.
+          UDID=$(xcrun simctl list devices available --json | jq -r '
+            [ .devices
+              | to_entries[]
+              | select(.key | test("SimRuntime.iOS-"))
+              | (.key | capture("iOS-(?<v>[0-9-]+)").v | split("-") | map(tonumber)) as $ver
+              | .value[]
+              | select(.name | startswith("iPhone"))
+              | { ver: $ver, udid: .udid }
+            ]
+            | sort_by(.ver)
+            | last
+            | .udid')
+          if [ -z "$UDID" ] || [ "$UDID" = "null" ]; then
+            echo "::error::No iPhone simulator available on this runner"
+            exit 1
+          fi
+          echo "Selected simulator: $UDID"
+          xcrun simctl boot "$UDID" || true
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Run unit tests
+        run: |
+          xcodebuild \
+            -project TOAlertViewControllerExample.xcodeproj \
+            -scheme TOAlertViewControllerTests \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
+            clean test

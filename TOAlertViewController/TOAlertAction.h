@@ -1,7 +1,7 @@
 //
 //  TOAlertAction.h
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -24,6 +24,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A model object that represents a single button displayed in an
+/// alert view controller. It manages the title of the button,
+/// and the logic that is performed when the user taps it.
 @interface TOAlertAction : NSObject
 
 /** The title text that will displayed for this action */

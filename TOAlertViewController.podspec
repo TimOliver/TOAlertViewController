@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/TimOliver/TOAlertViewController'
   s.author   = 'Tim Oliver'
   s.source   = { :git => 'https://github.com/TimOliver/TOAlertViewController.git', :tag => s.version }
-  s.platform = :ios, '11.0'
+  s.platform = :ios, '15.0'
   s.source_files = 'TOAlertViewController/**/*.{h,m}'
   s.requires_arc = true
   s.dependency 'TORoundedButton'

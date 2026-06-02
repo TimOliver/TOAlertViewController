@@ -1,7 +1,7 @@
 //
 //  TOAlertViewController.h
 //
-//  Copyright 2019 Timothy Oliver. All rights reserved.
+//  Copyright 2019-2026  Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -22,15 +22,18 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TOAlertViewConstants.h"
+#if __has_include(<TOAlertViewController/TOAlertAction.h>)
+#import <TOAlertViewController/TOAlertAction.h>
+#else
 #import "TOAlertAction.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TOAlertViewController : UIViewController
 
 /** The title text displayed along the top of the alert. */
-@property(nullable, nonatomic, copy) NSString *title;
+@property (nullable, nonatomic, copy) NSString *title;
 
 /** A message displayed under the title, typically to advise the user on what choices they have. */
 @property (nullable, nonatomic, copy) NSString *message;
@@ -71,13 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** A destructive action, colored red indicatinf this operation will perform something irreversible. */
 @property (nonatomic, strong) TOAlertAction *destructiveAction;
 
-/** The visual style of the alert view; light or dark. Setting this will configure all views to default settings. */
-@property (nonatomic, assign) TOAlertViewStyle style UI_APPEARANCE_SELECTOR;
-
-/** The color of the title text (Default is black in light mode, white in dark mode) */
+/** The color of the title text (Default follows the system label color, adapting to light and dark mode) */
 @property (nonatomic, strong, null_resettable) UIColor *titleColor UI_APPEARANCE_SELECTOR;
 
-/** The color of the message text (Default is black in light mode, white in dark mode) */
+/** The color of the message text (Default follows the system label color, adapting to light and dark mode) */
 @property (nonatomic, strong, null_resettable) UIColor *messageColor UI_APPEARANCE_SELECTOR;
 
 /** The background color of the default action button */
