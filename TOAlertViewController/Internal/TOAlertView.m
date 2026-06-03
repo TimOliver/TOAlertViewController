@@ -25,6 +25,13 @@
 #import "TOAlertAction.h"
 #import "TOAlertLinkLayout.h"
 
+// The haptic played when a button is tapped, chosen to match the button's role.
+typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
+    TOAlertButtonFeedbackImpact,   // neutral: cancel and regular actions
+    TOAlertButtonFeedbackSuccess,  // the default (confirming) action
+    TOAlertButtonFeedbackWarning,  // the destructive (irreversible) action
+};
+
 // -------------------------------------------
 
 @interface TOAlertView ()
@@ -153,7 +160,7 @@
                                 textColor:(UIColor *)textColor
                           backgroundColor:(UIColor *)backgroundColor
                                  boldText:(BOOL)boldText
-                              destructive:(BOOL)destructive {
+                                 feedback:(TOAlertButtonFeedback)feedback {
     UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
     UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
     UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
@@ -166,7 +173,7 @@
     button.textColor = textColor;
     button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
-    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action destructive:destructive]; };
+    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action feedback:feedback]; };
     return button;
 }
 
@@ -445,13 +452,20 @@
 
 #pragma mark - Interaction -
 
-- (void)buttonTappedWithAction:(void (^)(void))action destructive:(BOOL)destructive {
-    // A tactile confirmation as the user commits to a choice — a more intense
-    // warning for the destructive (irreversible) action.
-    if (destructive) {
-        [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeWarning];
-    } else {
-        [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+- (void)buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback {
+    // A tactile confirmation as the user commits to a choice, matched to the
+    // button's role: success for the default action, a warning for the
+    // destructive one, and a neutral impact for everything else.
+    switch (feedback) {
+        case TOAlertButtonFeedbackSuccess:
+            [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeSuccess];
+            break;
+        case TOAlertButtonFeedbackWarning:
+            [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeWarning];
+            break;
+        case TOAlertButtonFeedbackImpact:
+            [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+            break;
     }
 
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
@@ -563,7 +577,7 @@
                                       textColor:self.defaultActionTextColor
                                 backgroundColor:self.tintColor
                                        boldText:YES
-                                    destructive:NO];
+                                       feedback:TOAlertButtonFeedbackSuccess];
     [self addSubview:_defaultButton];
 }
 
@@ -585,7 +599,7 @@
                                           textColor:self.destructiveActionTextColor
                                     backgroundColor:_destructiveActionButtonColor
                                            boldText:NO
-                                        destructive:YES];
+                                           feedback:TOAlertButtonFeedbackWarning];
     [self addSubview:_destructiveButton];
 }
 
@@ -607,7 +621,7 @@
                                      textColor:self.actionTextColor
                                backgroundColor:_actionButtonColor
                                       boldText:NO
-                                   destructive:NO];
+                                      feedback:TOAlertButtonFeedbackImpact];
     [self addSubview:_cancelButton];
 }
 
@@ -626,7 +640,7 @@
                                                textColor:self.actionTextColor
                                          backgroundColor:self.actionButtonColor
                                                 boldText:NO
-                                             destructive:NO];
+                                                feedback:TOAlertButtonFeedbackImpact];
     [self.buttons addObject:button];
     [self addSubview:button];
 }
