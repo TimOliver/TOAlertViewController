@@ -59,8 +59,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 @property (nonatomic, strong) CAShapeLayer *linkHighlightLayer;
 @property (nonatomic, strong, nullable) TOAlertLink *activeLink;
 
-// Retained + prepared ahead of time so the Taptic Engine is warm when a button
-// is tapped, minimising the latency between the tap and the haptic.
+// Taptic Engine generators used to play impacts when the user taps a button
 @property (nonatomic, strong) UINotificationFeedbackGenerator *notificationFeedback;
 @property (nonatomic, strong) UIImpactFeedbackGenerator *mediumImpactFeedback;
 
@@ -435,19 +434,13 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 - (void)didMoveToWindow {
     [super didMoveToWindow];
 
-    // The alert is about to be shown — warm up the Taptic Engine so the button
-    // haptics fire with minimal latency.
-    if (self.window) {
-        [self.notificationFeedback prepare];
-        [self.mediumImpactFeedback prepare];
-    }
+    if (!self.window) { return; }
+    [self.notificationFeedback prepare];
+    [self.mediumImpactFeedback prepare];
 }
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
-
-    // Re-render so an attributed message's links pick up the resolved app
-    // accent color (the tint resolves once the alert is in a window).
     [self updateMessageLabel];
 }
 
@@ -482,13 +475,16 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
             break;
     }
 
+    // Execute the block associated with this button
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
 }
 
 #pragma mark - Haptic Generators -
 
 - (UINotificationFeedbackGenerator *)notificationFeedback {
-    if (!_notificationFeedback) { _notificationFeedback = [[UINotificationFeedbackGenerator alloc] init]; }
+    if (!_notificationFeedback) {
+        _notificationFeedback = [[UINotificationFeedbackGenerator alloc] init];
+    }
     return _notificationFeedback;
 }
 
