@@ -76,14 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
 /** The list of regular actions added to this controller */
 @property (nonatomic, readonly) NSArray<TOAlertAction *> *actions;
 
-/** A default action, which will use the same tint color as the app. Pressing 'Return' on a keyboard will trigger this action. */
-@property (nonatomic, strong) TOAlertAction *defaultAction;
+/** A default action, which will use the same tint color as the app. Pressing 'Return' on a keyboard will trigger this action. Set to nil to remove it. */
+@property (nonatomic, strong, nullable) TOAlertAction *defaultAction;
 
-/** A cancel action, which by default will always close the dialog when tapped. Pressing Command-. on a keyboard will trigger it. */
-@property (nonatomic, strong) TOAlertAction *cancelAction;
+/** A cancel action, which by default will always close the dialog when tapped. Pressing Command-. on a keyboard will trigger it. Set to nil to remove it. */
+@property (nonatomic, strong, nullable) TOAlertAction *cancelAction;
 
-/** A destructive action, colored red indicatinf this operation will perform something irreversible. */
-@property (nonatomic, strong) TOAlertAction *destructiveAction;
+/** A destructive action, colored red indicating this operation will perform something irreversible. Set to nil to remove it. */
+@property (nonatomic, strong, nullable) TOAlertAction *destructiveAction;
 
 /** The color of the title text (Default follows the system label color, adapting to light and dark mode) */
 @property (nonatomic, strong, null_resettable) UIColor *titleColor UI_APPEARANCE_SELECTOR;
@@ -144,20 +144,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Removes a regular action at a specific index */
 - (void)removeActionAtIndex:(NSUInteger)index;
-
-/** Sets a default action that will be tinted to the app tint color.
-    Pressing return on an attacked keyboard will also trigger it.
- */
-- (void)setDefaultAction:(nullable TOAlertAction *)action;
-
-/** Sets a cancel action that by default will close the dialog.
- Pressing Command-. on an attached keyboard will also trigger it.
- */
-- (void)setCancelAction:(nullable TOAlertAction *)action;
-
-/** Sets a red colored button denoting an irreversible operation will occur.
- */
-- (void)setDestructiveAction:(nullable TOAlertAction *)action;
 
 @end
 
