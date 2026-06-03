@@ -49,6 +49,9 @@
 // State Tracking
 @property (nonatomic, assign) BOOL isDirty;
 
+@property (nonatomic, strong) CAShapeLayer *linkHighlightLayer;
+@property (nonatomic, strong, nullable) TOAlertLink *activeLink;
+
 @end
 
 @implementation TOAlertView
@@ -130,6 +133,17 @@
     _messageLabel.adjustsFontForContentSizeCategory = YES;
     _messageLabel.numberOfLines = 0;
     [self updateMessageLabel];
+    _messageLabel.userInteractionEnabled = YES;
+
+    _linkHighlightLayer = [CAShapeLayer layer];
+    _linkHighlightLayer.opacity = 0.0f;
+    [_messageLabel.layer insertSublayer:_linkHighlightLayer atIndex:0];
+
+    UILongPressGestureRecognizer *press =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(messageLabelPressed:)];
+    press.minimumPressDuration = 0.0;       // recognise touch-down immediately
+    press.cancelsTouchesInView = NO;
+    [_messageLabel addGestureRecognizer:press];
     _messageLabel.backgroundColor = _backgroundView.backgroundColor;
     [self addSubview:_messageLabel];
 }
@@ -407,6 +421,85 @@
 
 - (void)buttonTappedWithAction:(void (^)(void))action {
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
+}
+
+- (void)messageLabelPressed:(UILongPressGestureRecognizer *)recognizer {
+    CGPoint point = [recognizer locationInView:self.messageLabel];
+
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan: {
+            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            if (link == nil) { self.activeLink = nil; break; }
+            self.activeLink = link;
+            [self showHighlightForLink:link];
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            if (self.activeLink == nil) { break; }
+            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            if (link == nil || !NSEqualRanges(link.range, self.activeLink.range)) {
+                [self hideHighlight];
+                self.activeLink = nil;
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            TOAlertLink *link = self.activeLink;
+            [self hideHighlight];
+            self.activeLink = nil;
+            if (link && self.linkTappedHandler) { self.linkTappedHandler(link.URL, link.range); }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed: {
+            [self hideHighlight];
+            self.activeLink = nil;
+            break;
+        }
+        default: break;
+    }
+}
+
+- (nullable TOAlertLink *)linkAtPointInMessageLabel:(CGPoint)point {
+    return [[self makeLinkLayout] linkAtPoint:point];
+}
+
+- (TOAlertLinkLayout *)makeLinkLayout {
+    NSAttributedString *text = self.messageLabel.attributedText;
+    return [[TOAlertLinkLayout alloc] initWithAttributedString:(text ?: [NSAttributedString new])
+                                                         size:self.messageLabel.bounds.size
+                                                numberOfLines:self.messageLabel.numberOfLines
+                                                lineBreakMode:self.messageLabel.lineBreakMode];
+}
+
+- (void)showHighlightForLink:(TOAlertLink *)link {
+    NSArray<NSValue *> *rects = [[self makeLinkLayout] enclosingRectsForRange:link.range];
+
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    for (NSValue *value in rects) {
+        CGRect rect = CGRectInset(value.CGRectValue, -3.0f, -3.0f);   // a little breathing room
+        [path appendPath:[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.0f]];
+    }
+
+    self.linkHighlightLayer.fillColor = [self.tintColor colorWithAlphaComponent:0.2f].CGColor;
+    self.linkHighlightLayer.path = path.CGPath;
+    [self animateHighlightToOpacity:1.0f];
+}
+
+- (void)hideHighlight {
+    [self animateHighlightToOpacity:0.0f];
+}
+
+- (void)animateHighlightToOpacity:(CGFloat)opacity {
+    CALayer *presentation = self.linkHighlightLayer.presentationLayer;
+    CABasicAnimation *fade = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fade.fromValue = @(presentation ? presentation.opacity : self.linkHighlightLayer.opacity);
+    fade.toValue = @(opacity);
+    fade.duration = 0.15;
+    fade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+    self.linkHighlightLayer.opacity = opacity;   // set the model value so it sticks
+    [self.linkHighlightLayer addAnimation:fade forKey:@"opacity"];
 }
 
 #pragma mark - Action Creation/Deletion -
