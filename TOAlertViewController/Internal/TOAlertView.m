@@ -119,7 +119,7 @@
     UIFontMetrics *titleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle1];
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.backgroundColor = _backgroundView.backgroundColor;
-    _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:29.0f weight:UIFontWeightBold]];
+    _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:33.0f weight:UIFontWeightBold]];
     _titleLabel.textColor = [UIColor labelColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.adjustsFontForContentSizeCategory = YES;
