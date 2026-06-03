@@ -27,9 +27,9 @@
 
 // The haptic played when a button is tapped, chosen to match the button's role.
 typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
-    TOAlertButtonFeedbackImpact,   // neutral: cancel and regular actions
-    TOAlertButtonFeedbackSuccess,  // the default (confirming) action
-    TOAlertButtonFeedbackWarning,  // the destructive (irreversible) action
+    TOAlertButtonFeedbackDefault,      // neutral: cancel and regular actions
+    TOAlertButtonFeedbackSuccess,      // the default (confirming) action
+    TOAlertButtonFeedbackDestructive,  // the destructive (irreversible) action
 };
 
 // -------------------------------------------
@@ -58,6 +58,12 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 @property (nonatomic, strong) CAShapeLayer *linkHighlightLayer;
 @property (nonatomic, strong, nullable) TOAlertLink *activeLink;
+
+// Retained + prepared ahead of time so the Taptic Engine is warm when a button
+// is tapped, minimising the latency between the tap and the haptic.
+@property (nonatomic, strong) UINotificationFeedbackGenerator *notificationFeedback;
+@property (nonatomic, strong) UIImpactFeedbackGenerator *mediumImpactFeedback;
+@property (nonatomic, strong) UIImpactFeedbackGenerator *heavyImpactFeedback;
 
 @end
 
@@ -427,6 +433,18 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     [self setNeedsLayout];
 }
 
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+
+    // The alert is about to be shown — warm up the Taptic Engine so the button
+    // haptics fire with minimal latency.
+    if (self.window) {
+        [self.notificationFeedback prepare];
+        [self.mediumImpactFeedback prepare];
+        [self.heavyImpactFeedback prepare];
+    }
+}
+
 - (void)tintColorDidChange {
     [super tintColorDidChange];
 
@@ -453,22 +471,41 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 #pragma mark - Interaction -
 
 - (void)buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback {
-    // A tactile confirmation as the user commits to a choice, matched to the
-    // button's role: success for the default action, a warning for the
-    // destructive one, and a neutral impact for everything else.
+    // Play a haptic impact, with intensity being driven by the type of button
     switch (feedback) {
         case TOAlertButtonFeedbackSuccess:
-            [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeSuccess];
+            [self.notificationFeedback notificationOccurred:UINotificationFeedbackTypeSuccess];
             break;
-        case TOAlertButtonFeedbackWarning:
-            [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeWarning];
+        case TOAlertButtonFeedbackDestructive:
+            [self.heavyImpactFeedback impactOccurred];
             break;
-        case TOAlertButtonFeedbackImpact:
-            [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+        case TOAlertButtonFeedbackDefault:
+            [self.mediumImpactFeedback impactOccurred];
             break;
     }
 
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
+}
+
+#pragma mark - Haptic Generators -
+
+- (UINotificationFeedbackGenerator *)notificationFeedback {
+    if (!_notificationFeedback) { _notificationFeedback = [[UINotificationFeedbackGenerator alloc] init]; }
+    return _notificationFeedback;
+}
+
+- (UIImpactFeedbackGenerator *)mediumImpactFeedback {
+    if (!_mediumImpactFeedback) {
+        _mediumImpactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+    }
+    return _mediumImpactFeedback;
+}
+
+- (UIImpactFeedbackGenerator *)heavyImpactFeedback {
+    if (!_heavyImpactFeedback) {
+        _heavyImpactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+    }
+    return _heavyImpactFeedback;
 }
 
 - (void)messageLabelPressed:(UILongPressGestureRecognizer *)recognizer {
@@ -599,7 +636,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
                                           textColor:self.destructiveActionTextColor
                                     backgroundColor:_destructiveActionButtonColor
                                            boldText:NO
-                                           feedback:TOAlertButtonFeedbackWarning];
+                                           feedback:TOAlertButtonFeedbackDestructive];
     [self addSubview:_destructiveButton];
 }
 
@@ -621,7 +658,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
                                      textColor:self.actionTextColor
                                backgroundColor:_actionButtonColor
                                       boldText:NO
-                                      feedback:TOAlertButtonFeedbackImpact];
+                                      feedback:TOAlertButtonFeedbackDefault];
     [self addSubview:_cancelButton];
 }
 
@@ -640,7 +677,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
                                                textColor:self.actionTextColor
                                          backgroundColor:self.actionButtonColor
                                                 boldText:NO
-                                                feedback:TOAlertButtonFeedbackImpact];
+                                                feedback:TOAlertButtonFeedbackDefault];
     [self.buttons addObject:button];
     [self addSubview:button];
 }
