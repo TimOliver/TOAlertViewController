@@ -7,8 +7,8 @@
 
 Add the ability to set an attributed body message on `TOAlertViewController`, with
 inline tappable links (e.g. a "Terms of Service" link), and make the body text
-alignment configurable. Link taps are reported to the host app through a new
-delegate protocol; the host app decides what to do with the tapped URL. Tapping a
+alignment configurable. Link taps are reported to the host app through a block
+callback; the host app decides what to do with the tapped URL. Tapping a
 link shows an animated rounded highlight as pressed-state feedback.
 
 The motivating use case is a "Terms of Service updated" dialog with a left-aligned
@@ -20,9 +20,9 @@ body paragraph and an inline, tappable "Terms of Service" link.
    current centered look so existing consumers are unaffected.
 2. **Attributed body message** — expose `attributedMessage` (`NSAttributedString`).
    Inline link URLs are carried via the standard `NSLinkAttributeName` attribute.
-3. **Tappable links via delegate** — a `TOAlertViewControllerDelegate` protocol
-   reports the tapped `NSURL` and its `NSRange`. The component does **not** open URLs
-   itself; the host app decides (Safari, in-app web view, analytics, etc.).
+3. **Tappable links via block** — a `linkTappedHandler` block reports the tapped
+   `NSURL` and its `NSRange`. The component does **not** open URLs itself; the host
+   app decides (Safari, in-app web view, analytics, etc.).
 4. **Pressed-state feedback** — an animated rounded highlight overlay behind the
    tapped link's glyph rect(s).
 
@@ -32,7 +32,8 @@ body paragraph and an inline, tappable "Terms of Service" link.
   inside the library).
 - **VoiceOver link accessibility** (exposing the inline link as its own accessible
   element) is a documented follow-up, not part of this work. See *Known limitations*.
-- No block-based callback — delegate only (decided during brainstorming).
+- No delegate protocol — block callback only, matching the existing
+  `TOAlertAction` block-based API (the library has no delegate today).
 
 ## Decisions (from brainstorming)
 
@@ -40,7 +41,7 @@ body paragraph and an inline, tappable "Terms of Service" link.
 |----------|----------|
 | Link behavior | Tappable; host app handles the URL |
 | How the URL is set | Baked into `attributedMessage` via `NSLinkAttributeName` |
-| Callback style | Delegate protocol (not a block) |
+| Callback style | Block (`linkTappedHandler`), matching existing `TOAlertAction` API |
 | Default alignment | `NSTextAlignmentCenter` (preserve current look) |
 | Link detection | Approach A — keep `UILabel`, add TextKit hit-testing |
 | Tap feedback | Rounded overlay highlight (animated) |
@@ -48,18 +49,6 @@ body paragraph and an inline, tappable "Terms of Service" link.
 ## Public API (`TOAlertViewController.h`)
 
 ```objc
-@class TOAlertViewController;
-
-@protocol TOAlertViewControllerDelegate <NSObject>
-@optional
-/// Called when the user taps an inline link in the attributed message.
-/// @param url   The NSURL stored on the tapped range via NSLinkAttributeName.
-/// @param range The character range of the tapped link within the attributed message.
-- (void)alertViewController:(TOAlertViewController *)alertViewController
-           didTapLinkWithURL:(NSURL *)url
-                     inRange:(NSRange)range;
-@end
-
 @interface TOAlertViewController : UIViewController
 
 /// An attributed body message. When set, it takes precedence over `message`.
@@ -70,8 +59,10 @@ body paragraph and an inline, tappable "Terms of Service" link.
 /// Defaults to `NSTextAlignmentCenter`.
 @property (nonatomic, assign) NSTextAlignment messageTextAlignment;
 
-/// Receives link-tap callbacks.
-@property (nullable, nonatomic, weak) id<TOAlertViewControllerDelegate> delegate;
+/// Called when the user taps an inline link in the attributed message.
+/// @param url   The NSURL stored on the tapped range via NSLinkAttributeName.
+/// @param range The character range of the tapped link within the attributed message.
+@property (nullable, nonatomic, copy) void (^linkTappedHandler)(NSURL *url, NSRange range);
 
 @end
 ```
@@ -84,9 +75,8 @@ body paragraph and an inline, tappable "Terms of Service" link.
 
 ## Internal wiring (`TOAlertView`)
 
-`TOAlertView` (internal) gains matching inputs and a callback block, keeping it
-decoupled from the public delegate/protocol — the same separation the codebase
-already uses for actions.
+`TOAlertView` (internal) gains matching inputs and a callback block — the same
+block-based separation the codebase already uses for actions.
 
 ```objc
 // TOAlertView.h (internal)
@@ -95,9 +85,10 @@ already uses for actions.
 @property (nullable, nonatomic, copy) void (^linkTappedHandler)(NSURL *url, NSRange range);
 ```
 
-`TOAlertViewController` sets `alertView.linkTappedHandler` to a block that forwards
-to `self.delegate alertViewController:didTapLinkWithURL:inRange:` (guarded by
-`respondsToSelector:`, since the method is `@optional`).
+`TOAlertViewController` forwards its public `linkTappedHandler` to
+`alertView.linkTappedHandler` (set when the alert view is configured). The view
+invokes the block on a link tap; the controller simply relays it to the
+app-supplied handler.
 
 ## Rendering
 
@@ -174,13 +165,13 @@ When there are no links (plain `message`, or attributed text without
   is the highest-value, most regression-prone piece.
 - **Example app (`TOAlertViewControllerExample`):** add a "Terms of Service updated"
   demo alert with a left-aligned attributed body and an inline tappable "Terms of
-  Service" link, wired to the delegate, to verify the highlight animation and tap flow
+  Service" link, wired to `linkTappedHandler`, to verify the highlight animation and tap flow
   visually.
 - **Regression:** confirm an existing plain-`message`, centered alert is byte-for-byte
   unchanged.
 
 ## Documentation
 
-- Update `README.md` with the attributed-message + delegate usage and the VoiceOver
+- Update `README.md` with the attributed-message + `linkTappedHandler` usage and the VoiceOver
   limitation note.
 - Add a `CHANGELOG.md` entry.
