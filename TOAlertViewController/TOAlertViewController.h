@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** The insets of the content from the edge of the alert view. (Default is {23, 25, 17, 25}) */
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 
-/** The insets of the region containing the buttons (Default is {18, 17, 0, 17.}) */
+/** The insets of the region containing the buttons (Default is {28, 17, 0, 17.}) */
 @property (nonatomic, assign) UIEdgeInsets buttonInsets;
 
 /** The list of regular actions added to this controller */
