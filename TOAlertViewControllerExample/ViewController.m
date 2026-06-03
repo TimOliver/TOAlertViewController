@@ -60,6 +60,15 @@
     [message addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://example.com/terms"] range:linkRange];
     [message addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:linkRange];
 
+    // Shrink just the blank line between the paragraph and the link, so the link
+    // sits closer without changing the body text's line height.
+    NSRange gapRange = [body rangeOfString:@"\n\n"];
+    NSMutableParagraphStyle *blankLineStyle = [[NSMutableParagraphStyle alloc] init];
+    blankLineStyle.minimumLineHeight = 12.0f;
+    blankLineStyle.maximumLineHeight = 12.0f;
+    [message addAttribute:NSParagraphStyleAttributeName value:blankLineStyle
+                    range:NSMakeRange(gapRange.location + 1, 1)];
+
     TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms of Service updated"
                                                                        message:@""];
     alert.attributedMessage = message;
