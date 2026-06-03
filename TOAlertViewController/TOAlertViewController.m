@@ -44,12 +44,30 @@
 
 #pragma mark - View Controller Creation -
 
+- (instancetype)initWithTitle:(NSString *)title {
+    if (self = [super init]) {
+        super.title = title;
+        [self commonInit];
+    }
+
+    return self;
+}
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     if (self = [super init]) {
         super.title = title;
         _message = [message copy];
-
         [self commonInit];
+    }
+
+    return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage {
+    if (self = [super init]) {
+        super.title = title;
+        [self commonInit];
+        self.attributedMessage = attributedMessage;
     }
 
     return self;
@@ -220,6 +238,27 @@
 }
 - (UIColor *)messageColor {
     return self.alertView.messageColor;
+}
+
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    self.alertView.attributedMessage = attributedMessage;
+}
+- (NSAttributedString *)attributedMessage {
+    return self.alertView.attributedMessage;
+}
+
+- (void)setMessageTextAlignment:(NSTextAlignment)messageTextAlignment {
+    self.alertView.messageTextAlignment = messageTextAlignment;
+}
+- (NSTextAlignment)messageTextAlignment {
+    return self.alertView.messageTextAlignment;
+}
+
+- (void)setLinkTappedHandler:(void (^)(NSURL *, NSRange))linkTappedHandler {
+    self.alertView.linkTappedHandler = linkTappedHandler;
+}
+- (void (^)(NSURL *, NSRange))linkTappedHandler {
+    return self.alertView.linkTappedHandler;
 }
 
 // Color of default action button background

@@ -37,6 +37,27 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 ```
 
+## Attributed messages with tappable links
+
+Provide an `NSAttributedString` as the body and embed links with `NSLinkAttributeName`. Links are colored with the app's accent (tint) color by default — set your own `NSForegroundColorAttributeName` to override. Taps are reported through `linkTappedHandler`; your app decides what to do with the URL.
+
+```objc
+NSMutableAttributedString *message = [[NSMutableAttributedString alloc]
+    initWithString:@"Please review the Terms of Service before continuing."];
+NSRange linkRange = [message.string rangeOfString:@"Terms of Service"];
+[message addAttribute:NSLinkAttributeName
+                value:[NSURL URLWithString:@"https://example.com/terms"]
+                range:linkRange];
+
+TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms updated" attributedMessage:message];
+alert.messageTextAlignment = NSTextAlignmentLeft;   // default is centered
+alert.linkTappedHandler = ^(NSURL *url, NSRange range) {
+    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
+};
+```
+
+> **Note:** Inline links are detected and highlighted on tap, but VoiceOver does not currently expose them as separate accessible elements.
+
 # Requirements
 
 `TOAlertViewController` will work with iOS 15 and above. While written in Objective-C, it will easily import into Swift.

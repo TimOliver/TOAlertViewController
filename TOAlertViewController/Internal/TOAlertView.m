@@ -23,6 +23,14 @@
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
 #import "TOAlertAction.h"
+#import "TOAlertLinkLayout.h"
+
+// The haptic played when a button is tapped, chosen to match the button's role.
+typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
+    TOAlertButtonFeedbackDefault,      // neutral: cancel and regular actions
+    TOAlertButtonFeedbackSuccess,      // the default (confirming) action
+    TOAlertButtonFeedbackDestructive,  // the destructive (irreversible) action
+};
 
 // -------------------------------------------
 
@@ -47,6 +55,13 @@
 
 // State Tracking
 @property (nonatomic, assign) BOOL isDirty;
+
+@property (nonatomic, strong) CAShapeLayer *linkHighlightLayer;
+@property (nonatomic, strong, nullable) TOAlertLink *activeLink;
+
+// Taptic Engine generators used to play impacts when the user taps a button
+@property (nonatomic, strong) UINotificationFeedbackGenerator *notificationFeedback;
+@property (nonatomic, strong) UIImpactFeedbackGenerator *mediumImpactFeedback;
 
 @end
 
@@ -84,8 +99,9 @@
     _buttonHeight = 54.0f;
     _contentInsets = (UIEdgeInsets){23.0f, 25.0f, 17.0f, 25.0f};
     _maximumWidth = 375.0f;
-    _verticalTextSpacing = 7.0f;
-    _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
+    _verticalTextSpacing = 11.0f;
+    _buttonInsets = (UIEdgeInsets){28.0f, 17.0f, 0.0f, 17.0f};
+    _messageTextAlignment = NSTextAlignmentCenter;
 
     [self setUpSubviews];
     [self configureDefaultColors];
@@ -114,10 +130,11 @@
     UIFontMetrics *titleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle1];
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.backgroundColor = _backgroundView.backgroundColor;
-    _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:29.0f weight:UIFontWeightBold]];
+    _titleLabel.font = [titleMetrics scaledFontForFont:[UIFont systemFontOfSize:33.0f weight:UIFontWeightBold]];
     _titleLabel.textColor = [UIColor labelColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.adjustsFontForContentSizeCategory = YES;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.text = _title;
     [self addSubview:_titleLabel];
 
@@ -126,9 +143,19 @@
     _messageLabel.textColor = [UIColor labelColor];
     _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _messageLabel.adjustsFontForContentSizeCategory = YES;
-    _messageLabel.textAlignment = NSTextAlignmentCenter;
     _messageLabel.numberOfLines = 0;
-    _messageLabel.text = _message;
+    [self updateMessageLabel];
+    _messageLabel.userInteractionEnabled = YES;
+
+    _linkHighlightLayer = [CAShapeLayer layer];
+    _linkHighlightLayer.opacity = 0.0f;
+    [_messageLabel.layer insertSublayer:_linkHighlightLayer atIndex:0];
+
+    UILongPressGestureRecognizer *press =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(messageLabelPressed:)];
+    press.minimumPressDuration = 0.0;       // recognise touch-down immediately
+    press.cancelsTouchesInView = NO;
+    [_messageLabel addGestureRecognizer:press];
     _messageLabel.backgroundColor = _backgroundView.backgroundColor;
     [self addSubview:_messageLabel];
 }
@@ -136,7 +163,8 @@
 - (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action
                                 textColor:(UIColor *)textColor
                           backgroundColor:(UIColor *)backgroundColor
-                                 boldText:(BOOL)boldText {
+                                 boldText:(BOOL)boldText
+                                 feedback:(TOAlertButtonFeedback)feedback {
     UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
     UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
     UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
@@ -149,7 +177,7 @@
     button.textColor = textColor;
     button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
-    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action]; };
+    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action feedback:feedback]; };
     return button;
 }
 
@@ -196,6 +224,7 @@
     // Message label
     self.messageLabel.backgroundColor = self.backgroundColor;
     self.messageLabel.textColor = self.messageColor;
+    [self updateMessageLabel];
 
     // Destructive button
     if (self.destructiveButton) {
@@ -223,6 +252,19 @@
 }
 
 #pragma mark - Presentation Configuration -
+
+- (void)updateMessageLabel {
+    self.messageLabel.textAlignment = self.messageTextAlignment;
+    if (self.attributedMessage) {
+        self.messageLabel.attributedText = TOAlertNormalizedMessage(self.attributedMessage,
+                                                                    self.messageLabel.font,
+                                                                    self.messageColor,
+                                                                    self.tintColor,
+                                                                    self.messageTextAlignment);
+    } else {
+        self.messageLabel.text = self.message;
+    }
+}
 
 - (void)sizeToFitInBoundSize:(CGSize)size {
     CGRect frame = CGRectZero;
@@ -389,10 +431,154 @@
     [self setNeedsLayout];
 }
 
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+
+    if (!self.window) { return; }
+    [self.notificationFeedback prepare];
+    [self.mediumImpactFeedback prepare];
+}
+
+- (void)tintColorDidChange {
+    [super tintColorDidChange];
+    [self updateMessageLabel];
+}
+
+#pragma mark - Hit Testing -
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // Give inline links priority over the buttons: if the touch lands within a
+    // link's padded tap area, route it to the message label — even when the
+    // point falls outside the label itself (e.g. in the gap above the buttons).
+    if (self.messageLabel.attributedText.length > 0) {
+        CGPoint labelPoint = [self convertPoint:point toView:self.messageLabel];
+        if ([[self makeLinkLayout] linkAtPoint:labelPoint] != nil) {
+            return self.messageLabel;
+        }
+    }
+    return [super hitTest:point withEvent:event];
+}
+
 #pragma mark - Interaction -
 
-- (void)buttonTappedWithAction:(void (^)(void))action {
+- (void)buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback {
+    // Play a haptic impact, with intensity being driven by the type of button
+    switch (feedback) {
+        case TOAlertButtonFeedbackSuccess:
+            [self.notificationFeedback notificationOccurred:UINotificationFeedbackTypeSuccess];
+            break;
+        case TOAlertButtonFeedbackDestructive:
+            [self.notificationFeedback notificationOccurred:UINotificationFeedbackTypeWarning];
+            break;
+        case TOAlertButtonFeedbackDefault:
+            [self.mediumImpactFeedback impactOccurred];
+            break;
+    }
+
+    // Execute the block associated with this button
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
+}
+
+#pragma mark - Haptic Generators -
+
+- (UINotificationFeedbackGenerator *)notificationFeedback {
+    if (!_notificationFeedback) {
+        _notificationFeedback = [[UINotificationFeedbackGenerator alloc] init];
+    }
+    return _notificationFeedback;
+}
+
+- (UIImpactFeedbackGenerator *)mediumImpactFeedback {
+    if (!_mediumImpactFeedback) {
+        _mediumImpactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+    }
+    return _mediumImpactFeedback;
+}
+
+- (void)messageLabelPressed:(UILongPressGestureRecognizer *)recognizer {
+    CGPoint point = [recognizer locationInView:self.messageLabel];
+
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan: {
+            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            if (link == nil) { self.activeLink = nil; break; }
+            self.activeLink = link;
+            [self showHighlightForLink:link];
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            if (self.activeLink == nil) { break; }
+            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            if (link == nil || !NSEqualRanges(link.range, self.activeLink.range)) {
+                [self hideHighlight];
+                self.activeLink = nil;
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            TOAlertLink *link = self.activeLink;
+            [self hideHighlight];
+            self.activeLink = nil;
+            if (link && self.linkTappedHandler) { self.linkTappedHandler(link.URL, link.range); }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed: {
+            [self hideHighlight];
+            self.activeLink = nil;
+            break;
+        }
+        default: break;
+    }
+}
+
+- (nullable TOAlertLink *)linkAtPointInMessageLabel:(CGPoint)point {
+    return [[self makeLinkLayout] linkAtPoint:point];
+}
+
+- (TOAlertLinkLayout *)makeLinkLayout {
+    NSAttributedString *text = self.messageLabel.attributedText;
+    return [[TOAlertLinkLayout alloc] initWithAttributedString:(text ?: [NSAttributedString new])
+                                                         size:self.messageLabel.bounds.size
+                                                numberOfLines:self.messageLabel.numberOfLines
+                                                lineBreakMode:self.messageLabel.lineBreakMode];
+}
+
+- (void)showHighlightForLink:(TOAlertLink *)link {
+    NSArray<NSValue *> *rects = [[self makeLinkLayout] enclosingRectsForRange:link.range];
+
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    for (NSValue *value in rects) {
+        CGRect rect = CGRectInset(value.CGRectValue, -3.0f, -3.0f);   // a little breathing room
+        [path appendPath:[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.0f]];
+    }
+
+    // Apply the fill and path instantly — without this, Core Animation's implicit
+    // animation cross-fades the fill color (default black → blue) on first show.
+    // Only the opacity should animate (handled below).
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    self.linkHighlightLayer.fillColor = [self.tintColor colorWithAlphaComponent:0.2f].CGColor;
+    self.linkHighlightLayer.path = path.CGPath;
+    [CATransaction commit];
+
+    [self animateHighlightToOpacity:1.0f];
+}
+
+- (void)hideHighlight {
+    [self animateHighlightToOpacity:0.0f];
+}
+
+- (void)animateHighlightToOpacity:(CGFloat)opacity {
+    CALayer *presentation = self.linkHighlightLayer.presentationLayer;
+    CABasicAnimation *fade = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fade.fromValue = @(presentation ? presentation.opacity : self.linkHighlightLayer.opacity);
+    fade.toValue = @(opacity);
+    fade.duration = 0.15;
+    fade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+    self.linkHighlightLayer.opacity = opacity;   // set the model value so it sticks
+    [self.linkHighlightLayer addAnimation:fade forKey:@"opacity"];
 }
 
 #pragma mark - Action Creation/Deletion -
@@ -414,7 +600,8 @@
     _defaultButton = [self makeButtonWithAction:defaultAction
                                       textColor:self.defaultActionTextColor
                                 backgroundColor:self.tintColor
-                                       boldText:YES];
+                                       boldText:YES
+                                       feedback:TOAlertButtonFeedbackSuccess];
     [self addSubview:_defaultButton];
 }
 
@@ -435,7 +622,8 @@
     _destructiveButton = [self makeButtonWithAction:destructiveAction
                                           textColor:self.destructiveActionTextColor
                                     backgroundColor:_destructiveActionButtonColor
-                                           boldText:NO];
+                                           boldText:NO
+                                           feedback:TOAlertButtonFeedbackDestructive];
     [self addSubview:_destructiveButton];
 }
 
@@ -456,7 +644,8 @@
     _cancelButton = [self makeButtonWithAction:cancelAction
                                      textColor:self.actionTextColor
                                backgroundColor:_actionButtonColor
-                                      boldText:NO];
+                                      boldText:NO
+                                      feedback:TOAlertButtonFeedbackDefault];
     [self addSubview:_cancelButton];
 }
 
@@ -474,7 +663,8 @@
     TORoundedButton *button = [self makeButtonWithAction:action
                                                textColor:self.actionTextColor
                                          backgroundColor:self.actionButtonColor
-                                                boldText:NO];
+                                                boldText:NO
+                                                feedback:TOAlertButtonFeedbackDefault];
     [self.buttons addObject:button];
     [self addSubview:button];
 }
@@ -524,6 +714,25 @@
     if (messageColor == _messageColor) { return; }
     _messageColor = messageColor;
     _isDirty = YES;
+    [self setNeedsLayout];
+}
+
+- (void)setMessage:(NSString *)message {
+    _message = [message copy];
+    [self updateMessageLabel];
+    [self setNeedsLayout];
+}
+
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    _attributedMessage = [attributedMessage copy];
+    [self updateMessageLabel];
+    [self setNeedsLayout];
+}
+
+- (void)setMessageTextAlignment:(NSTextAlignment)messageTextAlignment {
+    if (_messageTextAlignment == messageTextAlignment) { return; }
+    _messageTextAlignment = messageTextAlignment;
+    [self updateMessageLabel];
     [self setNeedsLayout];
 }
 

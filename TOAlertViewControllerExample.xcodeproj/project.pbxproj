@@ -35,6 +35,10 @@
 		22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */; };
 		22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */; };
 		22F09B6322A0290E001DFB9A /* TOAlertDimmingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */; };
+		479B1BC27C57108B263F0739 /* TOAlertLinkLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AEB4768BD74F2C0040BDEB7 /* TOAlertLinkLayoutTests.m */; };
+		A4CD6F34099E4B2A9CCB78A7 /* TOAlertLinkLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */; };
+		AA78272BBA2A19596484787C /* TOAlertLinkLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */; };
+		BFA9717974EA27B02A29DEE7 /* TOAlertLinkLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOAlertLinkLayout.m; sourceTree = "<group>"; };
 		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
 		223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewTransitioning.m; sourceTree = "<group>"; };
 		227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOAlertViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +80,8 @@
 		22BBDC9122C26B5A00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertDimmingView.h; sourceTree = "<group>"; };
 		22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertDimmingView.m; sourceTree = "<group>"; };
+		2AEB4768BD74F2C0040BDEB7 /* TOAlertLinkLayoutTests.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOAlertLinkLayoutTests.m; sourceTree = "<group>"; };
+		FEBA216E3F5603ADB5B9793E /* TOAlertLinkLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOAlertLinkLayout.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +181,7 @@
 			children = (
 				22BBDC8F22C26B5A00783BEA /* TOAlertViewControllerTests.m */,
 				22BBDC9122C26B5A00783BEA /* Info.plist */,
+				2AEB4768BD74F2C0040BDEB7 /* TOAlertLinkLayoutTests.m */,
 			);
 			path = TOAlertViewControllerTests;
 			sourceTree = "<group>";
@@ -189,6 +197,8 @@
 				223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */,
 				22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */,
 				22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */,
+				FEBA216E3F5603ADB5B9793E /* TOAlertLinkLayout.h */,
+				0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -368,6 +378,7 @@
 				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,
 				22848C272FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */,
 				227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */,
+				AA78272BBA2A19596484787C /* TOAlertLinkLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +392,7 @@
 				22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */,
 				22BBDC6D22C2669700783BEA /* TOAlertView.m in Sources */,
 				22BBDC6E22C2669700783BEA /* TOAlertDimmingView.m in Sources */,
+				A4CD6F34099E4B2A9CCB78A7 /* TOAlertLinkLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +401,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				22BBDC9022C26B5A00783BEA /* TOAlertViewControllerTests.m in Sources */,
+				BFA9717974EA27B02A29DEE7 /* TOAlertLinkLayout.m in Sources */,
+				479B1BC27C57108B263F0739 /* TOAlertLinkLayoutTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
