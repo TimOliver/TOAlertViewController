@@ -445,6 +445,9 @@
 #pragma mark - Interaction -
 
 - (void)buttonTappedWithAction:(void (^)(void))action {
+    // A light tactile confirmation as the user commits to a choice.
+    [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
 }
 
