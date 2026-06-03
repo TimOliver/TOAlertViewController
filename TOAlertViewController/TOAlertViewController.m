@@ -44,37 +44,38 @@
 
 #pragma mark - View Controller Creation -
 
-- (instancetype)initWithTitle:(NSString *)title {
-    if (self = [super init]) {
-        super.title = title;
+// The designated initializer — every other initializer funnels through here,
+// so commonInit runs exactly once.
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         [self commonInit];
+    }
+
+    return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title {
+    if (self = [self initWithNibName:nil bundle:nil]) {
+        super.title = title;
     }
 
     return self;
 }
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
-    if (self = [super init]) {
+    if (self = [self initWithNibName:nil bundle:nil]) {
         super.title = title;
         _message = [message copy];
-        [self commonInit];
     }
 
     return self;
 }
 
 - (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage {
-    if (self = [super init]) {
+    if (self = [self initWithNibName:nil bundle:nil]) {
         super.title = title;
-        [self commonInit];
         self.attributedMessage = attributedMessage;
     }
-
-    return self;
-}
-
-- (instancetype)init {
-    if (self = [super init]) { [self commonInit]; }
 
     return self;
 }

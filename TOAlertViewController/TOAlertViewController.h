@@ -136,6 +136,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage;
 
+/** The designated initializer (inherited from `UIViewController`). The `initWithTitle:` family above are conveniences over this. */
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil
+                         bundle:(nullable NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+
+/** Unavailable — alerts are created programmatically, not from a storyboard or nib. */
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+
 /** Adds a new regular action to the new alert view controller */
 - (void)addAction:(TOAlertAction *)action;
 
