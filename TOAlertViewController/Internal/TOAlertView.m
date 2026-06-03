@@ -491,8 +491,15 @@
         [path appendPath:[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.0f]];
     }
 
+    // Apply the fill and path instantly — without this, Core Animation's implicit
+    // animation cross-fades the fill color (default black → blue) on first show.
+    // Only the opacity should animate (handled below).
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     self.linkHighlightLayer.fillColor = [self.tintColor colorWithAlphaComponent:0.2f].CGColor;
     self.linkHighlightLayer.path = path.CGPath;
+    [CATransaction commit];
+
     [self animateHighlightToOpacity:1.0f];
 }
 
