@@ -63,7 +63,6 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 // is tapped, minimising the latency between the tap and the haptic.
 @property (nonatomic, strong) UINotificationFeedbackGenerator *notificationFeedback;
 @property (nonatomic, strong) UIImpactFeedbackGenerator *mediumImpactFeedback;
-@property (nonatomic, strong) UIImpactFeedbackGenerator *heavyImpactFeedback;
 
 @end
 
@@ -441,7 +440,6 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     if (self.window) {
         [self.notificationFeedback prepare];
         [self.mediumImpactFeedback prepare];
-        [self.heavyImpactFeedback prepare];
     }
 }
 
@@ -477,7 +475,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
             [self.notificationFeedback notificationOccurred:UINotificationFeedbackTypeSuccess];
             break;
         case TOAlertButtonFeedbackDestructive:
-            [self.heavyImpactFeedback impactOccurred];
+            [self.notificationFeedback notificationOccurred:UINotificationFeedbackTypeWarning];
             break;
         case TOAlertButtonFeedbackDefault:
             [self.mediumImpactFeedback impactOccurred];
@@ -499,13 +497,6 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
         _mediumImpactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
     }
     return _mediumImpactFeedback;
-}
-
-- (UIImpactFeedbackGenerator *)heavyImpactFeedback {
-    if (!_heavyImpactFeedback) {
-        _heavyImpactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
-    }
-    return _heavyImpactFeedback;
 }
 
 - (void)messageLabelPressed:(UILongPressGestureRecognizer *)recognizer {
