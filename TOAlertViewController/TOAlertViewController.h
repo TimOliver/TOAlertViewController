@@ -38,6 +38,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** A message displayed under the title, typically to advise the user on what choices they have. */
 @property (nullable, nonatomic, copy) NSString *message;
 
+/** An attributed body message. When set, it takes precedence over `message`.
+    Inline links are added by the caller via `NSLinkAttributeName`. */
+@property (nullable, nonatomic, copy) NSAttributedString *attributedMessage;
+
+/** The alignment of the body message, plain or attributed. (Default is `NSTextAlignmentCenter`) */
+@property (nonatomic, assign) NSTextAlignment messageTextAlignment;
+
+/** Called when the user taps an inline link in `attributedMessage`, with the
+    link's `NSURL` (from `NSLinkAttributeName`) and its character range. */
+@property (nullable, nonatomic, copy) void (^linkTappedHandler)(NSURL *url, NSRange range);
+
 /** The maximum width this controller may expand to on larger screens. (Default is 375.0f) */
 @property (nonatomic, assign) CGFloat maximumWidth;
 
