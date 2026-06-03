@@ -47,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param title The title that will be displayed in the button
  @param action The block that will be triggered when the user taps on that button
  */
-+ (instancetype)alertActionWithTitle:(NSString *)title action:(nullable void (^)(void))action;
++ (instancetype)alertActionWithTitle:(NSString *)title action:(nullable void (^)(void))action
+    NS_SWIFT_UNAVAILABLE("Use init(title:action:)");
 
 @end
 
