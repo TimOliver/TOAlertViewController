@@ -427,6 +427,21 @@
     [self updateMessageLabel];
 }
 
+#pragma mark - Hit Testing -
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // Give inline links priority over the buttons: if the touch lands within a
+    // link's padded tap area, route it to the message label — even when the
+    // point falls outside the label itself (e.g. in the gap above the buttons).
+    if (self.messageLabel.attributedText.length > 0) {
+        CGPoint labelPoint = [self convertPoint:point toView:self.messageLabel];
+        if ([[self makeLinkLayout] linkAtPoint:labelPoint] != nil) {
+            return self.messageLabel;
+        }
+    }
+    return [super hitTest:point withEvent:event];
+}
+
 #pragma mark - Interaction -
 
 - (void)buttonTappedWithAction:(void (^)(void))action {

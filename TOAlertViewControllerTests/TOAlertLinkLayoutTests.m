@@ -133,6 +133,22 @@
     XCTAssertNil([layout linkAtPoint:center]);
 }
 
+- (void)testLinkAtPointHitsExpandedTapArea {
+    NSString *string = @"Tap Terms here";
+    NSRange linkRange = [string rangeOfString:@"Terms"];
+    NSURL *URL = [NSURL URLWithString:@"https://example.com/terms"];
+    TOAlertLinkLayout *layout = [self layoutForString:string linkRange:linkRange URL:URL size:CGSizeMake(300, 200)];
+
+    // A point just below the link's glyph rect still resolves, thanks to the
+    // padded tap target.
+    CGRect rect = [layout enclosingRectsForRange:linkRange].firstObject.CGRectValue;
+    CGPoint belowLink = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect) + 8.0f);
+
+    TOAlertLink *link = [layout linkAtPoint:belowLink];
+    XCTAssertNotNil(link);
+    XCTAssertTrue(NSEqualRanges(link.range, linkRange));
+}
+
 - (void)testLinkAtPointResolvesStringValue {
     NSString *string = @"Tap Terms here";
     NSRange linkRange = [string rangeOfString:@"Terms"];

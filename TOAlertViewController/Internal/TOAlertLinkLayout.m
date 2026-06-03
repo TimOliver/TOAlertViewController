@@ -71,28 +71,30 @@
 - (nullable TOAlertLink *)linkAtPoint:(CGPoint)point {
     if (self.textStorage.length == 0) { return nil; }
 
-    CGPoint adjusted = [self pointAdjustedForVerticalCentering:point];
+    // A finger-friendly tap target: expand each link's line rect so taps near
+    // the link — including just above or below it — still register.
+    const CGFloat horizontalPadding = 8.0f;
+    const CGFloat verticalPadding = 14.0f;
 
-    CGFloat fraction = 0.0f;
-    NSUInteger glyphIndex = [self.layoutManager glyphIndexForPoint:adjusted
-                                                   inTextContainer:self.textContainer
-                                    fractionOfDistanceThroughGlyph:&fraction];
+    __block TOAlertLink *result = nil;
+    [self.textStorage enumerateAttribute:NSLinkAttributeName
+                                 inRange:NSMakeRange(0, self.textStorage.length)
+                                 options:0
+                              usingBlock:^(id value, NSRange range, BOOL *stop) {
+        NSURL *URL = [TOAlertLinkLayout URLFromLinkAttributeValue:value];
+        if (URL == nil) { return; }
 
-    // glyphIndexForPoint clamps to the nearest glyph; reject points that fall
-    // beyond the end of the tapped glyph (i.e. past the text entirely).
-    if (fraction >= 1.0f) { return nil; }
+        for (NSValue *rectValue in [self enclosingRectsForRange:range]) {
+            CGRect hitRect = CGRectInset(rectValue.CGRectValue, -horizontalPadding, -verticalPadding);
+            if (CGRectContainsPoint(hitRect, point)) {
+                result = [[TOAlertLink alloc] initWithURL:URL range:range];
+                *stop = YES;
+                return;
+            }
+        }
+    }];
 
-    NSUInteger charIndex = [self.layoutManager characterIndexForGlyphAtIndex:glyphIndex];
-    if (charIndex >= self.textStorage.length) { return nil; }
-
-    NSRange range = NSMakeRange(0, 0);
-    id value = [self.textStorage attribute:NSLinkAttributeName
-                                   atIndex:charIndex
-                            effectiveRange:&range];
-    NSURL *URL = [TOAlertLinkLayout URLFromLinkAttributeValue:value];
-    if (URL == nil) { return nil; }
-
-    return [[TOAlertLink alloc] initWithURL:URL range:range];
+    return result;
 }
 
 - (NSArray<NSValue *> *)enclosingRectsForRange:(NSRange)range {
@@ -118,10 +120,6 @@
     CGRect usedRect = [self.layoutManager usedRectForTextContainer:self.textContainer];
     CGFloat slack = self.textContainer.size.height - usedRect.size.height;
     return MAX(0.0f, slack * 0.5f);
-}
-
-- (CGPoint)pointAdjustedForVerticalCentering:(CGPoint)point {
-    return CGPointMake(point.x, point.y - [self verticalCenteringOffset]);
 }
 
 // NSLinkAttributeName values may be an NSURL or an NSString per Apple's docs.
