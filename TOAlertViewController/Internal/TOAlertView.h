@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
+@property (nonatomic, copy, nullable) NSAttributedString *attributedMessage;
+@property (nonatomic, assign) NSTextAlignment messageTextAlignment;
 
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGFloat buttonCornerRadius;
@@ -59,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) TOAlertAction *cancelAction;
 
 @property (nonatomic, copy) void (^buttonTappedHandler)(void (^)(void));
+@property (nonatomic, copy, nullable) void (^linkTappedHandler)(NSURL *url, NSRange range);
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
 

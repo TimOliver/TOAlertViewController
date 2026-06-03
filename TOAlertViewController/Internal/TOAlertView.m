@@ -23,6 +23,7 @@
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
 #import "TOAlertAction.h"
+#import "TOAlertMessageText.h"
 
 // -------------------------------------------
 
@@ -86,6 +87,7 @@
     _maximumWidth = 375.0f;
     _verticalTextSpacing = 7.0f;
     _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
+    _messageTextAlignment = NSTextAlignmentCenter;
 
     [self setUpSubviews];
     [self configureDefaultColors];
@@ -126,9 +128,8 @@
     _messageLabel.textColor = [UIColor labelColor];
     _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _messageLabel.adjustsFontForContentSizeCategory = YES;
-    _messageLabel.textAlignment = NSTextAlignmentCenter;
     _messageLabel.numberOfLines = 0;
-    _messageLabel.text = _message;
+    [self updateMessageLabel];
     _messageLabel.backgroundColor = _backgroundView.backgroundColor;
     [self addSubview:_messageLabel];
 }
@@ -196,6 +197,7 @@
     // Message label
     self.messageLabel.backgroundColor = self.backgroundColor;
     self.messageLabel.textColor = self.messageColor;
+    [self updateMessageLabel];
 
     // Destructive button
     if (self.destructiveButton) {
@@ -223,6 +225,18 @@
 }
 
 #pragma mark - Presentation Configuration -
+
+- (void)updateMessageLabel {
+    self.messageLabel.textAlignment = self.messageTextAlignment;
+    if (self.attributedMessage) {
+        self.messageLabel.attributedText = TOAlertNormalizedMessage(self.attributedMessage,
+                                                                    self.messageLabel.font,
+                                                                    self.messageColor,
+                                                                    self.messageTextAlignment);
+    } else {
+        self.messageLabel.text = self.message;
+    }
+}
 
 - (void)sizeToFitInBoundSize:(CGSize)size {
     CGRect frame = CGRectZero;
@@ -524,6 +538,25 @@
     if (messageColor == _messageColor) { return; }
     _messageColor = messageColor;
     _isDirty = YES;
+    [self setNeedsLayout];
+}
+
+- (void)setMessage:(NSString *)message {
+    _message = [message copy];
+    [self updateMessageLabel];
+    [self setNeedsLayout];
+}
+
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    _attributedMessage = [attributedMessage copy];
+    [self updateMessageLabel];
+    [self setNeedsLayout];
+}
+
+- (void)setMessageTextAlignment:(NSTextAlignment)messageTextAlignment {
+    if (_messageTextAlignment == messageTextAlignment) { return; }
+    _messageTextAlignment = messageTextAlignment;
+    [self updateMessageLabel];
     [self setNeedsLayout];
 }
 
