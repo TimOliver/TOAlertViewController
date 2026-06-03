@@ -53,10 +53,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Builds a display-ready copy of `message`, filling in `defaultFont` and
 /// `defaultColor` for any unstyled range and applying `alignment` where no
-/// paragraph style is set. Caller-supplied attributes are preserved.
+/// paragraph style is set. Inline links (`NSLinkAttributeName`) default their
+/// text and underline color to `linkColor` unless the caller set their own.
+/// Caller-supplied attributes are preserved.
 FOUNDATION_EXPORT NSAttributedString *TOAlertNormalizedMessage(NSAttributedString *message,
                                                               UIFont *defaultFont,
                                                               UIColor *defaultColor,
+                                                              UIColor *linkColor,
                                                               NSTextAlignment alignment);
 
 NS_ASSUME_NONNULL_END

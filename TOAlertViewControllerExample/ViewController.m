@@ -56,8 +56,8 @@
                       "Terms of Service";
     NSMutableAttributedString *message = [[NSMutableAttributedString alloc] initWithString:body];
     NSRange linkRange = [body rangeOfString:@"Terms of Service" options:NSBackwardsSearch];
+    // The link color defaults to the app's accent (tint) color; we just add an underline.
     [message addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://example.com/terms"] range:linkRange];
-    [message addAttribute:NSForegroundColorAttributeName value:UIColor.systemPinkColor range:linkRange];
     [message addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:linkRange];
 
     TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms of Service updated"

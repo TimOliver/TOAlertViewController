@@ -138,6 +138,7 @@
 NSAttributedString *TOAlertNormalizedMessage(NSAttributedString *message,
                                              UIFont *defaultFont,
                                              UIColor *defaultColor,
+                                             UIColor *linkColor,
                                              NSTextAlignment alignment) {
     NSMutableAttributedString *result = [message mutableCopy];
     NSRange fullRange = NSMakeRange(0, result.length);
@@ -149,6 +150,22 @@ NSAttributedString *TOAlertNormalizedMessage(NSAttributedString *message,
     [result enumerateAttribute:NSFontAttributeName inRange:fullRange options:0
                     usingBlock:^(id value, NSRange range, BOOL *stop) {
         if (value == nil) { [result addAttribute:NSFontAttributeName value:defaultFont range:range]; }
+    }];
+
+    // Inline links default to the accent color for both their text and their
+    // underline, unless the caller specified their own. This runs before the
+    // generic color fill below so links don't pick up the plain message color.
+    [result enumerateAttribute:NSLinkAttributeName inRange:fullRange options:0
+                    usingBlock:^(id link, NSRange linkRange, BOOL *stop) {
+        if (link == nil) { return; }
+        [result enumerateAttribute:NSForegroundColorAttributeName inRange:linkRange options:0
+                        usingBlock:^(id value, NSRange range, BOOL *s) {
+            if (value == nil) { [result addAttribute:NSForegroundColorAttributeName value:linkColor range:range]; }
+        }];
+        [result enumerateAttribute:NSUnderlineColorAttributeName inRange:linkRange options:0
+                        usingBlock:^(id value, NSRange range, BOOL *s) {
+            if (value == nil) { [result addAttribute:NSUnderlineColorAttributeName value:linkColor range:range]; }
+        }];
     }];
 
     // Fill in the default color where none is set.

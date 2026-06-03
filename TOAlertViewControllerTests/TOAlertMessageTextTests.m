@@ -33,7 +33,8 @@
 - (void)testNormalizedMessageFillsDefaultFontColorAndAlignment {
     NSAttributedString *source = [[NSAttributedString alloc] initWithString:@"Hello"];
     UIFont *font = [UIFont systemFontOfSize:17.0f];
-    NSAttributedString *result = TOAlertNormalizedMessage(source, font, UIColor.redColor, NSTextAlignmentCenter);
+    NSAttributedString *result = TOAlertNormalizedMessage(source, font, UIColor.redColor,
+                                                          UIColor.purpleColor, NSTextAlignmentCenter);
 
     NSDictionary *attrs = [result attributesAtIndex:0 effectiveRange:NULL];
     XCTAssertEqualObjects(attrs[NSFontAttributeName], font);
@@ -46,12 +47,40 @@
     NSMutableAttributedString *source = [[NSMutableAttributedString alloc] initWithString:@"AB"];
     [source addAttribute:NSForegroundColorAttributeName value:UIColor.blueColor range:NSMakeRange(0, 1)];
     NSAttributedString *result = TOAlertNormalizedMessage(source, [UIFont systemFontOfSize:17.0f],
-                                                          UIColor.redColor, NSTextAlignmentLeft);
+                                                          UIColor.redColor, UIColor.purpleColor, NSTextAlignmentLeft);
 
     XCTAssertEqualObjects([result attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:NULL],
                           UIColor.blueColor);
     XCTAssertEqualObjects([result attribute:NSForegroundColorAttributeName atIndex:1 effectiveRange:NULL],
                           UIColor.redColor);
+}
+
+- (void)testNormalizedMessageDefaultsLinkColorToAccent {
+    NSMutableAttributedString *source = [[NSMutableAttributedString alloc] initWithString:@"AB"];
+    [source addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://example.com"] range:NSMakeRange(0, 1)];
+    NSAttributedString *result = TOAlertNormalizedMessage(source, [UIFont systemFontOfSize:17.0f],
+                                                          UIColor.redColor, UIColor.purpleColor, NSTextAlignmentLeft);
+
+    // The link range takes the accent color for both text and underline...
+    XCTAssertEqualObjects([result attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:NULL],
+                          UIColor.purpleColor);
+    XCTAssertEqualObjects([result attribute:NSUnderlineColorAttributeName atIndex:0 effectiveRange:NULL],
+                          UIColor.purpleColor);
+    // ...while non-link text still gets the default message color.
+    XCTAssertEqualObjects([result attribute:NSForegroundColorAttributeName atIndex:1 effectiveRange:NULL],
+                          UIColor.redColor);
+}
+
+- (void)testNormalizedMessagePreservesExplicitLinkColor {
+    NSMutableAttributedString *source = [[NSMutableAttributedString alloc] initWithString:@"AB"];
+    [source addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://example.com"] range:NSMakeRange(0, 1)];
+    [source addAttribute:NSForegroundColorAttributeName value:UIColor.greenColor range:NSMakeRange(0, 1)];
+    NSAttributedString *result = TOAlertNormalizedMessage(source, [UIFont systemFontOfSize:17.0f],
+                                                          UIColor.redColor, UIColor.purpleColor, NSTextAlignmentLeft);
+
+    // A caller-supplied link color wins over the accent default.
+    XCTAssertEqualObjects([result attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:NULL],
+                          UIColor.greenColor);
 }
 
 #pragma mark - Link hit-testing -
@@ -66,7 +95,7 @@
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:string];
     [text addAttribute:NSLinkAttributeName value:URLValue range:linkRange];
     NSAttributedString *normalized = TOAlertNormalizedMessage(text, [UIFont systemFontOfSize:17.0f],
-                                                              UIColor.blackColor, NSTextAlignmentLeft);
+                                                              UIColor.blackColor, UIColor.blueColor, NSTextAlignmentLeft);
     return [[TOAlertLinkLayout alloc] initWithAttributedString:normalized
                                                          size:size
                                                 numberOfLines:0

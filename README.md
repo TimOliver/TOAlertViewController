@@ -39,7 +39,7 @@ and rounded action buttons in line with the more modern design language of iOS t
 
 ## Attributed messages with tappable links
 
-Provide an `NSAttributedString` as the body and embed links with `NSLinkAttributeName`. Taps are reported through `linkTappedHandler`; your app decides what to do with the URL.
+Provide an `NSAttributedString` as the body and embed links with `NSLinkAttributeName`. Links are colored with the app's accent (tint) color by default — set your own `NSForegroundColorAttributeName` to override. Taps are reported through `linkTappedHandler`; your app decides what to do with the URL.
 
 ```objc
 NSMutableAttributedString *message = [[NSMutableAttributedString alloc]

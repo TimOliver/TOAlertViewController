@@ -247,6 +247,7 @@
         self.messageLabel.attributedText = TOAlertNormalizedMessage(self.attributedMessage,
                                                                     self.messageLabel.font,
                                                                     self.messageColor,
+                                                                    self.tintColor,
                                                                     self.messageTextAlignment);
     } else {
         self.messageLabel.text = self.message;
@@ -416,6 +417,14 @@
         self.isDirty = YES;
     }
     [self setNeedsLayout];
+}
+
+- (void)tintColorDidChange {
+    [super tintColorDidChange];
+
+    // Re-render so an attributed message's links pick up the resolved app
+    // accent color (the tint resolves once the alert is in a window).
+    [self updateMessageLabel];
 }
 
 #pragma mark - Interaction -
