@@ -180,7 +180,6 @@ NSAttributedString *TOAlertNormalizedMessage(NSAttributedString *message,
         if (value == nil) {
             NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
             style.alignment = alignment;
-            style.lineHeightMultiple = 0.9f; // tighten the body lines a touch
             [result addAttribute:NSParagraphStyleAttributeName value:style range:range];
         }
     }];
