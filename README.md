@@ -49,8 +49,7 @@ NSRange linkRange = [message.string rangeOfString:@"Terms of Service"];
                 value:[NSURL URLWithString:@"https://example.com/terms"]
                 range:linkRange];
 
-TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms updated" message:@""];
-alert.attributedMessage = message;
+TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms updated" attributedMessage:message];
 alert.messageTextAlignment = NSTextAlignmentLeft;   // default is centered
 alert.linkTappedHandler = ^(NSURL *url, NSRange range) {
     [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];

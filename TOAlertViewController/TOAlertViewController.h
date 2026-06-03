@@ -110,6 +110,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, null_resettable) UIColor *destructiveActionTextColor UI_APPEARANCE_SELECTOR;
 
 /**
+ Create a new instance of alert view with just a title.
+
+ @param title The title text that will be displayed along the top
+ @return A new instance of TOAlertView
+ */
+- (instancetype)initWithTitle:(NSString *)title;
+
+/**
  Create a new instance of alert view with the supplied title and message.
 
  @param title The title text that will be displayed along the top
@@ -117,6 +125,16 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new instance of TOAlertView
  */
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
+
+/**
+ Create a new instance of alert view with the supplied title and an attributed
+ message. Inline links may be embedded via `NSLinkAttributeName`.
+
+ @param title The title text that will be displayed along the top
+ @param attributedMessage The attributed message displayed under the title
+ @return A new instance of TOAlertView
+ */
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage;
 
 /** Adds a new regular action to the new alert view controller */
 - (void)addAction:(TOAlertAction *)action;

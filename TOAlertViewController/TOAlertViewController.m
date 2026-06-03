@@ -44,12 +44,33 @@
 
 #pragma mark - View Controller Creation -
 
+- (instancetype)initWithTitle:(NSString *)title {
+    if (self = [super init]) {
+        super.title = title;
+
+        [self commonInit];
+    }
+
+    return self;
+}
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     if (self = [super init]) {
         super.title = title;
         _message = [message copy];
 
         [self commonInit];
+    }
+
+    return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage {
+    if (self = [super init]) {
+        super.title = title;
+
+        [self commonInit];
+        self.attributedMessage = attributedMessage;
     }
 
     return self;

@@ -70,8 +70,7 @@
                     range:NSMakeRange(gapRange.location + 1, 1)];
 
     TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms of Service updated"
-                                                                       message:@""];
-    alert.attributedMessage = message;
+                                                             attributedMessage:message];
     alert.messageTextAlignment = NSTextAlignmentLeft;
     alert.linkTappedHandler = ^(NSURL *url, NSRange range) {
         NSLog(@"Tapped link: %@", url);
