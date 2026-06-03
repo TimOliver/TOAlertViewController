@@ -63,3 +63,8 @@ fastlane/test_output
 iOSInjectionProject/
 .DS_Store
 /RevealServer.framework
+
+# Swift Package Manager
+.build/
+Package.resolved
+.swiftpm/
