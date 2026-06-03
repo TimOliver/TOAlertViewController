@@ -18,16 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-
-    UIButton *tosButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [tosButton setTitle:@"Show Terms of Service" forState:UIControlStateNormal];
-    [tosButton addTarget:self action:@selector(showTermsAlert:) forControlEvents:UIControlEventTouchUpInside];
-    tosButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:tosButton];
-    [NSLayoutConstraint activateConstraints:@[
-        [tosButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [tosButton.topAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:60.0f]
-    ]];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -48,37 +38,6 @@
 
     // The alert automatically follows the system light/dark appearance.
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)showTermsAlert:(id)sender {
-    NSString *body = @"To continue using this app, you must agree to the new Terms of Service. "
-                      "Do you agree to the Terms of Service? If you choose not to agree, the app will close.\n\n"
-                      "Terms of Service";
-    NSMutableAttributedString *message = [[NSMutableAttributedString alloc] initWithString:body];
-    NSRange linkRange = [body rangeOfString:@"Terms of Service" options:NSBackwardsSearch];
-    // The link color defaults to the app's accent (tint) color; we just add an underline.
-    [message addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://example.com/terms"] range:linkRange];
-    [message addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:linkRange];
-
-    // Shrink just the blank line between the paragraph and the link, so the link
-    // sits closer without changing the body text's line height.
-    NSRange gapRange = [body rangeOfString:@"\n\n"];
-    NSMutableParagraphStyle *blankLineStyle = [[NSMutableParagraphStyle alloc] init];
-    blankLineStyle.minimumLineHeight = 12.0f;
-    blankLineStyle.maximumLineHeight = 12.0f;
-    [message addAttribute:NSParagraphStyleAttributeName value:blankLineStyle
-                    range:NSMakeRange(gapRange.location + 1, 1)];
-
-    TOAlertViewController *alert = [[TOAlertViewController alloc] initWithTitle:@"Terms of Service updated"
-                                                             attributedMessage:message];
-    alert.messageTextAlignment = NSTextAlignmentLeft;
-    alert.linkTappedHandler = ^(NSURL *url, NSRange range) {
-        NSLog(@"Tapped link: %@", url);
-        [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
-    };
-    alert.defaultAction = [TOAlertAction alertActionWithTitle:@"Agree" action:^{ NSLog(@"Agreed"); }];
-    alert.cancelAction = [TOAlertAction alertActionWithTitle:@"Decline" action:^{ NSLog(@"Declined"); }];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
