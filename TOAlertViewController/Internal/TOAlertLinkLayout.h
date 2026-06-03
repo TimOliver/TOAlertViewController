@@ -1,5 +1,5 @@
 //
-//  TOAlertMessageText.h
+//  TOAlertLinkLayout.h
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //

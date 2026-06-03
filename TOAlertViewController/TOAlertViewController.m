@@ -47,7 +47,6 @@
 - (instancetype)initWithTitle:(NSString *)title {
     if (self = [super init]) {
         super.title = title;
-
         [self commonInit];
     }
 
@@ -58,7 +57,6 @@
     if (self = [super init]) {
         super.title = title;
         _message = [message copy];
-
         [self commonInit];
     }
 
@@ -68,7 +66,6 @@
 - (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage {
     if (self = [super init]) {
         super.title = title;
-
         [self commonInit];
         self.attributedMessage = attributedMessage;
     }

@@ -1,5 +1,5 @@
 //
-//  TOAlertMessageTextTests.m
+//  TOAlertLinkLayoutTests.m
 //
 //  Copyright 2019-2026 Timothy Oliver. All rights reserved.
 //
@@ -21,12 +21,12 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <XCTest/XCTest.h>
-#import "TOAlertMessageText.h"
+#import "TOAlertLinkLayout.h"
 
-@interface TOAlertMessageTextTests : XCTestCase
+@interface TOAlertLinkLayoutTests : XCTestCase
 @end
 
-@implementation TOAlertMessageTextTests
+@implementation TOAlertLinkLayoutTests
 
 #pragma mark - Normalization -
 

@@ -23,7 +23,7 @@
 #import "TOAlertView.h"
 #import "TORoundedButton.h"
 #import "TOAlertAction.h"
-#import "TOAlertMessageText.h"
+#import "TOAlertLinkLayout.h"
 
 // -------------------------------------------
 
