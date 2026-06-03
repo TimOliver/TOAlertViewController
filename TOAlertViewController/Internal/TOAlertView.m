@@ -123,6 +123,7 @@
     _titleLabel.textColor = [UIColor labelColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.adjustsFontForContentSizeCategory = YES;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.text = _title;
     [self addSubview:_titleLabel];
 
