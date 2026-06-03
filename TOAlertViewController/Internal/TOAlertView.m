@@ -152,7 +152,8 @@
 - (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action
                                 textColor:(UIColor *)textColor
                           backgroundColor:(UIColor *)backgroundColor
-                                 boldText:(BOOL)boldText {
+                                 boldText:(BOOL)boldText
+                              destructive:(BOOL)destructive {
     UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
     UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
     UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
@@ -165,7 +166,7 @@
     button.textColor = textColor;
     button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
-    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action]; };
+    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action destructive:destructive]; };
     return button;
 }
 
@@ -444,9 +445,14 @@
 
 #pragma mark - Interaction -
 
-- (void)buttonTappedWithAction:(void (^)(void))action {
-    // A light tactile confirmation as the user commits to a choice.
-    [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+- (void)buttonTappedWithAction:(void (^)(void))action destructive:(BOOL)destructive {
+    // A tactile confirmation as the user commits to a choice — a more intense
+    // warning for the destructive (irreversible) action.
+    if (destructive) {
+        [[UINotificationFeedbackGenerator new] notificationOccurred:UINotificationFeedbackTypeWarning];
+    } else {
+        [[[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium] impactOccurred];
+    }
 
     if (self.buttonTappedHandler) { self.buttonTappedHandler(action); }
 }
@@ -556,7 +562,8 @@
     _defaultButton = [self makeButtonWithAction:defaultAction
                                       textColor:self.defaultActionTextColor
                                 backgroundColor:self.tintColor
-                                       boldText:YES];
+                                       boldText:YES
+                                    destructive:NO];
     [self addSubview:_defaultButton];
 }
 
@@ -577,7 +584,8 @@
     _destructiveButton = [self makeButtonWithAction:destructiveAction
                                           textColor:self.destructiveActionTextColor
                                     backgroundColor:_destructiveActionButtonColor
-                                           boldText:NO];
+                                           boldText:NO
+                                        destructive:YES];
     [self addSubview:_destructiveButton];
 }
 
@@ -598,7 +606,8 @@
     _cancelButton = [self makeButtonWithAction:cancelAction
                                      textColor:self.actionTextColor
                                backgroundColor:_actionButtonColor
-                                      boldText:NO];
+                                      boldText:NO
+                                   destructive:NO];
     [self addSubview:_cancelButton];
 }
 
@@ -616,7 +625,8 @@
     TORoundedButton *button = [self makeButtonWithAction:action
                                                textColor:self.actionTextColor
                                          backgroundColor:self.actionButtonColor
-                                                boldText:NO];
+                                                boldText:NO
+                                             destructive:NO];
     [self.buttons addObject:button];
     [self addSubview:button];
 }
