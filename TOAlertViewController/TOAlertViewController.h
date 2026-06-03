@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *message;
 
 /** An attributed body message. When set, it takes precedence over `message`.
-    Inline links are added by the caller via `NSLinkAttributeName`. */
+    Inline links are also possible using `NSLinkAttributeName`. */
 @property (nullable, nonatomic, copy) NSAttributedString *attributedMessage;
 
 /** The alignment of the body message, plain or attributed. (Default is `NSTextAlignmentCenter`) */
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** The corner radius of the buttons (default is 15.0f) */
 @property (nonatomic, assign) CGFloat buttonCornerRadius;
 
-/** The vertical spacing between the title and message labels (Default is 7) */
+/** The vertical spacing between the title and message labels (Default is 16) */
 @property (nonatomic, assign) CGFloat verticalTextSpacing;
 
 /** The spacing between horizontally and vertically aligned buttons (Default is 8 both ways) */

@@ -88,7 +88,7 @@
     _buttonHeight = 54.0f;
     _contentInsets = (UIEdgeInsets){23.0f, 25.0f, 17.0f, 25.0f};
     _maximumWidth = 375.0f;
-    _verticalTextSpacing = 7.0f;
+    _verticalTextSpacing = 16.0f;
     _buttonInsets = (UIEdgeInsets){18.0f, 17.0f, 0.0f, 17.0f};
     _messageTextAlignment = NSTextAlignmentCenter;
 
