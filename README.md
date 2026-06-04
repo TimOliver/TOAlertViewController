@@ -91,4 +91,4 @@ The iOS device mockup art was also created by Tim Oliver and is [available on Dr
 
 # License
 
-`TOAlertViewController`  is available under the MIT license. Please see the [LICENSE](LICENSE) file for more information. ![analytics](https://ga-beacon.appspot.com/UA-5643664-16/TOAlertViewController/README.md?pixel)
+`TOAlertViewController`  is available under the MIT license. Please see the [LICENSE](LICENSE) file for more information.
