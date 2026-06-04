@@ -63,8 +63,8 @@ static SEL TOAlertBlurFilterSelector(void) {
     // and keep a copy if it does.
     dispatch_once(&onceToken, ^{
         @autoreleasepool {
-            SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
-            Class filterClass = TOAlertBlurFilterClass();
+            const SEL candidate = NSSelectorFromString([@[@"filter", @"With", @"Type:"] componentsJoinedByString:@""]);
+            const Class filterClass = TOAlertBlurFilterClass();
             if (filterClass && [filterClass respondsToSelector:candidate]) { selector = candidate; }
         }
     });

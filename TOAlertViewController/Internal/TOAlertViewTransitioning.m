@@ -58,12 +58,12 @@
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    const NSTimeInterval duration = [self transitionDuration:transitionContext];
 
     // Get the target view controller
-    UITransitionContextViewControllerKey key =
+    const UITransitionContextViewControllerKey key =
         _isReverse ? UITransitionContextFromViewControllerKey : UITransitionContextToViewControllerKey;
-    UIViewController *controller = [transitionContext viewControllerForKey:key];
+    UIViewController *const controller = [transitionContext viewControllerForKey:key];
 
     // Add it to the container
     [transitionContext.containerView addSubview:controller.view];
@@ -75,9 +75,9 @@
         [self.dimmingView playFadeOutAnimationWithDuration:duration * 0.5];
     }
 
-    CGFloat zeroAlpha = 0.0f, fullAlpha = 1.0f;
-    CGAffineTransform identity = CGAffineTransformIdentity;
-    CGAffineTransform scaled = CGAffineTransformScale(CGAffineTransformIdentity, 0.85f, 0.85f);
+    const CGFloat zeroAlpha = 0.0f, fullAlpha = 1.0f;
+    const CGAffineTransform identity = CGAffineTransformIdentity;
+    const CGAffineTransform scaled = CGAffineTransformScale(CGAffineTransformIdentity, 0.85f, 0.85f);
 
     // Fade in the alert view
     if (!self.isReverse) {
