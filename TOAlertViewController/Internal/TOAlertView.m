@@ -690,7 +690,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 }
 
 - (void)removeAction:(TOAlertAction *)action {
-    NSUInteger index = [self.actions indexOfObject:action];
+    NSUInteger index = [self.actions indexOfObjectIdenticalTo:action];
     [self removeActionAtIndex:index];
 }
 
