@@ -323,8 +323,9 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
     // Sum the button rows. Plain rows use the fixed height; full-width custom
     // rows are measured against their content. The last two plain buttons may
-    // share a row.
-    const CGFloat buttonWidth = size.width - (_buttonInsets.left + _buttonInsets.right);
+    // share a row. Use the clamped frame width (not the raw bound size) so the
+    // measured row heights match the widths layoutSubviews will lay out at.
+    const CGFloat buttonWidth = frame.size.width - (_buttonInsets.left + _buttonInsets.right);
     NSArray<TORoundedButton *> *const displayButtons = self.displayButtons;
     const BOOL pairLastTwo = [self _shouldPairLastTwoButtonsForWidth:buttonWidth];
     const NSInteger rowCount = displayButtons.count - (pairLastTwo ? 1 : 0);
