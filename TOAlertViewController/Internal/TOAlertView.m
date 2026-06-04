@@ -24,6 +24,7 @@
 #import "TORoundedButton.h"
 #import "TOAlertAction.h"
 #import "TOAlertLinkLayout.h"
+#import "TOAlertMacros.h"
 
 // The haptic played when a button is tapped, chosen to match the button's role.
 typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
@@ -63,6 +64,25 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 @property (nonatomic, strong) UINotificationFeedbackGenerator *notificationFeedback;
 @property (nonatomic, strong) UIImpactFeedbackGenerator *mediumImpactFeedback;
 
+// Private helpers, dispatched directly since they are only ever called via [self …]
+- (void)_alertViewCommonInit TOALERT_OBJC_DIRECT;
+- (void)_setUpSubviews TOALERT_OBJC_DIRECT;
+- (TORoundedButton *)_makeButtonWithAction:(TOAlertAction *)action
+                                 textColor:(UIColor *)textColor
+                           backgroundColor:(UIColor *)backgroundColor
+                                  boldText:(BOOL)boldText
+                                  feedback:(TOAlertButtonFeedback)feedback TOALERT_OBJC_DIRECT;
+- (void)_configureDefaultColors TOALERT_OBJC_DIRECT;
+- (void)_configureViewsForCurrentTheme TOALERT_OBJC_DIRECT;
+- (void)_updateMessageLabel TOALERT_OBJC_DIRECT;
+- (NSInteger)_numberOfButtonRowsForWidth:(CGFloat)width TOALERT_OBJC_DIRECT;
+- (void)_buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback TOALERT_OBJC_DIRECT;
+- (nullable TOAlertLink *)_linkAtPointInMessageLabel:(CGPoint)point TOALERT_OBJC_DIRECT;
+- (TOAlertLinkLayout *)_makeLinkLayout TOALERT_OBJC_DIRECT;
+- (void)_showHighlightForLink:(TOAlertLink *)link TOALERT_OBJC_DIRECT;
+- (void)_hideHighlight TOALERT_OBJC_DIRECT;
+- (void)_animateHighlightToOpacity:(CGFloat)opacity TOALERT_OBJC_DIRECT;
+
 @end
 
 @implementation TOAlertView
@@ -73,25 +93,25 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     if (self = [super initWithFrame:CGRectZero]) {
         _title = [title copy];
         _message = [message copy];
-        [self alertViewCommonInit];
+        [self _alertViewCommonInit];
     }
 
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:CGRectZero]) { [self alertViewCommonInit]; }
+    if (self = [super initWithFrame:CGRectZero]) { [self _alertViewCommonInit]; }
 
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) { [self alertViewCommonInit]; }
+    if (self = [super initWithCoder:aDecoder]) { [self _alertViewCommonInit]; }
 
     return self;
 }
 
-- (void)alertViewCommonInit {
+- (void)_alertViewCommonInit {
     _buttons = [NSMutableArray array];
     _cornerRadius = 30.0f;
     _buttonCornerRadius = 15.0f;
@@ -103,11 +123,11 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     _buttonInsets = (UIEdgeInsets){28.0f, 17.0f, 0.0f, 17.0f};
     _messageTextAlignment = NSTextAlignmentCenter;
 
-    [self setUpSubviews];
-    [self configureDefaultColors];
+    [self _setUpSubviews];
+    [self _configureDefaultColors];
 }
 
-- (void)setUpSubviews {
+- (void)_setUpSubviews {
     // Make sure the container itself is clear
     [super setBackgroundColor:[UIColor clearColor]];
 
@@ -144,7 +164,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     _messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _messageLabel.adjustsFontForContentSizeCategory = YES;
     _messageLabel.numberOfLines = 0;
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
     _messageLabel.userInteractionEnabled = YES;
 
     _linkHighlightLayer = [CAShapeLayer layer];
@@ -160,24 +180,24 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     [self addSubview:_messageLabel];
 }
 
-- (TORoundedButton *)makeButtonWithAction:(TOAlertAction *)action
+- (TORoundedButton *)_makeButtonWithAction:(TOAlertAction *)action
                                 textColor:(UIColor *)textColor
                           backgroundColor:(UIColor *)backgroundColor
                                  boldText:(BOOL)boldText
                                  feedback:(TOAlertButtonFeedback)feedback {
     UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
     UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
-    UIFont *buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
+    UIFont *const buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
 
     __weak typeof(self) weakSelf = self;
-    TORoundedButton *button = [[TORoundedButton alloc] initWithText:action.title];
+    TORoundedButton *const button = [[TORoundedButton alloc] initWithText:action.title];
     button.backgroundStyle = TORoundedButtonBackgroundStyleSolid;
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
     button.textColor = textColor;
     button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
-    button.tappedHandler = ^{ [weakSelf buttonTappedWithAction:action.action feedback:feedback]; };
+    button.tappedHandler = ^{ [weakSelf _buttonTappedWithAction:action.action feedback:feedback]; };
     return button;
 }
 
@@ -191,7 +211,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     }];
 }
 
-- (void)configureDefaultColors {
+- (void)_configureDefaultColors {
     // Title and message text follow the system label color
     _titleColor = [UIColor labelColor];
     _messageColor = [UIColor labelColor];
@@ -216,7 +236,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     [self setNeedsLayout];
 }
 
-- (void)configureViewsForCurrentTheme {
+- (void)_configureViewsForCurrentTheme {
     // Title label
     self.titleLabel.backgroundColor = self.backgroundColor;
     self.titleLabel.textColor = self.titleColor;
@@ -224,7 +244,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     // Message label
     self.messageLabel.backgroundColor = self.backgroundColor;
     self.messageLabel.textColor = self.messageColor;
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
 
     // Destructive button
     if (self.destructiveButton) {
@@ -253,7 +273,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 #pragma mark - Presentation Configuration -
 
-- (void)updateMessageLabel {
+- (void)_updateMessageLabel {
     self.messageLabel.textAlignment = self.messageTextAlignment;
     if (self.attributedMessage) {
         self.messageLabel.attributedText = TOAlertNormalizedMessage(self.attributedMessage,
@@ -273,7 +293,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     frame.size.width = MIN(_maximumWidth, size.width);
 
     // For sizing text, work out the usable width we have
-    CGFloat contentWidth = frame.size.width - (_contentInsets.left + _contentInsets.right);
+    const CGFloat contentWidth = frame.size.width - (_contentInsets.left + _contentInsets.right);
     CGSize contentSize = (CGSize){contentWidth, CGFLOAT_MAX};
 
     // Work out the height we need to fit every element
@@ -288,8 +308,8 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     frame.size.height += [self.messageLabel sizeThatFits:contentSize].height + _buttonInsets.top;
 
     // Work out the number of rows for buttons
-    CGFloat buttonWidth = size.width - (_buttonInsets.left + _buttonInsets.right);
-    NSInteger numberOfRows = [self numberOfButtonRowsForWidth:buttonWidth];
+    const CGFloat buttonWidth = size.width - (_buttonInsets.left + _buttonInsets.right);
+    const NSInteger numberOfRows = [self _numberOfButtonRowsForWidth:buttonWidth];
 
     // Add button height
     frame.size.height += numberOfRows * _buttonHeight;
@@ -300,7 +320,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     self.frame = frame;
 }
 
-- (NSInteger)numberOfButtonRowsForWidth:(CGFloat)width {
+- (NSInteger)_numberOfButtonRowsForWidth:(CGFloat)width {
     // Return none if absolutely no actions are set
     if (!self.defaultAction && !self.cancelAction && !self.destructiveAction && self.actions.count == 0) { return 0; }
 
@@ -348,7 +368,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
     // If necessary, set the new color theme
     if (self.isDirty) {
-        [self configureViewsForCurrentTheme];
+        [self _configureViewsForCurrentTheme];
         self.isDirty = NO;
     }
 
@@ -356,7 +376,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     self.backgroundView.frame = self.bounds;
 
     // For sizing text, work out the usable width we have
-    CGFloat contentWidth = self.bounds.size.width - (_contentInsets.left + _contentInsets.right);
+    const CGFloat contentWidth = self.bounds.size.width - (_contentInsets.left + _contentInsets.right);
     CGSize contentSize = (CGSize){contentWidth, CGFLOAT_MAX};
 
     // Track the vertical layout height
@@ -384,10 +404,10 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
     // Add any regular buttons
     NSInteger i = 0;
-    CGFloat buttonWidth = self.bounds.size.width - (_buttonInsets.left + _buttonInsets.right);
-    CGFloat midWidth = floorf((buttonWidth - _buttonSpacing.width) * 0.5f);
+    const CGFloat buttonWidth = self.bounds.size.width - (_buttonInsets.left + _buttonInsets.right);
+    const CGFloat midWidth = floorf((buttonWidth - _buttonSpacing.width) * 0.5f);
 
-    NSArray<TORoundedButton *> *displayButtons = self.displayButtons;
+    NSArray<TORoundedButton *> *const displayButtons = self.displayButtons;
     for (TORoundedButton *button in displayButtons) {
         frame = CGRectZero;
         frame.size.width = buttonWidth;
@@ -441,7 +461,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
 }
 
 #pragma mark - Hit Testing -
@@ -452,7 +472,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     // point falls outside the label itself (e.g. in the gap above the buttons).
     if (self.messageLabel.attributedText.length > 0) {
         CGPoint labelPoint = [self convertPoint:point toView:self.messageLabel];
-        if ([[self makeLinkLayout] linkAtPoint:labelPoint] != nil) {
+        if ([[self _makeLinkLayout] linkAtPoint:labelPoint] != nil) {
             return self.messageLabel;
         }
     }
@@ -461,7 +481,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 #pragma mark - Interaction -
 
-- (void)buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback {
+- (void)_buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback {
     // Play a haptic impact, with intensity being driven by the type of button
     switch (feedback) {
         case TOAlertButtonFeedbackSuccess:
@@ -500,31 +520,31 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            TOAlertLink *link = [self _linkAtPointInMessageLabel:point];
             if (link == nil) { self.activeLink = nil; break; }
             self.activeLink = link;
-            [self showHighlightForLink:link];
+            [self _showHighlightForLink:link];
             break;
         }
         case UIGestureRecognizerStateChanged: {
             if (self.activeLink == nil) { break; }
-            TOAlertLink *link = [self linkAtPointInMessageLabel:point];
+            TOAlertLink *link = [self _linkAtPointInMessageLabel:point];
             if (link == nil || !NSEqualRanges(link.range, self.activeLink.range)) {
-                [self hideHighlight];
+                [self _hideHighlight];
                 self.activeLink = nil;
             }
             break;
         }
         case UIGestureRecognizerStateEnded: {
             TOAlertLink *link = self.activeLink;
-            [self hideHighlight];
+            [self _hideHighlight];
             self.activeLink = nil;
             if (link && self.linkTappedHandler) { self.linkTappedHandler(link.URL, link.range); }
             break;
         }
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed: {
-            [self hideHighlight];
+            [self _hideHighlight];
             self.activeLink = nil;
             break;
         }
@@ -532,11 +552,11 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     }
 }
 
-- (nullable TOAlertLink *)linkAtPointInMessageLabel:(CGPoint)point {
-    return [[self makeLinkLayout] linkAtPoint:point];
+- (nullable TOAlertLink *)_linkAtPointInMessageLabel:(CGPoint)point {
+    return [[self _makeLinkLayout] linkAtPoint:point];
 }
 
-- (TOAlertLinkLayout *)makeLinkLayout {
+- (TOAlertLinkLayout *)_makeLinkLayout {
     NSAttributedString *text = self.messageLabel.attributedText;
     return [[TOAlertLinkLayout alloc] initWithAttributedString:(text ?: [NSAttributedString new])
                                                          size:self.messageLabel.bounds.size
@@ -544,10 +564,10 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
                                                 lineBreakMode:self.messageLabel.lineBreakMode];
 }
 
-- (void)showHighlightForLink:(TOAlertLink *)link {
-    NSArray<NSValue *> *rects = [[self makeLinkLayout] enclosingRectsForRange:link.range];
+- (void)_showHighlightForLink:(TOAlertLink *)link {
+    NSArray<NSValue *> *const rects = [[self _makeLinkLayout] enclosingRectsForRange:link.range];
 
-    UIBezierPath *path = [UIBezierPath bezierPath];
+    UIBezierPath *const path = [UIBezierPath bezierPath];
     for (NSValue *value in rects) {
         CGRect rect = CGRectInset(value.CGRectValue, -3.0f, -3.0f);   // a little breathing room
         [path appendPath:[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.0f]];
@@ -562,15 +582,15 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     self.linkHighlightLayer.path = path.CGPath;
     [CATransaction commit];
 
-    [self animateHighlightToOpacity:1.0f];
+    [self _animateHighlightToOpacity:1.0f];
 }
 
-- (void)hideHighlight {
-    [self animateHighlightToOpacity:0.0f];
+- (void)_hideHighlight {
+    [self _animateHighlightToOpacity:0.0f];
 }
 
-- (void)animateHighlightToOpacity:(CGFloat)opacity {
-    CALayer *presentation = self.linkHighlightLayer.presentationLayer;
+- (void)_animateHighlightToOpacity:(CGFloat)opacity {
+    CALayer *const presentation = self.linkHighlightLayer.presentationLayer;
     CABasicAnimation *fade = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fade.fromValue = @(presentation ? presentation.opacity : self.linkHighlightLayer.opacity);
     fade.toValue = @(opacity);
@@ -597,7 +617,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
         return;
     }
 
-    _defaultButton = [self makeButtonWithAction:defaultAction
+    _defaultButton = [self _makeButtonWithAction:defaultAction
                                       textColor:self.defaultActionTextColor
                                 backgroundColor:self.tintColor
                                        boldText:YES
@@ -619,7 +639,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
         return;
     }
 
-    _destructiveButton = [self makeButtonWithAction:destructiveAction
+    _destructiveButton = [self _makeButtonWithAction:destructiveAction
                                           textColor:self.destructiveActionTextColor
                                     backgroundColor:_destructiveActionButtonColor
                                            boldText:NO
@@ -641,7 +661,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
         return;
     }
 
-    _cancelButton = [self makeButtonWithAction:cancelAction
+    _cancelButton = [self _makeButtonWithAction:cancelAction
                                      textColor:self.actionTextColor
                                backgroundColor:_actionButtonColor
                                       boldText:NO
@@ -660,7 +680,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     [actions addObject:action];
 
     // Create button for it
-    TORoundedButton *button = [self makeButtonWithAction:action
+    TORoundedButton *button = [self _makeButtonWithAction:action
                                                textColor:self.actionTextColor
                                          backgroundColor:self.actionButtonColor
                                                 boldText:NO
@@ -719,20 +739,20 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 - (void)setMessage:(NSString *)message {
     _message = [message copy];
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
     [self setNeedsLayout];
 }
 
 - (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
     _attributedMessage = [attributedMessage copy];
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
     [self setNeedsLayout];
 }
 
 - (void)setMessageTextAlignment:(NSTextAlignment)messageTextAlignment {
     if (_messageTextAlignment == messageTextAlignment) { return; }
     _messageTextAlignment = messageTextAlignment;
-    [self updateMessageLabel];
+    [self _updateMessageLabel];
     [self setNeedsLayout];
 }
 
