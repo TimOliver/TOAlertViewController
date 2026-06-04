@@ -81,6 +81,7 @@
 		22F09B6122A0290E001DFB9A /* TOAlertDimmingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertDimmingView.h; sourceTree = "<group>"; };
 		22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertDimmingView.m; sourceTree = "<group>"; };
 		2AEB4768BD74F2C0040BDEB7 /* TOAlertLinkLayoutTests.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOAlertLinkLayoutTests.m; sourceTree = "<group>"; };
+		F54B9E35294FBB5E279B8ED2 /* TOAlertMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOAlertMacros.h; sourceTree = "<group>"; };
 		FEBA216E3F5603ADB5B9793E /* TOAlertLinkLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOAlertLinkLayout.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,6 +200,7 @@
 				22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */,
 				FEBA216E3F5603ADB5B9793E /* TOAlertLinkLayout.h */,
 				0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */,
+				F54B9E35294FBB5E279B8ED2 /* TOAlertMacros.h */,
 			);
 			path = Internal;
 			sourceTree = "<group>";

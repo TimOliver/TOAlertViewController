@@ -24,8 +24,11 @@
 #import "TOAlertView.h"
 #import "TOAlertDimmingView.h"
 #import "TOAlertViewTransitioning.h"
+#import "TOAlertMacros.h"
 
 @interface TOAlertViewController () <UIViewControllerTransitioningDelegate>
+
+- (void)_commonInit TOALERT_OBJC_DIRECT;
 
 // State to track when we're dismissing so to disable any implicit layout
 @property (nonatomic, assign) BOOL isDismissing;
@@ -48,7 +51,7 @@
 // so commonInit runs exactly once.
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        [self commonInit];
+        [self _commonInit];
     }
 
     return self;
@@ -80,7 +83,7 @@
     return self;
 }
 
-- (void)commonInit {
+- (void)_commonInit {
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
 }
 
