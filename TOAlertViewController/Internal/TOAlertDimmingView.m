@@ -22,6 +22,7 @@
 
 #import "TOAlertDimmingView.h"
 #import "TOAlertBlurFilter.h"
+#import "TOAlertMacros.h"
 
 // The resting gaussian blur radius (in points) shown behind the alert.
 // Kept deliberately subtle to produce a 'depth-of-field' effect rather than
@@ -31,7 +32,7 @@ static const CGFloat kTOAlertDimmingBlurRadius = 4.0f;
 // The backdrop's sampling resolution when there is no blur to hide it.
 // 1.0 == full (native) resolution. As the radius grows, we drop toward the
 // system's resting downsample scale (captured at install) so the (now hidden)
-// downsampling stays cheap. See -backdropScaleForRadius:.
+// downsampling stays cheap. See -_backdropScaleForRadius:.
 static const CGFloat kTOAlertBackdropFullScale = 1.0f;
 
 #if TARGET_OS_SIMULATOR
@@ -73,17 +74,22 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
 // used as the fully-blurred end of the scale ramp. 0 until captured.
 @property (nonatomic, assign) CGFloat backdropRestingScale;
 
+- (void)_commonInit TOALERT_OBJC_DIRECT;
+- (CGFloat)_backdropScaleForRadius:(CGFloat)radius TOALERT_OBJC_DIRECT;
+- (CGFloat)_currentBackdropScale TOALERT_OBJC_DIRECT;
+- (void)_setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer TOALERT_OBJC_DIRECT;
+
 @end
 
 @implementation TOAlertDimmingView
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) { [self commonInit]; }
+    if (self = [super initWithFrame:frame]) { [self _commonInit]; }
 
     return self;
 }
 
-- (void)commonInit {
+- (void)_commonInit {
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backgroundColor = [UIColor clearColor];
 
@@ -143,7 +149,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
     // The material fallback is a stable effect that needs no re-application.
     if (self.blurConfigured && !self.usesGaussianFilter) { return; }
 
-    UIView *backdrop = TOAlertFindSubview(self.effectView, @"backdrop");
+    UIView *const backdrop = TOAlertFindSubview(self.effectView, @"backdrop");
     if (backdrop == nil) { return; }
 
     // Already installed on the current backdrop — just keep the tint overlay hidden.
@@ -153,7 +159,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
         return;
     }
 
-    id filter = TOAlertMakeBlurFilter(@"gaussianBlur");
+    id const filter = TOAlertMakeBlurFilter(@"gaussianBlur");
     if (filter == nil) {
         // SPI unavailable — fall back to a stable, subtle system material. Because
         // a complete effect is itself a resting value, it also survives backgrounding.
@@ -181,8 +187,8 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
     self.backdropView = backdrop;
     self.blurFilter = filter;
 
-    // Match the backdrop's resolution to the blur strength (see -backdropScaleForRadius:).
-    [self setBackdropScale:[self backdropScaleForRadius:self.blurRadius] onLayer:backdrop.layer];
+    // Match the backdrop's resolution to the blur strength (see -_backdropScaleForRadius:).
+    [self _setBackdropScale:[self _backdropScaleForRadius:self.blurRadius] onLayer:backdrop.layer];
 
     // Hide the effect view's tint overlay so only the pure blur shows through.
     TOAlertFindSubview(self.effectView, @"subview").hidden = YES;
@@ -200,7 +206,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
 // then snaps to full resolution on removal. UIKit avoids this for its own blur
 // transitions by ramping the backdrop scale up to full resolution as the blur
 // fades; we mirror that here so the backdrop sharpens in lockstep with the blur.
-- (CGFloat)backdropScaleForRadius:(CGFloat)radius {
+- (CGFloat)_backdropScaleForRadius:(CGFloat)radius {
     CGFloat resting = (self.backdropRestingScale > 0.0f) ? self.backdropRestingScale : 0.25f;
     CGFloat t = radius / kTOAlertDimmingBlurRadius; // 0 at no blur, 1 at the resting blur
     t = MAX(0.0f, MIN(t, 1.0f));
@@ -209,14 +215,14 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
 
 // The backdrop layer's current (model) scale, falling back to the value implied
 // by the current radius if the private key is unavailable.
-- (CGFloat)currentBackdropScale {
+- (CGFloat)_currentBackdropScale {
     NSNumber *scale = [self.backdropView.layer valueForKey:@"scale"];
-    return (scale != nil) ? scale.doubleValue : [self backdropScaleForRadius:_blurRadius];
+    return (scale != nil) ? scale.doubleValue : [self _backdropScaleForRadius:_blurRadius];
 }
 
 // Set the backdrop's model scale without an implicit animation; -setBlurRadius:
 // animated:duration: supplies the explicit one when a transition is wanted.
-- (void)setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer {
+- (void)_setBackdropScale:(CGFloat)scale onLayer:(CALayer *)layer {
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     [layer setValue:@(scale) forKey:@"scale"];
@@ -246,7 +252,7 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
         return;
     }
 
-    CGFloat currentRadius = _blurRadius;
+    const CGFloat currentRadius = _blurRadius;
 
     if (!self.usesGaussianFilter) {
         // Fallback path: cross-fade the material blur via its opacity.
@@ -258,14 +264,14 @@ static NSTimeInterval TOAlertSlowmoAdjustedDuration(NSTimeInterval duration) {
 
     // Capture the presentation start points before re-creating the filter sets
     // the new model values.
-    CGFloat currentScale = [self currentBackdropScale];
+    const CGFloat currentScale = [self _currentBackdropScale];
 
     // Set the model values (re-creates the filter and updates the backdrop scale),
     // then animate the presentation from the old values to the new ones.
     self.blurRadius = blurRadius;
-    CGFloat targetScale = [self backdropScaleForRadius:blurRadius];
+    const CGFloat targetScale = [self _backdropScaleForRadius:blurRadius];
 
-    CAMediaTimingFunction *timing = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    CAMediaTimingFunction *const timing = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 
     CABasicAnimation *radiusAnimation = [CABasicAnimation animationWithKeyPath:@"filters.gaussianBlur.inputRadius"];
     radiusAnimation.fromValue = @(currentRadius);
