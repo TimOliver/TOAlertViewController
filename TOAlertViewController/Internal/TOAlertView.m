@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 // All of the button views we can display
 @property (nonatomic, strong) NSMutableArray<TORoundedButton *> *buttons;
+@property (nonatomic, strong) NSHashTable<TORoundedButton *> *fullWidthButtons;
 @property (nonatomic, strong) TORoundedButton *defaultButton;
 @property (nonatomic, strong) TORoundedButton *cancelButton;
 @property (nonatomic, strong) TORoundedButton *destructiveButton;
@@ -113,6 +114,7 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 
 - (void)_alertViewCommonInit {
     _buttons = [NSMutableArray array];
+    _fullWidthButtons = [NSHashTable weakObjectsHashTable];
     _cornerRadius = 30.0f;
     _buttonCornerRadius = 15.0f;
     _buttonSpacing = (CGSize){12.0f, 15.0f};
@@ -185,17 +187,28 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
                           backgroundColor:(UIColor *)backgroundColor
                                  boldText:(BOOL)boldText
                                  feedback:(TOAlertButtonFeedback)feedback {
-    UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
-    UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
-    UIFont *const buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
-
     __weak typeof(self) weakSelf = self;
-    TORoundedButton *const button = [[TORoundedButton alloc] initWithText:action.title];
+
+    TORoundedButton *button;
+    if (action.contentView) {
+        // Custom-content action: hand the caller's view straight to the button and
+        // render it full width, sized to its content (see layout in Task 3).
+        button = [[TORoundedButton alloc] initWithContentView:action.contentView];
+        button.accessibilityLabel = action.title;
+        [self.fullWidthButtons addObject:button];
+    } else {
+        UIFontWeight fontWeight = boldText ? UIFontWeightBold : UIFontWeightMedium;
+        UIFontMetrics *buttonTitleMetrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle3];
+        UIFont *const buttonFont = [buttonTitleMetrics scaledFontForFont:[UIFont systemFontOfSize:19.0f weight:fontWeight]];
+
+        button = [[TORoundedButton alloc] initWithText:action.title];
+        button.textColor = textColor;
+        button.textFont = buttonFont;
+    }
+
     button.backgroundStyle = TORoundedButtonBackgroundStyleSolid;
     button.tintColor = backgroundColor;
     button.cornerRadius = _buttonCornerRadius;
-    button.textColor = textColor;
-    button.textFont = buttonFont;
     button.backgroundColor = [UIColor clearColor];
     button.tappedHandler = ^{ [weakSelf _buttonTappedWithAction:action.action feedback:feedback]; };
     return button;

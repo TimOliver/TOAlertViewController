@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
 #import "TOAlertAction.h"
+#import "TOAlertView.h"
 
 @interface TOAlertViewControllerTests : XCTestCase
 
@@ -46,6 +47,34 @@
     TOAlertAction *b = [[TOAlertAction alloc] initWithTitle:@"Call" action:nil];
     a.contentView = [[UIView alloc] init];
     XCTAssertTrue([a isEqualToAlertAction:b]);
+}
+
+- (void)testCustomContentViewIsRenderedInHierarchy {
+    UIView *custom = [[UIView alloc] init];
+    TOAlertAction *action = [[TOAlertAction alloc] initWithTitle:@"Call" action:nil];
+    action.contentView = custom;
+
+    TOAlertView *alertView = [[TOAlertView alloc] initWithTitle:@"Title" message:@"Message"];
+    [alertView addAction:action];
+
+    XCTAssertTrue([custom isDescendantOfView:alertView],
+                  @"The action's contentView should be placed inside the alert view's button.");
+}
+
+- (void)testCustomContentButtonUsesTitleAsAccessibilityLabel {
+    UIView *custom = [[UIView alloc] init];
+    TOAlertAction *action = [[TOAlertAction alloc] initWithTitle:@"Call 988" action:nil];
+    action.contentView = custom;
+
+    TOAlertView *alertView = [[TOAlertView alloc] initWithTitle:@"Title" message:@"Message"];
+    [alertView addAction:action];
+
+    UIView *ancestor = custom.superview;
+    while (ancestor && ![NSStringFromClass(ancestor.class) isEqualToString:@"TORoundedButton"]) {
+        ancestor = ancestor.superview;
+    }
+    XCTAssertNotNil(ancestor, @"Expected a TORoundedButton ancestor for the custom content view.");
+    XCTAssertEqualObjects(ancestor.accessibilityLabel, @"Call 988");
 }
 
 @end
