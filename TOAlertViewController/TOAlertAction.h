@@ -20,7 +20,7 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,6 +34,11 @@ NS_SWIFT_NAME(AlertAction)
 
 /// The block executed when the user taps this button.
 @property (nonatomic, copy, nullable) void (^action)(void);
+
+/// An optional custom view rendered in place of the action's title label.
+/// When set, the button displays this view instead of `title`. `title` is still
+/// used for the button's accessibility label and for action equality.
+@property (nonatomic, strong, nullable) UIView *contentView;
 
 /// Initializes a new alert action with the provided title and action block.
 /// - Parameters:
