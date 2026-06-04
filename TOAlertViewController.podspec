@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   # exclude it so CocoaPods doesn't see the headers twice.
   s.exclude_files = 'TOAlertViewController/include/**/*'
   s.requires_arc = true
-  s.dependency 'TORoundedButton', '~> 2.1'
+  s.dependency 'TORoundedButton', '~> 2.1.1'
 end
