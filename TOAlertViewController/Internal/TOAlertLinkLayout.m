@@ -21,6 +21,7 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "TOAlertLinkLayout.h"
+#import "TOAlertMacros.h"
 
 @implementation TOAlertLink
 
@@ -37,6 +38,7 @@
 // -------------------------------------------
 
 @interface TOAlertLinkLayout ()
+- (CGFloat)_verticalCenteringOffset TOALERT_OBJC_DIRECT;
 @property (nonatomic, strong) NSTextStorage *textStorage;
 @property (nonatomic, strong) NSLayoutManager *layoutManager;
 @property (nonatomic, strong) NSTextContainer *textContainer;
@@ -99,9 +101,9 @@
 
 - (NSArray<NSValue *> *)enclosingRectsForRange:(NSRange)range {
     NSMutableArray<NSValue *> *rects = [NSMutableArray array];
-    NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:range
-                                                   actualCharacterRange:NULL];
-    CGFloat yOffset = [self verticalCenteringOffset];
+    const NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:range
+                                                         actualCharacterRange:NULL];
+    const CGFloat yOffset = [self _verticalCenteringOffset];
 
     [self.layoutManager enumerateEnclosingRectsForGlyphRange:glyphRange
                                    withinSelectedGlyphRange:NSMakeRange(NSNotFound, 0)
@@ -116,7 +118,7 @@
 
 // UILabel vertically centers text shorter than its bounds. Apply the same
 // offset so points/rects map into the label's coordinate space.
-- (CGFloat)verticalCenteringOffset {
+- (CGFloat)_verticalCenteringOffset {
     CGRect usedRect = [self.layoutManager usedRectForTextContainer:self.textContainer];
     CGFloat slack = self.textContainer.size.height - usedRect.size.height;
     return MAX(0.0f, slack * 0.5f);
