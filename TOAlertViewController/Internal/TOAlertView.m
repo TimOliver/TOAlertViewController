@@ -76,7 +76,8 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
 - (void)_configureDefaultColors TOALERT_OBJC_DIRECT;
 - (void)_configureViewsForCurrentTheme TOALERT_OBJC_DIRECT;
 - (void)_updateMessageLabel TOALERT_OBJC_DIRECT;
-- (NSInteger)_numberOfButtonRowsForWidth:(CGFloat)width TOALERT_OBJC_DIRECT;
+- (CGFloat)_heightForButton:(TORoundedButton *)button width:(CGFloat)width TOALERT_OBJC_DIRECT;
+- (BOOL)_shouldPairLastTwoButtonsForWidth:(CGFloat)width TOALERT_OBJC_DIRECT;
 - (void)_buttonTappedWithAction:(void (^)(void))action feedback:(TOAlertButtonFeedback)feedback TOALERT_OBJC_DIRECT;
 - (nullable TOAlertLink *)_linkAtPointInMessageLabel:(CGPoint)point TOALERT_OBJC_DIRECT;
 - (TOAlertLinkLayout *)_makeLinkLayout TOALERT_OBJC_DIRECT;
@@ -320,40 +321,58 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     // Message label size
     frame.size.height += [self.messageLabel sizeThatFits:contentSize].height + _buttonInsets.top;
 
-    // Work out the number of rows for buttons
+    // Sum the button rows. Plain rows use the fixed height; full-width custom
+    // rows are measured against their content. The last two plain buttons may
+    // share a row.
     const CGFloat buttonWidth = size.width - (_buttonInsets.left + _buttonInsets.right);
-    const NSInteger numberOfRows = [self _numberOfButtonRowsForWidth:buttonWidth];
+    NSArray<TORoundedButton *> *const displayButtons = self.displayButtons;
+    const BOOL pairLastTwo = [self _shouldPairLastTwoButtonsForWidth:buttonWidth];
+    const NSInteger rowCount = displayButtons.count - (pairLastTwo ? 1 : 0);
 
-    // Add button height
-    frame.size.height += numberOfRows * _buttonHeight;
-
-    // Add button padding
-    frame.size.height += (numberOfRows - 1) * _buttonSpacing.height;
+    for (NSInteger i = 0; i < (NSInteger)displayButtons.count; i++) {
+        if (pairLastTwo && i == (NSInteger)displayButtons.count - 1) { continue; } // shares the previous row
+        frame.size.height += [self _heightForButton:displayButtons[i] width:buttonWidth];
+    }
+    if (rowCount > 1) {
+        frame.size.height += (rowCount - 1) * _buttonSpacing.height;
+    }
 
     self.frame = frame;
 }
 
-- (NSInteger)_numberOfButtonRowsForWidth:(CGFloat)width {
-    // Return none if absolutely no actions are set
-    if (!self.defaultAction && !self.cancelAction && !self.destructiveAction && self.actions.count == 0) { return 0; }
+// The laid-out height of a single button row. Full-width custom-content buttons
+// are measured against their content; plain text buttons use the fixed height.
+- (CGFloat)_heightForButton:(TORoundedButton *)button width:(CGFloat)width {
+    if (![self.fullWidthButtons containsObject:button]) { return _buttonHeight; }
 
-    // With padding, the maximum size a button may be
-    CGFloat maxWidth = floorf(width - (self.buttonSpacing.width * 0.5f));
+    UIView *const content = button.contentView;
+    const UIEdgeInsets inset = button.contentInset;
+    const CGFloat innerWidth = width - (inset.left + inset.right);
 
-    // As long as the labels are small enough, line up the two bottom
-    // ones side by side
-    NSArray *buttons = self.displayButtons;
-    NSInteger numberOfRows = self.displayButtons.count;
+    CGFloat height = [content systemLayoutSizeFittingSize:(CGSize){innerWidth, UILayoutFittingCompressedSize.height}
+                            withHorizontalFittingPriority:UILayoutPriorityRequired
+                                  verticalFittingPriority:UILayoutPriorityFittingSizeLevel].height;
+    if (height <= 0.0f) {
+        height = [content sizeThatFits:(CGSize){innerWidth, CGFLOAT_MAX}].height;
+    }
+    return ceilf(height) + inset.top + inset.bottom;
+}
 
-    // If only one button is there, it cannot be split
-    if (numberOfRows <= 1) { return 1; }
+// Whether the last two display buttons may share a row. Custom-content (full
+// width) buttons never pair.
+- (BOOL)_shouldPairLastTwoButtonsForWidth:(CGFloat)width {
+    NSArray<TORoundedButton *> *const buttons = self.displayButtons;
+    const NSInteger count = buttons.count;
+    if (count <= 1) { return NO; }
 
-    // Check if the final two buttons can be split and displayed side by side
-    TORoundedButton *lastButton = buttons.lastObject;
-    TORoundedButton *secondLastButton = [buttons objectAtIndex:numberOfRows - 2];
-    if (lastButton.minimumWidth < maxWidth && secondLastButton.minimumWidth < maxWidth) { numberOfRows--; }
+    TORoundedButton *const last = buttons[count - 1];
+    TORoundedButton *const secondLast = buttons[count - 2];
+    if ([self.fullWidthButtons containsObject:last] || [self.fullWidthButtons containsObject:secondLast]) {
+        return NO;
+    }
 
-    return numberOfRows;
+    const CGFloat maxWidth = floorf(width - (self.buttonSpacing.width * 0.5f));
+    return (last.minimumWidth < maxWidth && secondLast.minimumWidth < maxWidth);
 }
 
 - (NSArray<TORoundedButton *> *)displayButtons {
@@ -416,36 +435,37 @@ typedef NS_ENUM(NSInteger, TOAlertButtonFeedback) {
     y = CGRectGetMaxY(frame) + self.buttonInsets.top;
 
     // Add any regular buttons
-    NSInteger i = 0;
     const CGFloat buttonWidth = self.bounds.size.width - (_buttonInsets.left + _buttonInsets.right);
     const CGFloat midWidth = floorf((buttonWidth - _buttonSpacing.width) * 0.5f);
 
     NSArray<TORoundedButton *> *const displayButtons = self.displayButtons;
-    for (TORoundedButton *button in displayButtons) {
+    const BOOL pairLastTwo = [self _shouldPairLastTwoButtonsForWidth:buttonWidth];
+
+    for (NSInteger i = 0; i < (NSInteger)displayButtons.count; i++) {
+        TORoundedButton *const button = displayButtons[i];
+        const CGFloat rowHeight = [self _heightForButton:button width:buttonWidth];
+
         frame = CGRectZero;
         frame.size.width = buttonWidth;
-        frame.size.height = _buttonHeight;
+        frame.size.height = rowHeight;
         frame.origin.x = _buttonInsets.left;
         frame.origin.y = y;
 
-        // For the second last button, change its width to half if both support it
-        if (i == displayButtons.count - 2) {
-            if (button.minimumWidth < midWidth && displayButtons[i + 1].minimumWidth < midWidth) {
-                frame.size.width = midWidth;
-            }
-        } else if (i == displayButtons.count - 1) {
-            if (button.minimumWidth < midWidth && displayButtons[i - 1].minimumWidth < midWidth) {
-                frame.origin.y = displayButtons[i - 1].frame.origin.y;
-                frame.size.width = midWidth;
-                frame.origin.x = self.bounds.size.width - (_buttonInsets.left + midWidth);
-            }
+        if (pairLastTwo && i == (NSInteger)displayButtons.count - 2) {
+            frame.size.width = midWidth;
+            frame.size.height = _buttonHeight;
+            button.frame = CGRectIntegral(frame);
+            y += _buttonHeight + _buttonSpacing.height;
+        } else if (pairLastTwo && i == (NSInteger)displayButtons.count - 1) {
+            frame.origin.y = displayButtons[i - 1].frame.origin.y;
+            frame.size.width = midWidth;
+            frame.size.height = _buttonHeight;
+            frame.origin.x = self.bounds.size.width - (_buttonInsets.left + midWidth);
+            button.frame = CGRectIntegral(frame);
+        } else {
+            button.frame = CGRectIntegral(frame);
+            y += rowHeight + _buttonSpacing.height;
         }
-
-        y += _buttonSpacing.height + _buttonHeight;
-
-        button.frame = CGRectIntegral(frame);
-
-        i++;
     }
 
     // Update the shadow path shape

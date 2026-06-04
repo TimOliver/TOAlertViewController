@@ -77,4 +77,61 @@
     XCTAssertEqualObjects(ancestor.accessibilityLabel, @"Call 988");
 }
 
+- (void)testCustomContentRowGrowsToFitContentHeight {
+    UIView *(^makeRow)(CGFloat) = ^UIView *(CGFloat height) {
+        UIView *row = [[UIView alloc] init];
+        row.translatesAutoresizingMaskIntoConstraints = NO; // measured via Auto Layout
+        [row.heightAnchor constraintEqualToConstant:height].active = YES;
+        return row;
+    };
+
+    TOAlertView *(^makeAlert)(CGFloat) = ^TOAlertView *(CGFloat rowHeight) {
+        TOAlertAction *action = [[TOAlertAction alloc] initWithTitle:@"Resource" action:nil];
+        action.contentView = makeRow(rowHeight);
+        TOAlertView *alert = [[TOAlertView alloc] initWithTitle:@"Title" message:@"Message"];
+        [alert addAction:action];
+        [alert sizeToFitInBoundSize:CGSizeMake(375.0f, 2000.0f)];
+        return alert;
+    };
+
+    CGFloat shortHeight = CGRectGetHeight(makeAlert(40.0f).frame);
+    CGFloat tallHeight = CGRectGetHeight(makeAlert(160.0f).frame);
+    XCTAssertGreaterThan(tallHeight - shortHeight, 100.0f,
+                         @"A 120pt-taller content view should make the alert ~120pt taller.");
+}
+
+- (void)testCustomContentButtonIsFullWidth {
+    TOAlertView *alert = [[TOAlertView alloc] initWithTitle:@"Title" message:@"Message"];
+    NSMutableArray<UIView *> *rows = [NSMutableArray array];
+    for (NSInteger i = 0; i < 2; i++) {
+        UIView *row = [[UIView alloc] init];
+        row.translatesAutoresizingMaskIntoConstraints = NO; // measured via Auto Layout
+        [row.heightAnchor constraintEqualToConstant:60.0f].active = YES;
+        [rows addObject:row];
+        TOAlertAction *action = [[TOAlertAction alloc] initWithTitle:[NSString stringWithFormat:@"Row %ld", (long)i] action:nil];
+        action.contentView = row;
+        [alert addAction:action];
+    }
+
+    [alert sizeToFitInBoundSize:CGSizeMake(375.0f, 2000.0f)];
+    [alert layoutIfNeeded];
+
+    UIView *button0 = rows[0].superview;
+    UIView *button1 = rows[1].superview;
+    while (button0 && ![NSStringFromClass(button0.class) isEqualToString:@"TORoundedButton"]) button0 = button0.superview;
+    while (button1 && ![NSStringFromClass(button1.class) isEqualToString:@"TORoundedButton"]) button1 = button1.superview;
+
+    XCTAssertNotNil(button0);
+    XCTAssertNotNil(button1);
+    XCTAssertNotEqualWithAccuracy(CGRectGetMinY(button0.frame), CGRectGetMinY(button1.frame), 1.0f);
+    XCTAssertEqualWithAccuracy(CGRectGetWidth(button0.frame), CGRectGetWidth(button1.frame), 1.0f);
+}
+
+- (void)testPlainTextButtonSizingUnchanged {
+    TOAlertView *alert = [[TOAlertView alloc] initWithTitle:@"Title" message:@"Message"];
+    [alert addAction:[[TOAlertAction alloc] initWithTitle:@"OK" action:nil]];
+    [alert sizeToFitInBoundSize:CGSizeMake(375.0f, 2000.0f)];
+    XCTAssertGreaterThan(CGRectGetHeight(alert.frame), 0.0f);
+}
+
 @end
