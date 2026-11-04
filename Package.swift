@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/TimOliver/TORoundedButton", .upToNextMajor(from: "2.1.1")),
-        .package(url: "https://github.com/TimOliver/BlurUIKit", .upToNextMajor(from: "1.7.1"))
+        .package(url: "https://github.com/TimOliver/BlurUIKit", .upToNextMajor(from: "1.8.0"))
     ],
     targets: [
         .target(

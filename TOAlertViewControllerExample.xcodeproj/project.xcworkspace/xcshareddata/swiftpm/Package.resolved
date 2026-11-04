@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/TimOliver/BlurUIKit",
       "state" : {
-        "revision" : "3447117b12629439fe6c5832907db2b5b0778f00",
-        "version" : "1.7.0"
+        "revision" : "334977071dea139a9357c0b69439d0e6bd68b287",
+        "version" : "1.8.0"
       }
     },
     {
