@@ -1,6 +1,15 @@
 {
-  "originHash" : "8422dccc617b28c177b68ee53ce1d29c3e88a0b20a970ce1f66faf8526c657de",
+  "originHash" : "e6d39845f26cbb9b2657e9e685f9c20228cc2240dbb6ccc53815478d93255249",
   "pins" : [
+    {
+      "identity" : "bluruikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/TimOliver/BlurUIKit",
+      "state" : {
+        "revision" : "3447117b12629439fe6c5832907db2b5b0778f00",
+        "version" : "1.7.0"
+      }
+    },
     {
       "identity" : "toroundedbutton",
       "kind" : "remoteSourceControl",

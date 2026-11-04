@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		223309C822BE6D6500B437F3 /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
+		225BA0DD309B07CF005D460B /* BlurUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 225BA0DC309B07CF005D460B /* BlurUIKit */; };
+		225BA0DF309B07E5005D460B /* BlurUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 225BA0DE309B07E5005D460B /* BlurUIKit */; };
+		225BA0E1309B09D5005D460B /* SceneDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 225BA0E0309B09D5005D460B /* SceneDelegate.h */; };
+		225BA0E3309B09D7005D460B /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 225BA0E2309B09D7005D460B /* SceneDelegate.m */; };
 		2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E62FC7354F00C41762 /* TORoundedButton */; };
 		2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2261D5E92FC742C300C41762 /* TORoundedButton */; };
 		227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB91922970A0D009ECE33 /* AppDelegate.m */; };
@@ -19,10 +23,6 @@
 		227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB93D22970A51009ECE33 /* TOAlertView.m */; };
 		227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
-		22848C242FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */; };
-		22848C252FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */; };
-		22848C262FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */; };
-		22848C272FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */; };
 		22BBDC6A22C2669700783BEA /* TOAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB9482298506A009ECE33 /* TOAlertViewController.m */; };
 		22BBDC6B22C2669700783BEA /* TOAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 227AB94522984F93009ECE33 /* TOAlertAction.m */; };
 		22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */; };
@@ -55,6 +55,8 @@
 		0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOAlertLinkLayout.m; sourceTree = "<group>"; };
 		223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewTransitioning.h; sourceTree = "<group>"; };
 		223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewTransitioning.m; sourceTree = "<group>"; };
+		225BA0E0309B09D5005D460B /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		225BA0E2309B09D7005D460B /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOAlertViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227AB91822970A0D009ECE33 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		227AB91922970A0D009ECE33 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -71,8 +73,6 @@
 		227AB94522984F93009ECE33 /* TOAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertAction.m; sourceTree = "<group>"; };
 		227AB9472298506A009ECE33 /* TOAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertViewController.h; sourceTree = "<group>"; };
 		227AB9482298506A009ECE33 /* TOAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertViewController.m; sourceTree = "<group>"; };
-		22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAlertBlurFilter.h; sourceTree = "<group>"; };
-		22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAlertBlurFilter.m; sourceTree = "<group>"; };
 		22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOAlertViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22BBDC6022C265CE00783BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22BBDC8D22C26B5A00783BEA /* TOAlertViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOAlertViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				225BA0DF309B07E5005D460B /* BlurUIKit in Frameworks */,
 				2261D5E72FC7354F00C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				225BA0DD309B07CF005D460B /* BlurUIKit in Frameworks */,
 				2261D5EA2FC742C300C41762 /* TORoundedButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,6 +155,8 @@
 				227AB92322970A0F009ECE33 /* LaunchScreen.storyboard */,
 				227AB92622970A0F009ECE33 /* Info.plist */,
 				227AB92722970A0F009ECE33 /* main.m */,
+				225BA0E0309B09D5005D460B /* SceneDelegate.h */,
+				225BA0E2309B09D7005D460B /* SceneDelegate.m */,
 			);
 			path = TOAlertViewControllerExample;
 			sourceTree = "<group>";
@@ -196,8 +200,6 @@
 				22F09B6222A0290E001DFB9A /* TOAlertDimmingView.m */,
 				223309C622BE6D6500B437F3 /* TOAlertViewTransitioning.h */,
 				223309C722BE6D6500B437F3 /* TOAlertViewTransitioning.m */,
-				22848C222FC436A500F3C45D /* TOAlertBlurFilter.h */,
-				22848C232FC436A500F3C45D /* TOAlertBlurFilter.m */,
 				FEBA216E3F5603ADB5B9793E /* TOAlertLinkLayout.h */,
 				0F1547D4CE75122F57646853 /* TOAlertLinkLayout.m */,
 				F54B9E35294FBB5E279B8ED2 /* TOAlertMacros.h */,
@@ -215,7 +217,6 @@
 				22BBDC6F22C266A900783BEA /* TOAlertViewController.h in Headers */,
 				22BBDC7022C266A900783BEA /* TOAlertAction.h in Headers */,
 				22BBDC7122C266C500783BEA /* TOAlertViewTransitioning.h in Headers */,
-				22848C252FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */,
 				22BBDC7222C266C500783BEA /* TOAlertView.h in Headers */,
 				22BBDC7322C266C500783BEA /* TOAlertDimmingView.h in Headers */,
 			);
@@ -225,7 +226,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22848C262FC436A500F3C45D /* TOAlertBlurFilter.h in Headers */,
+				225BA0E1309B09D5005D460B /* SceneDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +254,9 @@
 			dependencies = (
 			);
 			name = TOAlertViewControllerExample;
+			packageProductDependencies = (
+				225BA0DE309B07E5005D460B /* BlurUIKit */,
+			);
 			productName = TOAlertViewControllerExample;
 			productReference = 227AB91522970A0D009ECE33 /* TOAlertViewControllerExample.app */;
 			productType = "com.apple.product-type.application";
@@ -271,6 +275,9 @@
 			dependencies = (
 			);
 			name = TOAlertViewController;
+			packageProductDependencies = (
+				225BA0DC309B07CF005D460B /* BlurUIKit */,
+			);
 			productName = TOAlertViewControllerFramework;
 			productReference = 22BBDC5D22C265CE00783BEA /* TOAlertViewController.framework */;
 			productType = "com.apple.product-type.framework";
@@ -327,6 +334,7 @@
 			mainGroup = 227AB90C22970A0D009ECE33;
 			packageReferences = (
 				2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */,
+				225BA0DB309B07CF005D460B /* XCRemoteSwiftPackageReference "BlurUIKit" */,
 			);
 			productRefGroup = 227AB91622970A0D009ECE33 /* Products */;
 			projectDirPath = "";
@@ -378,7 +386,7 @@
 				227AB93F22970A51009ECE33 /* TOAlertView.m in Sources */,
 				227AB91A22970A0D009ECE33 /* AppDelegate.m in Sources */,
 				227AB94622984F93009ECE33 /* TOAlertAction.m in Sources */,
-				22848C272FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */,
+				225BA0E3309B09D7005D460B /* SceneDelegate.m in Sources */,
 				227AB9492298506A009ECE33 /* TOAlertViewController.m in Sources */,
 				AA78272BBA2A19596484787C /* TOAlertLinkLayout.m in Sources */,
 			);
@@ -388,7 +396,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22848C242FC436A500F3C45D /* TOAlertBlurFilter.m in Sources */,
 				22BBDC6A22C2669700783BEA /* TOAlertViewController.m in Sources */,
 				22BBDC6B22C2669700783BEA /* TOAlertAction.m in Sources */,
 				22BBDC6C22C2669700783BEA /* TOAlertViewTransitioning.m in Sources */,
@@ -744,6 +751,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		225BA0DB309B07CF005D460B /* XCRemoteSwiftPackageReference "BlurUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/BlurUIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
 		2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TimOliver/TORoundedButton";
@@ -755,6 +770,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		225BA0DC309B07CF005D460B /* BlurUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 225BA0DB309B07CF005D460B /* XCRemoteSwiftPackageReference "BlurUIKit" */;
+			productName = BlurUIKit;
+		};
+		225BA0DE309B07E5005D460B /* BlurUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 225BA0DB309B07CF005D460B /* XCRemoteSwiftPackageReference "BlurUIKit" */;
+			productName = BlurUIKit;
+		};
 		2261D5E62FC7354F00C41762 /* TORoundedButton */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2261D5E52FC7354F00C41762 /* XCRemoteSwiftPackageReference "TORoundedButton" */;

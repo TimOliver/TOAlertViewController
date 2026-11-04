@@ -13,4 +13,5 @@ Pod::Spec.new do |s|
   s.exclude_files = 'TOAlertViewController/include/**/*'
   s.requires_arc = true
   s.dependency 'TORoundedButton', '~> 2.1.1'
+  s.dependency 'BlurUIKit', '~> 1.7.1'
 end
